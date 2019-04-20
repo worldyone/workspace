@@ -22,7 +22,6 @@ def paint_map(li, h, w):
     paint_map(li, h, w)
 
 
-
 H, W = map(int, input().split())
 
 cycles = []
