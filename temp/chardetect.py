@@ -1,4 +1,4 @@
 import chardet
 
-with open("in.txt", "rb") as f:
+with open('in.txt', mode = 'rb') as f:
   print(chardet.detect(f.read()))
