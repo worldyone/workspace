@@ -1,22 +1,28 @@
 S, T = input(), input()
 
 def func(S, T):
-    # tの文字がsになかったら条件を満たさない
-    for t in T:
-        if t not in S:
+
+    S_2 = S+S
+    len_s = len(S)
+    merge_S = list(set(S))
+    merge_T = list(set(T))
+
+    for t in merge_T:
+        if t not in merge_S:
             return -1
 
-    ans = 0
-    len_s = len(S)
-    index = pre_index = -1
+    alp2num = {t: merge_T.index(t) for t in merge_T}
+    dis_S = [[-1]*len(merge_T) for _ in range(len_s)]
+    pt = S.index(T[0])
+    ans = pt+1
 
-    for i in range(len(T)):
-        while True:
-            index += 1
-            if T[i] == S[index%len_s]:
-                ans += index - pre_index
-                pre_index = index
-                break
+    for t in T[1:]:
+        it = alp2num[t]
+        if dis_S[pt][it] == -1:
+            dis_S[pt][it] = S_2[pt+1:].index(t) + 1
+        ans += dis_S[pt][it]
+        pt = (pt + dis_S[pt][it]) % len_s
+
     return ans
 
 print(func(S,T))
