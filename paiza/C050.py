@@ -1,11 +1,3 @@
 S, a, b = list(map(int, input().split()))
-
-while True:
-    S += 10
-    if S > a:
-        print("B", S-10)
-        break
-    S += 1000
-    if S > b:
-        print("A", S-1000)
-        break
+a,b = (a-S-10)//1010+1,(b-S)//1010
+print("BA"[a>b],min(a*1010,b*1010+10)+S)
