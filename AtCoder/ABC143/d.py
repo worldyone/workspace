@@ -1,12 +1,14 @@
-import itertools
+import bisect
 
 N = int(input())
 li = list(map(int, input().split()))
+li = sorted(li)
 
 ans = 0
 
-for a,b,c in itertools.combinations(li, 3):
-    if (a < b+c) and (b < c+a) and (c < a+b):
-        ans += 1
+for i in range(N):
+    for j in range(i+1, N):
+        cnt = bisect.bisect_left(li, li[i]+li[j])
+        ans += cnt - j - 1
 
 print(ans)
