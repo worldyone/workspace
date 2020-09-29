@@ -1,2 +1,2 @@
-a, b = map(int, input().split())
-print(a - b)
+print(list(map(lambda a, b: a - b, *
+               list(map(lambda x: [int(x)], input().split()))))[0])
