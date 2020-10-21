@@ -1,0 +1,1 @@
+print("Best in " + input())
