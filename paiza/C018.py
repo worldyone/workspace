@@ -1,4 +1,3 @@
-
 recipe_cnt = int(input())
 recipes = {}
 for _ in range(recipe_cnt):
@@ -14,7 +13,15 @@ for _ in range(m_cnt):
     m[a] = b
 
 ans = 0
-while(True):
-    for
-print(recipes)
-print(m)
+flg = True
+while(flg):
+    for k, v in recipes.items():
+        if k in m.keys() and m[k] - v >= 0:
+            m[k] -= v
+        else:
+            flg = False
+            break
+    else:
+        ans += 1
+
+print(ans)
