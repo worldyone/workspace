@@ -36,4 +36,7 @@
    "editor.fontSize": 16,
    "window.zoomLevel": 0,
 "breadcrumbs.enabled": true,
+"python.formatting.provider": "autopep8",
+"python.linting.flake8Enabled": true,
+"python.linting.enabled": true,
 }
