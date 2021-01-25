@@ -7,6 +7,7 @@ SURFACE = pygame.display.set_mode((400, 300))
 FPSCLOCK = pygame.time.Clock()
 pygame.display.set_caption("Just Window")
 
+
 def main():
     """main routine"""
     sysfont = pygame.font.SysFont(None, 36)
@@ -20,10 +21,12 @@ def main():
 
         counter += 1
         SURFACE.fill((255, 255, 255))
-        count_image = sysfont.render("count is {}".format(counter), True, (225, 225, 225))
+        count_image = sysfont.render(
+            "count is {}".format(counter), True, (225, 225, 225))
         SURFACE.blit(count_image, (50, 50))
         pygame.display.update()
         FPSCLOCK.tick(10)
+
 
 if __name__ == '__main__':
     main()
