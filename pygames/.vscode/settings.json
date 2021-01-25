@@ -1,0 +1,10 @@
+{
+    "python.pythonPath": "D:\\workspaces\\workspace\\pygames\\.pygames\\Scripts\\python.exe",
+    "python.venvFolders": [
+        "pygames"
+    ],
+
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+
+}

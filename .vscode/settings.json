@@ -1,6 +1,3 @@
 {
-    "python.pythonPath": "/d/workspaces/workspace/pygames/tutorial/workspaces/workspace/pygames/.pygames/Scripts/python.exe",
-    "python.venvFolders": [
-        "pygames"
-    ]
+    "python.pythonPath": "C:/Python39/python.exe",
 }
