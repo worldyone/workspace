@@ -45,11 +45,11 @@ def open_tile(field, x_pos, y_pos):
             if 0 <= xpos < WIDTH and 0 <= ypos < HEIGHT and \
                     field[ypos][xpos] == EMPTY:
                 field[ypos][xpos] = OPENED
-            open_count += 1
-            count = num_of_bomb(field, xpos, ypos)
-            if count == 0 and \
-                    not (xpos == x_pos and ypos == y_pos):
-                open_tile(field, xpos, ypos)
+                open_count += 1
+                count = num_of_bomb(field, xpos, ypos)
+                if count == 0 and \
+                        not (xpos == x_pos and ypos == y_pos):
+                    open_tile(field, xpos, ypos)
 
 
 def main():
