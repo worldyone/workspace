@@ -1,10 +1,13 @@
 {
-    "python.pythonPath": "D:\\workspaces\\workspace\\pygames\\.pygames\\Scripts\\python.exe",
+    "python.pythonPath": "D:/workspaces/workspace/pygames/.pygames/Scripts/python.exe",
     "python.venvFolders": [
         "pygames"
     ],
-
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
-
+    // "python.autoComplete.extraPaths": [
+    // "D:/workspaces/workspace/pygames/.pygames/Lib/site-packages"
+    // ],
+    // "python.autoComplete.addBrackets": true,
+    // "python.analysis.symbolsHierarchyDepthLimit": 20,
 }

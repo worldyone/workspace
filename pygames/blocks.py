@@ -49,8 +49,8 @@ def tick():
 
     # パドルとの衝突判定
     if PADDLE.rect.colliderect(BALL.rect):
-        BALL.dir = 90 + (PADDLE.rect.centerx -
-                         BALL.rect.centerx) / PADDLE.rect.width * 80
+        BALL.dir = 180 + (PADDLE.rect.centerx -
+                          BALL.rect.centerx) / PADDLE.rect.width * 80
 
     # 壁との衝突判定
     if BALL.rect.centerx < 0 or BALL.rect.centerx > 600:
