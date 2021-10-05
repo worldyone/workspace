@@ -1,0 +1,12 @@
+{
+	"Name": "自動クリックMOD",
+	"ID": "auto click mod",
+	"Author": "kanikun",
+	"Description": "秒間333回でクッキーをクリックします.",
+	"ModVersion": 1,
+	"GameVersion": 2.04,
+	"Date": "24/09/2021",
+	"Dependencies": [],
+	"Disabled": 1,
+	"AllowSteamAchievs": 1
+}
