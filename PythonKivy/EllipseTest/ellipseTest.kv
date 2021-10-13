@@ -1,0 +1,40 @@
+#:kivy 1.9
+
+EllipseTest:
+<EllipseTest@Widget>:
+    font_size: 48
+    text: 'Hello, canvas.'
+    canvas:
+        Color:
+            rgba: 0.5,1,1,1
+        Ellipse:
+            pos: 100, 100
+            size: 300, 200
+        Line:
+            dash_length: 20
+            dash_offset: 10
+            points: 0, 100, 400, 100
+        Line:
+            dash_length: 20
+            dash_offset: 10
+            points: 100, 0, 100, 300
+        Line:
+            dash_length: 20
+            dash_offset: 10
+            points: 400, 100, 400, 300
+        Line:
+            dash_length: 20
+            dash_offset: 10
+            points: 100, 300, 400, 300
+    Label:
+        font_size: 18
+        pos: 5, 35
+        text: "(100, 100)"
+    Label:
+        font_size: 18
+        pos: 200, 35
+        text: "300"
+    Label:
+        font_size: 18
+        pos: 30, 150
+        text: "200"
