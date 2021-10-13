@@ -1,0 +1,12 @@
+#:kivy 1.9
+
+MyLabel:
+<MyLabel@Label>
+    font_size: 48
+    text: 'Hello, canvas.'
+    canvas.before:
+        Color:
+            rgba: 0.5,1,1,1
+        Ellipse:
+            pos: self.pos
+            size: self.size
