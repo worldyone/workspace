@@ -1,0 +1,52 @@
+#:kivy 1.9
+# -*- coding: utf-8 -*-
+Root:
+<Root@BoxLayout>:
+    orientation: 'horizontal'
+    mode: ''
+    DrawField:
+        id: drawfield
+        size_hint_x: 4
+    BoxLayout:
+        orientation: 'vertical'
+        ToggleButton:
+            text: '頂点'
+            mode: 'vertex'
+        ToggleButton:
+            text: '辺'
+            mode: 'edge'
+        ToggleButton:
+            text: '削除'
+            mode: 'erase'
+        Button:
+            text: 'クリア'
+            on_press: drawfield.clear()
+        Button:
+            text: 'マッチング'
+            on_press: drawfield.match()
+
+<DrawField>:
+    canvas.before:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Vertex>:
+    rad: 25
+    size: self.rad * 2, self.rad * 2
+    canvas:
+        Color:
+            rgba: 0, 0, 1, 0.75
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<Button>:
+    font_size: 20
+    font_name: 'VL-Gothic-Regular.ttf'
+
+<ToggleButton>:
+    group: 'draw'
+    on_press: app.root.mode = self.mode
