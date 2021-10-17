@@ -1,0 +1,102 @@
+#:kivy 1.9
+# -*- coding: utf-8 -*-
+
+Root:
+<Root>:
+    canvas.before:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Title@BoxLayout>:
+    orientation: 'vertical'
+    Label:
+        size_hint_y: 3
+        text: '魔方陣パズル'
+
+    GoToButton:
+        no: 1
+
+    GoToButton:
+        no: 2
+
+    GoToButton:
+        no: 3
+
+<GoToButton@Button>:
+    no: 0
+    text: '問題' + str(self.no)
+    on_press: app.root.gotoBoard(self.no)
+
+<Board>:
+    no: 0
+    orientation: 'vertical'
+    Label:
+        text: '問題' + str(root.no)
+    GridLayout:
+        id: board
+        rows: 4
+        cols: 4
+        size_hint_y: 4
+        spacing: 3
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            text: 'もどる'
+            on_press: app.root.gotoTitle()
+        Button:
+            text: 'チェック'
+            on_press: app.root.board.check()
+
+<Const@Label>:
+    canvas.before:
+        Color:
+            rgb: 0.6, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<NumInput@TextInput>:
+    font_size: 32
+    hint_text: '-'
+    input_filter: 'int'
+    multiline: False
+    padding: self.width / 4, (self.height - self.line_height) / 2
+    on_text:
+        if len(self.text) > 2: self.text = self.text[1:3]
+        if self.text == '': self.value = 0
+        else: self.value = int(self.text)
+
+<CheckView@ModalView>:
+    auto_dismiss: False
+    background_color: 0, 0, 0, 0.5
+    is_correct: True
+    size_hint: 0.5, 0.5
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgb: 1, 1, 0.9
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        orientation: 'vertical'
+        padding: self.width / 10
+        Label:
+            size_hint_y: 4
+            text: '正解 :-)' if root.is_correct else '不正解 :-('
+        Button:
+            text: 'OK'
+            on_press:
+                root.dismiss()
+                if root.is_correct: app.root.gotoTitle()
+
+<Label>:
+    color: 0.5, 0.25, 1
+    font_name: 'VL-Gothic-Regular.ttf'
+    font_size: 32
+
+<Button>:
+    color: 1, 1, 1, 1
+    font_size: 24
