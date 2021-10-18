@@ -1,0 +1,25 @@
+#:kivy 1.9
+
+MyRoot:
+<MyRoot@BoxLayout>:
+    orientation: 'vertical'
+    MyButton:
+        text: 'Select either'
+    Label:
+        size_hint_y: 9
+
+<MyDropDown>:
+    Button:
+        text: 'A'
+        size_hint_y: None
+        height: 50
+        on_press: root.select(self.text)
+    Label:
+        text: 'B (unselectable)'
+        size_hint_y: None
+        height: 50
+    Button:
+        text: 'C'
+        size_hint_y: None
+        height: 50
+        on_press: root.select(self.text)
