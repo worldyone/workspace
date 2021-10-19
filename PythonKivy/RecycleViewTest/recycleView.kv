@@ -1,0 +1,23 @@
+Root:
+<Root@BoxLayout>
+    orientation: 'vertical'
+    key: 0
+    BoxLayout:
+        size_hint_y: 0.2
+        TextInput
+            id: ti
+            multiline: False
+        AddButton:
+        RemoveButton:
+    RecycleView:
+        id: rv
+        viewclass: 'ToggleButton'
+        RecycleBoxLayout:
+            id: box
+            orientation: 'vertical'
+            default_size_hint: 1, None
+            default_size: None, dp(45)
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 5
+            padding: 10
