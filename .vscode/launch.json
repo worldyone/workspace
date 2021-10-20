@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python",
+            "name": "Python debugging",
             "type": "python",
             "request": "launch",
             "stopOnEntry": true,
