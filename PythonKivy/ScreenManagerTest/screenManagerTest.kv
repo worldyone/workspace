@@ -1,0 +1,31 @@
+#:import CardTransition kivy.uix.screenmanager.CardTransition
+
+ScreenManager:
+    transition: CardTransition(duration=0.8, mode='pop')
+    Screen:
+        name: 'Kivy'
+    Screen:
+        name: 'is'
+    Screen:
+        name: 'so'
+    Screen:
+        name: 'fun!'
+
+<Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            font_size: 48
+            size_hint_y: 10
+            text: root.name
+        BoxLayout:
+            Button:
+                font_size: 24
+                text: 'previous'
+                on_press:
+                    root.parent.current = root.parent.previous()
+            Button:
+                font_size: 24
+                text: 'next'
+                on_press:
+                    root.parent.current = root.parent.next()
