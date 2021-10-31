@@ -50,7 +50,7 @@ class Root(FloatLayout):
 
 
 class Main(App):
-    title = '魔方陣パズル'
+    title = 'Magic Square'
 
     def build(self):
         self.root.gotoTitle()

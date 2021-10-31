@@ -1,5 +1,12 @@
-#:kivy 1.9
 # -*- coding: utf-8 -*-
+
+<Label>:
+    color: 0.5, 0.25, 1, 1
+    font_size: 32
+
+<Button>:
+    color: 0, 0, 0, 1
+    font_size: 24
 
 Root:
 <Root>:
@@ -14,7 +21,7 @@ Root:
     orientation: 'vertical'
     Label:
         size_hint_y: 3
-        text: '魔方陣パズル'
+        text: '- magic square -'
 
     GoToButton:
         no: 1
@@ -27,14 +34,14 @@ Root:
 
 <GoToButton@Button>:
     no: 0
-    text: '問題' + str(self.no)
+    text: 'Q.' + str(self.no)
     on_press: app.root.gotoBoard(self.no)
 
 <Board>:
     no: 0
     orientation: 'vertical'
     Label:
-        text: '問題' + str(root.no)
+        text: 'Q.' + str(root.no)
     GridLayout:
         id: board
         rows: 4
@@ -44,10 +51,10 @@ Root:
     BoxLayout:
         orientation: 'horizontal'
         Button:
-            text: 'もどる'
+            text: 'back'
             on_press: app.root.gotoTitle()
         Button:
-            text: 'チェック'
+            text: 'check'
             on_press: app.root.board.check()
 
 <Const@Label>:
@@ -77,7 +84,7 @@ Root:
     BoxLayout:
         canvas.before:
             Color:
-                rgb: 1, 1, 0.9
+                rgb: 1, 1, 0.6
             Rectangle:
                 pos: self.pos
                 size: self.size
@@ -85,18 +92,9 @@ Root:
         padding: self.width / 10
         Label:
             size_hint_y: 4
-            text: '正解 :-)' if root.is_correct else '不正解 :-('
+            text: 'clear!!' if root.is_correct else 'incorrect...'
         Button:
             text: 'OK'
             on_press:
                 root.dismiss()
                 if root.is_correct: app.root.gotoTitle()
-
-<Label>:
-    color: 0.5, 0.25, 1
-    font_name: 'VL-Gothic-Regular.ttf'
-    font_size: 32
-
-<Button>:
-    color: 1, 1, 1, 1
-    font_size: 24
