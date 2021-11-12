@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './todo.dart';
 
 void main() {
   runApp(const App());
@@ -25,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _todos = List.generate(
     10,
-    (index) => 'Todo ${index + 1}',
+    (index) => ToDo(title: 'Todo ${index + 1}'),
   );
 
   @override
@@ -35,8 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('ToDo'),
       ),
       body: ListView.builder(
-        itemBuilder: (context, index) => ListTile(
-          title: Text(_todos[index]),
+        itemBuilder: (context, index) => CheckboxListTile(
+          onChanged: (checked) {
+            setState(() {
+              _todos[index].archived = !_todos[index].archived;
+            });
+          },
+          value: _todos[index].archived,
+          title: Text(_todos[index].title),
         ),
         itemCount: _todos.length,
       ),
@@ -44,7 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add),
         onPressed: () {
           setState(() {
-            _todos.add('ToDo ${_todos.length + 1}');
+            _todos.add(
+              ToDo(title: 'ToDo ${_todos.length + 1}'),
+            );
           });
         },
       ),
