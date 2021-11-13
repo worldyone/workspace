@@ -39,7 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) => CheckboxListTile(
           onChanged: (checked) {
             setState(() {
-              _todos[index].archived = !_todos[index].archived;
+              final original = _todos[index];
+              _todos[index] = original.copyWith(
+                archived: !original.archived,
+              );
             });
           },
           value: _todos[index].archived,
