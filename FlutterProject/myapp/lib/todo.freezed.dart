@@ -169,3 +169,157 @@ abstract class _ToDo implements ToDo {
   @JsonKey(ignore: true)
   _$ToDoCopyWith<_ToDo> get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+class _$ToDoRecordTearOff {
+  const _$ToDoRecordTearOff();
+
+  _ToDoRecord call(int key, ToDo value) {
+    return _ToDoRecord(
+      key,
+      value,
+    );
+  }
+}
+
+/// @nodoc
+const $ToDoRecord = _$ToDoRecordTearOff();
+
+/// @nodoc
+mixin _$ToDoRecord {
+  int get key => throw _privateConstructorUsedError;
+  ToDo get value => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ToDoRecordCopyWith<ToDoRecord> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToDoRecordCopyWith<$Res> {
+  factory $ToDoRecordCopyWith(
+          ToDoRecord value, $Res Function(ToDoRecord) then) =
+      _$ToDoRecordCopyWithImpl<$Res>;
+  $Res call({int key, ToDo value});
+
+  $ToDoCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class _$ToDoRecordCopyWithImpl<$Res> implements $ToDoRecordCopyWith<$Res> {
+  _$ToDoRecordCopyWithImpl(this._value, this._then);
+
+  final ToDoRecord _value;
+  // ignore: unused_field
+  final $Res Function(ToDoRecord) _then;
+
+  @override
+  $Res call({
+    Object? key = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(_value.copyWith(
+      key: key == freezed
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      value: value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as ToDo,
+    ));
+  }
+
+  @override
+  $ToDoCopyWith<$Res> get value {
+    return $ToDoCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$ToDoRecordCopyWith<$Res> implements $ToDoRecordCopyWith<$Res> {
+  factory _$ToDoRecordCopyWith(
+          _ToDoRecord value, $Res Function(_ToDoRecord) then) =
+      __$ToDoRecordCopyWithImpl<$Res>;
+  @override
+  $Res call({int key, ToDo value});
+
+  @override
+  $ToDoCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$ToDoRecordCopyWithImpl<$Res> extends _$ToDoRecordCopyWithImpl<$Res>
+    implements _$ToDoRecordCopyWith<$Res> {
+  __$ToDoRecordCopyWithImpl(
+      _ToDoRecord _value, $Res Function(_ToDoRecord) _then)
+      : super(_value, (v) => _then(v as _ToDoRecord));
+
+  @override
+  _ToDoRecord get _value => super._value as _ToDoRecord;
+
+  @override
+  $Res call({
+    Object? key = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(_ToDoRecord(
+      key == freezed
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as ToDo,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ToDoRecord implements _ToDoRecord {
+  _$_ToDoRecord(this.key, this.value);
+
+  @override
+  final int key;
+  @override
+  final ToDo value;
+
+  @override
+  String toString() {
+    return 'ToDoRecord(key: $key, value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ToDoRecord &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, key, value);
+
+  @JsonKey(ignore: true)
+  @override
+  _$ToDoRecordCopyWith<_ToDoRecord> get copyWith =>
+      __$ToDoRecordCopyWithImpl<_ToDoRecord>(this, _$identity);
+}
+
+abstract class _ToDoRecord implements ToDoRecord {
+  factory _ToDoRecord(int key, ToDo value) = _$_ToDoRecord;
+
+  @override
+  int get key;
+  @override
+  ToDo get value;
+  @override
+  @JsonKey(ignore: true)
+  _$ToDoRecordCopyWith<_ToDoRecord> get copyWith =>
+      throw _privateConstructorUsedError;
+}

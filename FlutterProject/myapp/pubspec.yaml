@@ -36,6 +36,9 @@ dependencies:
 
   freezed_annotation:
 
+  sembast: ^3.1.1
+  path_provider: ^2.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
