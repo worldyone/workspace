@@ -56,7 +56,7 @@ class DbHelper {
 
     // データベースを開く
     _database = await databaseFactoryIo.openDatabase(
-      join(appDir.path, 'tood.db'),
+      join(appDir.path, 'todo.db'),
     );
 
     // データを保存する領域の確保
