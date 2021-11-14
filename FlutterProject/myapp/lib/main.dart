@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/database.dart';
 import './todo.dart';
+import 'package:myapp/todo_input.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,13 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
-            onPressed: () async {
-              await DbHelper.instance.add(
-                ToDo(
-                  title: 'ToDo ${todos.length + 1}',
-                ),
-              );
-              setState(() {});
+            onPressed: () {
+              ToDoInput.show(context);
             },
           ),
         );
