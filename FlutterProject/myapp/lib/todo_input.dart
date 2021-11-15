@@ -3,6 +3,7 @@ import 'package:myapp/database.dart';
 import 'package:myapp/todo.dart';
 
 class ToDoInput extends StatefulWidget {
+  @Deprecated('use ToDoInputView')
   const ToDoInput({Key? key}) : super(key: key);
 
   static Future<void> show(BuildContext context) {

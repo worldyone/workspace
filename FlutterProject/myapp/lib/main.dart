@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/database.dart';
+import 'package:myapp/provider.dart';
 import './todo.dart';
 import 'package:myapp/todo_input.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:myapp/todo_list_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await DbHelper.instance.initialize();
-  runApp(const App());
+  // await DbHelper.instance.initialize();
+  final dbHelper = DbHelper();
+  await dbHelper.initialize();
+
+  runApp(
+    ProviderScope(
+      child: const App(),
+      overrides: [
+        // プロバイダの値を上書き
+        databaseProvider.overrideWithValue(dbHelper),
+      ],
+    ),
+  );
 }
 
 class App extends StatelessWidget {
@@ -16,16 +30,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeScreen(),
+      home: ToDoListScreen(),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
+  @Deprecated('use [ToDoListScreen]')
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {

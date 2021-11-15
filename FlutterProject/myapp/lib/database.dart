@@ -35,10 +35,14 @@ class DbHelper {
     _store.record(key).put(_database, todo.toJson());
   }
 
+  // 通常のコンストラクタを追加
+  DbHelper();
+
   // プライベートな名前付きコンストラクタ
   DbHelper._();
 
   // このクラスの同一インスタンスを返す
+  @Deprecated('not user')
   static DbHelper get instance => _instance;
 
   // 初回の呼び出しでインスタンスを生成
