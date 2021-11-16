@@ -29,7 +29,12 @@ class ToDoListScreen extends HookConsumerWidget {
           },
           value: _todos[index].value.archived,
           title: GestureDetector(
-            child: Text(_todos[index].value.title),
+            child: Text(_todos[index].value.title,
+                style: TextStyle(
+                  decoration: _todos[index].value.archived
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                )),
             onTap: () {
               ToDoInputView.show(
                 context,
