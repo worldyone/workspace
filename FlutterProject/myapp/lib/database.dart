@@ -35,6 +35,11 @@ class DbHelper {
     _store.record(key).put(_database, todo.toJson());
   }
 
+  // delete
+  Future<void> delete(int key) async {
+    _store.record(key).delete(_database);
+  }
+
   // 通常のコンストラクタを追加
   DbHelper();
 

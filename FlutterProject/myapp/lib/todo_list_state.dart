@@ -21,6 +21,14 @@ class ToDoListState extends StateNotifier<List<ToDoRecord>> {
     _replaceRecord(record);
   }
 
+  Future<void> delete(ToDoRecord record) async {
+    await dbHelper.delete(record.key);
+    final findIndex = state.indexWhere(
+      (e) => e.key == record.key,
+    );
+    state = List.from(state)..replaceRange(findIndex, findIndex + 1, []);
+  }
+
   Future<void> toggle(ToDoRecord record) async {
     final updateRecord = record.copyWith.value(
       archived: !record.value.archived,

@@ -42,6 +42,12 @@ class ToDoListScreen extends HookConsumerWidget {
               );
             },
           ),
+          secondary: GestureDetector(
+            child: const Icon(Icons.delete),
+            onTap: () {
+              _todoNotifier.delete(_todos[index]);
+            },
+          ),
         ),
         itemCount: _todos.length,
       ),
