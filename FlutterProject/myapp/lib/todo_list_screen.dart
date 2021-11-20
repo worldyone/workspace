@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:myapp/provider.dart';
-import 'package:myapp/todo_input.dart';
-import 'package:myapp/todo.dart';
 import 'package:myapp/todo_input_view.dart';
 
 class ToDoListScreen extends HookConsumerWidget {
@@ -34,6 +32,10 @@ class ToDoListScreen extends HookConsumerWidget {
                   decoration: _todos[index].value.archived
                       ? TextDecoration.lineThrough
                       : TextDecoration.none,
+                  fontSize: 24,
+                  backgroundColor: _todos[index].value.archived
+                      ? Colors.brown.shade100
+                      : Colors.white,
                 )),
             onTap: () {
               ToDoInputView.show(
