@@ -44,6 +44,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -55,6 +59,7 @@ dev_dependencies:
   freezed:
   build_runner:
   json_serializable: ^5.0.2
+  mocktail: ^0.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
