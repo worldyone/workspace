@@ -33,7 +33,11 @@ class FirstPage extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/second');
+            Navigator.pushNamed(
+              context,
+              '/second',
+              arguments: 'messageFromFirst',
+            );
           },
           child: Text('Next Page'),
         ),
@@ -47,6 +51,9 @@ class SecondPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var messageFromFirst = ModalRoute.of(context)!.settings.arguments;
+    print(messageFromFirst);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Second Page')),
       body: Center(
