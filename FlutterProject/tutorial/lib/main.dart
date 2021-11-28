@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tutorial/page_transit.dart';
+import 'package:tutorial/text_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => FirstPage(),
-        '/second': (context) => SecondPage(),
-      },
+      home: const TextWidgetPage(),
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
