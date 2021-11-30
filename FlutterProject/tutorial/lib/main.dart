@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial/dropdownbutton.dart';
 import 'package:tutorial/material_components_widget_page.dart';
+import 'package:tutorial/slider_test.dart';
 import 'bottom_navigation.dart';
 
 void main() {
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
         length: 3,
         // child: MaterialComponentsWidgetPage(),
         // child: BottomNavigationPage(title: 'bottom navigation'),
-        child: DropdownButtonTest(),
+        // child: DropdownButtonTest(),
+        child: SliderTest(),
       ),
       title: 'Flutter Demo',
       theme: ThemeData(
