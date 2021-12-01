@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial/dropdownbutton.dart';
 import 'package:tutorial/material_components_widget_page.dart';
+import 'package:tutorial/showdatepicker_test.dart';
 import 'package:tutorial/slider_test.dart';
 import 'bottom_navigation.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         // child: MaterialComponentsWidgetPage(),
         // child: BottomNavigationPage(title: 'bottom navigation'),
         // child: DropdownButtonTest(),
-        child: SliderTest(),
+        // child: SliderTest(),
+        child: ShowDatePickerTest(),
       ),
       title: 'Flutter Demo',
       theme: ThemeData(
