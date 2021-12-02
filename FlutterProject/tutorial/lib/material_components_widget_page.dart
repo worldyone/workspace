@@ -28,6 +28,18 @@ class MaterialComponentsWidgetPage extends StatelessWidget {
               print("Here is actions.");
             },
           ),
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+              const PopupMenuItem<String>(
+                value: 'Toolbar menu',
+                child: Text('Toolbar menu'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Right here',
+                child: Text('Right here'),
+              ),
+            ],
+          ),
         ],
         // bottom: const PreferredSize(
         //   preferredSize: Size.fromHeight(50),
@@ -46,11 +58,79 @@ class MaterialComponentsWidgetPage extends StatelessWidget {
         ]),
         elevation: 20,
       ),
-      body: const Center(
-        child: Text('test',
+      body: ListView(
+        children: [
+          const Text(
+            'test',
             style: TextStyle(
               fontSize: 24,
-            )),
+              backgroundColor: Colors.lightGreenAccent,
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Tap'),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(12.0),
+              child: const Text('Flat Button'),
+            ),
+          ),
+          RaisedButton(
+            child: const Text(
+              'RAISED BUTTON',
+              semanticsLabel: 'RAISED BUTTON 1',
+            ),
+            onPressed: () {
+              print('Here is RaisedButton.');
+            },
+          ),
+          ElevatedButton(
+            child: const Text(
+              'ELEVATE BUTTON',
+              semanticsLabel: 'ELEVATE BUTTON 1',
+            ),
+            onPressed: () {
+              print('Here is ElevateButton. You can "Long Press".');
+            },
+            onLongPress: () {
+              print('You tapped the ElevateButton for a long time.');
+            },
+            clipBehavior: Clip.antiAlias,
+          ),
+          IconButton(
+            onPressed: () {
+              print('Here is IconButton.');
+            },
+            icon: const Icon(Icons.thumb_up),
+          ),
+          ButtonBar(children: [
+            ElevatedButton(
+              child: const Text(
+                'Button 1',
+              ),
+              onPressed: () {},
+            ),
+            ElevatedButton(
+              child: const Text(
+                'Button 2',
+              ),
+              onPressed: () {},
+            ),
+          ]),
+          Chip(
+            avatar: const CircleAvatar(
+              child: Text('AAAA'),
+            ),
+            backgroundColor: Colors.green.shade100,
+            label: const Text('Aaaron Aurr'),
+            onDeleted: () {},
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
