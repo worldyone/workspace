@@ -33,9 +33,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _timeStr = '';
-  DateTime _time = DateTime(0, 0, 0, 0, 3, 0, 0, 0); // 3分
-  final DateFormat formatter = DateFormat('mm:ss');
+  static final DateTime _initTime = DateTime(0, 0, 0, 0, 3, 0, 0, 0); // 3分
+  static final DateFormat formatter = DateFormat('mm:ss');
+  DateTime _time = _initTime;
+  bool _started = false;
+  String _timeStr = DateFormat('mm:ss').format(_initTime);
 
   @override
   void initState() {
@@ -47,8 +49,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onTimer(Timer timer) {
-    _time = _time.add(const Duration(seconds: -1));
-    setState(() => _timeStr = formatter.format(_time));
+    if (_started) {
+      _time = _time.add(const Duration(seconds: -1));
+      setState(() => _timeStr = formatter.format(_time));
+    }
+  }
+
+  void _reverseStarted() {
+    setState(() {
+      _started = !_started;
+    });
   }
 
   @override
@@ -68,17 +78,27 @@ class _MyHomePageState extends State<MyHomePage> {
               _timeStr,
               style: Theme.of(context).textTheme.headline4,
             ),
-            FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Increment',
-              child: const Icon(
-                Icons.arrow_right_rounded,
-                size: 48.0,
+            if (_started)
+              FloatingActionButton(
+                onPressed: _reverseStarted,
+                tooltip: 'stop',
+                child: const Icon(
+                  Icons.stop,
+                ),
+              )
+            else
+              FloatingActionButton(
+                onPressed: _reverseStarted,
+                tooltip: 'start',
+                child: const Icon(
+                  Icons.arrow_right_rounded,
+                  size: 48.0,
+                ),
               ),
-            ),
-            TextButton(
-              child: const Text('edit',
-                  style: TextStyle(decoration: TextDecoration.underline)),
+            FloatingActionButton(
+              child: const Icon(
+                Icons.edit,
+              ),
               onPressed: () async {
                 Picker(
                   adapter: DateTimePickerAdapter(
@@ -89,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   onConfirm: (Picker picker, List value) {
                     setState(() => {
                           _time = DateTime.utc(
-                              0, 0, 0, value[0], value[1], value[2])
+                              0, 0, 0, value[0], value[1], value[2]),
+                          _timeStr = formatter.format(_time)
                         });
                   },
                 ).showModal(context);
