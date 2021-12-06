@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'dart:async';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,8 +51,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onTimer(Timer timer) {
     if (_started) {
-      _time = _time.add(const Duration(seconds: -1));
-      setState(() => _timeStr = formatter.format(_time));
+      // もしタイムアップしたら
+      if (_time.compareTo(DateTime(0, 0, 0, 0, 0, 0, 0)) == 0) {
+        FlutterRingtonePlayer.play(
+          android: AndroidSounds.notification, // Android用のサウンド
+          ios: const IosSound(1023), // iOS用のサウンド
+          looping: false, // Androidのみ。繰り返さない
+          asAlarm: true, // Androidのみ。サイレントモードでも音を鳴らす
+          volume: 0.1, // Androidのみ。0.0〜1.0
+        );
+      } else {
+        // 1秒減らす
+        _time = _time.add(const Duration(seconds: -1));
+        setState(() => _timeStr = formatter.format(_time));
+      }
     }
   }
 
