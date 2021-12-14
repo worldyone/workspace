@@ -26,6 +26,7 @@ class _TimerPageState extends State<TimerPage> {
       const Duration(seconds: 1),
       _onTimer,
     );
+
     super.initState();
   }
 
@@ -114,17 +115,15 @@ class _TimerPageState extends State<TimerPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FlutterRingtonePlayer.play(
-            android: AndroidSounds.notification, // Android用のサウンド
-            ios: const IosSound(1023), // iOS用のサウンド
-            looping: false, // Androidのみ。繰り返さない
-            asAlarm: true, // Androidのみ。サイレントモードでも音を鳴らす
-            volume: 0.1, // Androidのみ。0.0〜1.0
-          );
-        },
-      ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        FlutterRingtonePlayer.play(
+          android: AndroidSounds.notification, // Android用のサウンド
+          ios: const IosSound(1023), // iOS用のサウンド
+          looping: false, // Androidのみ。繰り返さない
+          asAlarm: true, // Androidのみ。サイレントモードでも音を鳴らす
+          volume: 0.1, // Androidのみ。0.0〜1.0
+        );
+      }),
     );
   }
 }
