@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:intl/intl.dart';
 
 class TimerPage extends StatefulWidget {
@@ -19,6 +19,12 @@ class _TimerPageState extends State<TimerPage> {
   DateTime _time = _initTime;
   bool _started = false;
   String _timeStr = DateFormat('mm:ss').format(_initTime);
+  static const SOUND_1 = 'sounds/Horagai01-1.mp3';
+  static const SOUND_2 = 'sounds/Naruko02-1.mp3';
+
+  final AudioCache _cache = AudioCache(
+    fixedPlayer: AudioPlayer(),
+  );
 
   @override
   void initState() {
@@ -26,21 +32,15 @@ class _TimerPageState extends State<TimerPage> {
       const Duration(seconds: 1),
       _onTimer,
     );
-
+    _cache.loadAll([SOUND_1, SOUND_2]);
     super.initState();
   }
 
   void _onTimer(Timer timer) {
     if (_started) {
-      // もしタイムアップしたら
+      // もしタイムアップしたら音を鳴らす
       if (_time.minute == 0 && _time.second == 0) {
-        FlutterRingtonePlayer.play(
-          android: AndroidSounds.notification, // Android用のサウンド
-          ios: const IosSound(1023), // iOS用のサウンド
-          looping: false, // Androidのみ。繰り返さない
-          asAlarm: true, // Androidのみ。サイレントモードでも音を鳴らす
-          volume: 0.1, // Androidのみ。0.0〜1.0
-        );
+        _cache.play(SOUND_1, mode: PlayerMode.LOW_LATENCY);
       } else {
         // 1秒減らす
         _time = _time.add(const Duration(seconds: -1));
@@ -116,13 +116,7 @@ class _TimerPageState extends State<TimerPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {
-        FlutterRingtonePlayer.play(
-          android: AndroidSounds.notification, // Android用のサウンド
-          ios: const IosSound(1023), // iOS用のサウンド
-          looping: false, // Androidのみ。繰り返さない
-          asAlarm: true, // Androidのみ。サイレントモードでも音を鳴らす
-          volume: 0.1, // Androidのみ。0.0〜1.0
-        );
+        _cache.play(SOUND_1, mode: PlayerMode.LOW_LATENCY);
       }),
     );
   }
