@@ -1,8 +1,11 @@
 # 環境フォルダを除く
 /atcoder
 
-# test用フォルダを除く
-/test
+# testフォルダを除く
+test
 
 # 残っていた昔のファイルを除く
 /archive
+
+# 不要な設定ファイルを除く
+contest.acc.json

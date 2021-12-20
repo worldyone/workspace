@@ -12,7 +12,7 @@
             "type": "shell",
             "command": "D:/repos/workspace/AtCoder/cptest.sh",
             "args": [
-                "${fileBasenameNoExtension}"
+                "${relativeFileDirname}"
             ]
         }
     ]
