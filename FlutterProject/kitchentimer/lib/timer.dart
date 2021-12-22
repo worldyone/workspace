@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
@@ -112,6 +113,17 @@ class _TimerPageState extends State<TimerPage> {
                 ).showModal(context);
               },
             ),
+            ButtonBar(
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/stopwatch');
+                    },
+                    // child: const Text('stopwatch')),
+                    child: const Icon(CupertinoIcons.stopwatch)),
+                ElevatedButton(onPressed: () {}, child: const Text('button 2')),
+              ],
+            )
           ],
         ),
       ),
