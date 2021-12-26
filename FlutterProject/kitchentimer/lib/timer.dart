@@ -113,23 +113,38 @@ class _TimerPageState extends State<TimerPage> {
                 ).showModal(context);
               },
             ),
-            ButtonBar(
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/stopwatch');
-                    },
-                    // child: const Text('stopwatch')),
-                    child: const Icon(CupertinoIcons.stopwatch)),
-                ElevatedButton(onPressed: () {}, child: const Text('button 2')),
-              ],
-            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        _cache.play(SOUND_1, mode: PlayerMode.LOW_LATENCY);
-      }),
+      bottomNavigationBar: ButtonBar(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/');
+            },
+            child: const Icon(CupertinoIcons.bell),
+            style: TextButton.styleFrom(backgroundColor: Colors.teal),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/stopwatch');
+            },
+            child: const Icon(CupertinoIcons.stopwatch),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/repeat_timer');
+            },
+            child: const Icon(CupertinoIcons.repeat),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.volume_up_sharp),
+        onPressed: () {
+          _cache.play(SOUND_1, mode: PlayerMode.LOW_LATENCY);
+        },
+      ),
     );
   }
 }

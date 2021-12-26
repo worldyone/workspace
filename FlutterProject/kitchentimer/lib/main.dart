@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchentimer/repeat_timer.dart';
 import 'package:kitchentimer/stopwatch.dart';
 import 'package:kitchentimer/timer.dart';
 
@@ -16,15 +17,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const TimerPage(title: 'キッチンタイマー'),
         '/stopwatch': (context) => const StopWatchPage(title: 'ストップウォッチ'),
+        '/repeat_timer': (context) => const RepeatTimerPage(title: '繰り返しタイマー'),
       },
       title: 'キッチンタイマー',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const TimerPage(title: 'キッチンタイマー'),
-      // home: const VideoPlayerScreen(),
-      // home: const AudioPlayerScreen(),
-      // home: const StopWatchPage(title: 'ストップウォッチ'),
     );
   }
 }

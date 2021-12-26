@@ -3,22 +3,25 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
-class StopWatchPage extends StatefulWidget {
-  const StopWatchPage({Key? key, required this.title}) : super(key: key);
+class RepeatTimerPage extends StatefulWidget {
+  const RepeatTimerPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<StopWatchPage> createState() => _StopWatchPageState();
+  State<RepeatTimerPage> createState() => _RepeatTimerPageState();
 }
 
-class _StopWatchPageState extends State<StopWatchPage> {
-  static final DateTime _initTime = DateTime(0, 0, 0, 0, 0, 0, 0).toUtc();
+class _RepeatTimerPageState extends State<RepeatTimerPage> {
+  static final DateTime _initTime = DateTime(0, 0, 0, 0, 3, 0, 0).toUtc(); // 3分
   static final DateFormat formatter = DateFormat('mm:ss');
   DateTime _time = _initTime;
+  DateTime _setTime = _initTime;
   bool _started = false;
   String _timeStr = DateFormat('mm:ss').format(_initTime);
+  String _setTimeStr = DateFormat('mm:ss').format(_initTime);
   static const SOUND_1 = 'sounds/Horagai01-1.mp3';
   static const SOUND_2 = 'sounds/Naruko02-1.mp3';
 
@@ -38,9 +41,15 @@ class _StopWatchPageState extends State<StopWatchPage> {
 
   void _onTimer(Timer timer) {
     if (_started) {
-      // 1秒ずつ増やす
-      _time = _time.add(const Duration(seconds: 1));
-      setState(() => _timeStr = formatter.format(_time));
+      // もしタイムアップしたら音を鳴らし、再度設定値からタイマーを始める
+      if (_time.minute == 0 && _time.second == 0) {
+        _cache.play(SOUND_1, mode: PlayerMode.LOW_LATENCY);
+        _time = _setTime;
+      } else {
+        // 1秒減らす
+        _time = _time.add(const Duration(seconds: -1));
+        setState(() => _timeStr = formatter.format(_time));
+      }
     }
   }
 
@@ -61,7 +70,14 @@ class _StopWatchPageState extends State<StopWatchPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              '経過時間',
+              '設定時間',
+            ),
+            Text(
+              _setTimeStr,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            const Text(
+              '残り時間',
             ),
             Text(
               _timeStr,
@@ -84,6 +100,31 @@ class _StopWatchPageState extends State<StopWatchPage> {
                   size: 48.0,
                 ),
               ),
+            FloatingActionButton(
+              child: const Icon(
+                Icons.edit,
+              ),
+              tooltip: 'edit',
+              onPressed: () async {
+                Picker(
+                  adapter: DateTimePickerAdapter(
+                      type: PickerDateTimeType.kHMS,
+                      value: _time,
+                      customColumnType: [4, 5]),
+                  title: const Text("Select Time"),
+                  onConfirm: (Picker picker, List value) {
+                    setState(
+                      () => {
+                        _setTime = DateTime.utc(0, 0, 0, 0, value[0], value[1]),
+                        _time = _setTime,
+                        _timeStr = formatter.format(_time),
+                        _setTimeStr = formatter.format(_setTime),
+                      },
+                    );
+                  },
+                ).showModal(context);
+              },
+            ),
           ],
         ),
       ),
@@ -100,13 +141,13 @@ class _StopWatchPageState extends State<StopWatchPage> {
               Navigator.pushNamed(context, '/stopwatch');
             },
             child: const Icon(CupertinoIcons.stopwatch),
-            style: TextButton.styleFrom(backgroundColor: Colors.teal),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/repeat_timer');
+              Navigator.pushNamed(context, '/repeattimer');
             },
             child: const Icon(CupertinoIcons.repeat),
+            style: TextButton.styleFrom(backgroundColor: Colors.teal),
           ),
         ],
       ),
