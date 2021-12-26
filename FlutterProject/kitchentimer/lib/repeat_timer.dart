@@ -146,7 +146,7 @@ class _RepeatTimerPageState extends State<RepeatTimerPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/repeattimer');
             },
-            child: const Icon(CupertinoIcons.repeat),
+            child: const Icon(Icons.restart_alt_outlined),
             style: TextButton.styleFrom(backgroundColor: Colors.teal),
           ),
         ],

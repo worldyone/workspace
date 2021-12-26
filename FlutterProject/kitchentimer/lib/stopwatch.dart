@@ -106,7 +106,7 @@ class _StopWatchPageState extends State<StopWatchPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/repeat_timer');
             },
-            child: const Icon(CupertinoIcons.repeat),
+            child: const Icon(Icons.restart_alt_outlined),
           ),
         ],
       ),
