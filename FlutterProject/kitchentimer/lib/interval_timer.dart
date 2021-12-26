@@ -55,6 +55,7 @@ class _IntervalTimerPageState extends State<IntervalTimerPage> {
           setState(() {
             _working = !_working; // 活動と休憩を切り替える
             _workTime = _setWorkTime; // 設定時間に戻す
+            _workTimeStr = formatter.format(_workTime);
           });
         }
       } else {
@@ -68,6 +69,7 @@ class _IntervalTimerPageState extends State<IntervalTimerPage> {
           setState(() {
             _working = !_working; // 活動と休憩を切り替える
             _restTime = _setRestTime; // 設定時間に戻す
+            _restTimeStr = formatter.format(_restTime);
           });
         }
       }
@@ -144,8 +146,9 @@ class _IntervalTimerPageState extends State<IntervalTimerPage> {
                   onConfirm: (Picker picker, List value) {
                     setState(
                       () => {
-                        _restTime =
+                        _setRestTime =
                             DateTime.utc(0, 0, 0, 0, value[0], value[1]),
+                        _restTime = _setRestTime,
                         _restTimeStr = formatter.format(_restTime),
                       },
                     );
