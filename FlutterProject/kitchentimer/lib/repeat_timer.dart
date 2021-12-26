@@ -149,6 +149,12 @@ class _RepeatTimerPageState extends State<RepeatTimerPage> {
             child: const Icon(Icons.restart_alt_outlined),
             style: TextButton.styleFrom(backgroundColor: Colors.teal),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/interval_timer');
+            },
+            child: const Icon(Icons.repeat),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

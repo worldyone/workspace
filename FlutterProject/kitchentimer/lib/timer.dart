@@ -137,6 +137,12 @@ class _TimerPageState extends State<TimerPage> {
             },
             child: const Icon(Icons.restart_alt_outlined),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/interval_timer');
+            },
+            child: const Icon(Icons.repeat),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
