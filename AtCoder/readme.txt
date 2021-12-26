@@ -1,4 +1,7 @@
-Usage
+# Environment
+source ./atcoder/Scripts/activate
+
+# Usage
 > acc new abc123
 ... choice problem
 > cd abc123/a
