@@ -21,6 +21,7 @@ class _StopWatchPageState extends State<StopWatchPage> {
   String _timeStr = DateFormat('mm:ss').format(_initTime);
   static const SOUND_1 = 'sounds/Horagai01-1.mp3';
   static const SOUND_2 = 'sounds/Naruko02-1.mp3';
+  List<String> lapList = [];
 
   final AudioCache _cache = AudioCache(
     fixedPlayer: AudioPlayer(),
@@ -50,6 +51,13 @@ class _StopWatchPageState extends State<StopWatchPage> {
     });
   }
 
+  void _recordLap() {
+    setState(() {
+      // 現在のストップウォッチの時間をラップリストに追加する
+      lapList.add(_timeStr);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +66,6 @@ class _StopWatchPageState extends State<StopWatchPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
               '経過時間',
@@ -84,6 +91,26 @@ class _StopWatchPageState extends State<StopWatchPage> {
                   size: 48.0,
                 ),
               ),
+            FloatingActionButton(
+              onPressed: _recordLap,
+              tooltip: 'lap',
+              child: const Icon(
+                Icons.add_alarm_sharp,
+                size: 48.0,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: lapList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(lapList[index]),
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
