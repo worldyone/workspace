@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
         '/repeat_timer': (context) => const RepeatTimerPage(title: '繰り返しタイマー'),
         '/interval_timer': (context) =>
             const IntervalTimerPage(title: 'インターバルタイマー'),
-        // todo: ラップ ストップウォッチの途中経過止め機能
         // todo: インターバルタイマーの追加機能として、活動・休憩の他に時間間隔名を追加できる機能
+        // todo: 時間設定を簡単にで切るように
       },
       title: 'キッチンタイマー',
       theme: ThemeData(
