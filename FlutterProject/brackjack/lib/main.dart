@@ -1,8 +1,7 @@
-import 'dart:math' as math;
-
+import 'package:brackjack/playing_card.dart';
 import 'package:flutter/material.dart';
 
-import 'playing_card.dart';
+import 'deck_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,31 +31,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> _hands = [];
-  static const List _cardsNumbers = [
-    "A",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "J",
-    "Q",
-    "K"
-  ];
-  static const List _cardsSuits = ["spade", "heart", "clover", "dia"];
-  List<PlayingCard> _deck = [];
-  var rand = new math.Random();
-  late int lottery;
+  List<PlayingCard> _hands = [];
+  DeckController _dc = new DeckController();
+  PlayingCard? card;
 
   void _drawCard() {
     setState(() {
-      lottery = rand.nextInt(_cardsNumbers.length);
-      _hands.add(_cardsNumbers[lottery]);
+      if (_dc.deck.isNotEmpty) {
+        card = _dc.drawCard();
+        print(card?.number);
+        print(card?.suit);
+        _hands.add(card!);
+        // _hands.add(_dc.drawCard());
+      }
     });
   }
 
