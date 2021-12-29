@@ -24,9 +24,11 @@ enum CardNumber {
 class PlayingCard {
   CardSuit suit;
   CardNumber number;
+  bool? opened;
 
   PlayingCard({
     required this.suit,
     required this.number,
+    this.opened,
   });
 }
