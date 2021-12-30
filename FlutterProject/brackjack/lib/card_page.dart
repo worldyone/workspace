@@ -42,14 +42,17 @@ class _CardPageState extends State<CardPage> {
               '$_hands',
               style: Theme.of(context).textTheme.headline4,
             ),
-            AnimationCard(Image.asset("assets/cards/card_club_01.png"))
+            AnimationCard(Image.asset("assets/cards/card_club_01.png")),
+            AnimationCard(Image.asset("assets/cards/card_heart_01.png")),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _drawCard,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: GestureDetector(
+        onTap: _drawCard,
+        child: Image.asset(
+          "assets/cards/cardgame_deck.png",
+          width: 160,
+        ),
       ),
     );
   }
