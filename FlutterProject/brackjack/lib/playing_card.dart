@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 enum CardSuit {
   spade,
   heart,
-  clover,
-  dia,
+  club,
+  diamond,
 }
 
 enum CardNumber {
@@ -24,6 +26,7 @@ enum CardNumber {
 class PlayingCard {
   CardSuit suit;
   CardNumber number;
+  Image? image;
   bool? opened;
 
   PlayingCard({
