@@ -42,8 +42,16 @@ class _CardPageState extends State<CardPage> {
               '$_hands',
               style: Theme.of(context).textTheme.headline4,
             ),
-            AnimationCard(Image.asset("assets/cards/card_club_01.png")),
-            AnimationCard(Image.asset("assets/cards/card_heart_01.png")),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: _hands.length,
+                  itemBuilder: (context, index) {
+                    return AnimationCard(
+                        Image.asset("assets/cards/card_club_01.png"));
+                  }),
+            )
+            // AnimationCard(Image.asset("assets/cards/card_club_01.png")),
+            // AnimationCard(Image.asset("assets/cards/card_heart_01.png")),
           ],
         ),
       ),
