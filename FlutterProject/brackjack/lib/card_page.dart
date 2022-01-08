@@ -1,4 +1,3 @@
-import 'package:brackjack/animation_card.dart';
 import 'package:brackjack/playing_card.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +13,16 @@ class CardPage extends StatefulWidget {
 
 class _CardPageState extends State<CardPage> {
   final List<PlayingCard> _hands = [];
+  int _handscore = 0;
   final DeckController _dc = DeckController();
-  PlayingCard? card;
+  late PlayingCard card;
 
   void _drawCard() {
     setState(() {
       if (_dc.deck.isNotEmpty) {
-        _hands.add(_dc.drawCard());
+        card = _dc.drawCard();
+        _hands.add(card);
+        _handscore += card.number.decimal!;
       }
     });
   }
@@ -38,20 +40,17 @@ class _CardPageState extends State<CardPage> {
             const Text(
               'Your hands',
             ),
-            Text(
-              '$_hands',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             Expanded(
               child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: _hands.length,
                   itemBuilder: (context, index) {
-                    return AnimationCard(
-                        Image.asset("assets/cards/card_club_01.png"));
+                    return _hands[index].image;
                   }),
-            )
-            // AnimationCard(Image.asset("assets/cards/card_club_01.png")),
-            // AnimationCard(Image.asset("assets/cards/card_heart_01.png")),
+            ),
+            Text(
+              '${_handscore}',
+            ),
           ],
         ),
       ),
@@ -61,6 +60,10 @@ class _CardPageState extends State<CardPage> {
           "assets/cards/cardgame_deck.png",
           width: 160,
         ),
+      ),
+      bottomNavigationBar: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.ac_unit),
       ),
     );
   }
