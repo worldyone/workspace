@@ -1,20 +1,33 @@
+import 'package:flutter/material.dart';
+
 import 'playing_card.dart';
 
 class DeckController {
   List<PlayingCard> deck = [];
 
   DeckController() {
-    initianize();
+    initialize();
     shuffle();
   }
 
-  void initianize() {
+  void initialize() {
     CardSuit.values.forEach((suit) {
       CardNumber.values.forEach((number) {
-        deck.add(PlayingCard(
-          suit: suit,
-          number: number,
-        ));
+        deck.add(
+          PlayingCard(
+            suit: suit,
+            number: number,
+            image: Image.asset(
+              "assets/cards/card_" +
+                  suit.name +
+                  "_" +
+                  number.zfillDecimal +
+                  ".png",
+              width: 96,
+              height: 192,
+            ),
+          ),
+        );
       });
     });
   }
