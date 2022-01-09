@@ -11,6 +11,7 @@ class DeckController {
   }
 
   void initialize() {
+    deck = [];
     CardSuit.values.forEach((suit) {
       CardNumber.values.forEach((number) {
         deck.add(
