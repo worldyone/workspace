@@ -50,7 +50,9 @@ class _CardPageState extends State<CardPage> {
                   }),
             ),
             Text(
-              '${_handscore}',
+              'Your hands score is ${_handscore}.'
+              '    '
+              '${(_handscore > 21) ? "burst" : ""}',
             ),
           ],
         ),
@@ -110,5 +112,5 @@ int calculateHandScore(List<PlayingCard> hands) {
 }
 
 // todo: ディーラーの実装
-// todo: バーストの実装
+// todo: チェック?や勝負?の実装
 // todo: 掛け金の実装
