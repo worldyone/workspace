@@ -64,17 +64,26 @@ class _CardPageState extends State<CardPage> {
           width: 160,
         ),
       ),
-      bottomNavigationBar: FloatingActionButton(
-        onPressed: () {
-          _dc.initialize();
-          _dc.shuffle();
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              _dc.initialize();
+              _dc.shuffle();
 
-          setState(() {
-            _hands = [];
-            _handscore = 0;
-          });
-        },
-        child: Icon(Icons.ac_unit),
+              setState(() {
+                _hands = [];
+                _handscore = 0;
+              });
+            },
+            child: Icon(Icons.arrow_right, size: 48),
+          ),
+          FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.ac_unit),
+          ),
+        ],
       ),
     );
   }
@@ -114,3 +123,4 @@ int calculateHandScore(List<PlayingCard> hands) {
 // todo: ディーラーの実装
 // todo: チェック?や勝負?の実装
 // todo: 掛け金の実装
+// todo: スタート画面の実装
