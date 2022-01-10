@@ -16,6 +16,7 @@ class _CardPageState extends State<CardPage> {
   int _handscore = 0;
   DeckController _dc = DeckController();
   late PlayingCard card;
+  int bet = 0;
 
   void _drawCard() {
     setState(() {
@@ -75,13 +76,28 @@ class _CardPageState extends State<CardPage> {
               setState(() {
                 _hands = [];
                 _handscore = 0;
+                bet = 0;
               });
             },
             child: Icon(Icons.arrow_right, size: 48),
           ),
           FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.ac_unit),
+            child: Icon(Icons.gavel),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    bet += 100;
+                  });
+                },
+                child: Icon(Icons.attach_money),
+              ),
+              Text('掛け金:${bet}'),
+            ],
           ),
         ],
       ),
