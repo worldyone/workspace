@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:brackjack/playing_card.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +14,22 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  List<PlayingCard> _hands = [];
-  int _handscore = 0;
-  DeckController _dc = DeckController();
+  List<PlayingCard> hands = [];
+  int handScore = 0;
+  List<PlayingCard> dealerHands = [];
+  int dealerHandScore = 0;
+  final DeckController _dc = DeckController();
   late PlayingCard card;
-  int bet = 0;
+  int bet = 100;
+  int possessionMoney = 10000;
+  String statusMessage = "";
 
   void _drawCard() {
     setState(() {
       if (_dc.deck.isNotEmpty) {
         card = _dc.drawCard();
-        _hands.add(card);
-        _handscore = calculateHandScore(_hands);
+        hands.add(card);
+        handScore = calculateHandScore(hands);
       }
     });
   }
@@ -38,22 +44,42 @@ class _CardPageState extends State<CardPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Your hands',
+            Text(
+              'You posses $possessionMoney'
+              '\n'
+              '$statusMessage',
             ),
+            Expanded(
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dealerHands.length,
+                  itemBuilder: (context, index) {
+                    return dealerHands[index].opened
+                        ? dealerHands[index].image
+                        : Image.asset(
+                            "assets/cards/card_back.png",
+                            width: 96,
+                            height: 192,
+                          );
+                  }),
+            ),
+            const Text('Dealer\'s hands'),
             Expanded(
               // todo: 4枚目以上が画面外にはみ出してしまうので、下に並べられるようにしたい
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: _hands.length,
+                  itemCount: hands.length,
                   itemBuilder: (context, index) {
-                    return _hands[index].image;
+                    return hands[index].image;
                   }),
             ),
+            const Text(
+              'Yours hands',
+            ),
             Text(
-              'Your hands score is ${_handscore}.'
+              'Your hands score is $handScore.'
               '    '
-              '${(_handscore > 21) ? "burst" : ""}',
+              '${(handScore > 21) ? "burst" : ""}',
             ),
           ],
         ),
@@ -68,22 +94,83 @@ class _CardPageState extends State<CardPage> {
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          FloatingActionButton(
-            onPressed: () {
-              _dc.initialize();
-              _dc.shuffle();
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  // デッキの初期化
+                  _dc.initialize();
+                  _dc.shuffle();
 
-              setState(() {
-                _hands = [];
-                _handscore = 0;
-                bet = 0;
-              });
-            },
-            child: Icon(Icons.arrow_right, size: 48),
+                  setState(() {
+                    // ディーラーの初期化
+                    dealerHands = [];
+                    dealerHands.add(_dc.drawCard());
+                    dealerHands.add(_dc.drawCard());
+                    dealerHands[1].opened = false; // 2枚目を裏向きにする
+
+                    // 手札を初期化
+                    hands = [];
+                    handScore = 0;
+
+                    // 掛け金を初期化
+                    // todo: 初期化しない方がいいか？
+                    bet = 100;
+                  });
+                },
+                child: const Icon(Icons.arrow_right, size: 48),
+              ),
+              const Text('リセット')
+            ],
           ),
-          FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.gavel),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  // バーストしていた場合は、勝負できない
+                  if (calculateHandScore(hands) > 21) return;
+
+                  // ディーラーの処理
+                  // 裏向きのカードを表向きにする
+                  setState(() {
+                    dealerHands[1].opened = true;
+                  });
+                  // 17以上になるまでカードを引き続ける
+                  while (calculateHandScore(dealerHands) < 16) {
+                    setState(() {
+                      dealerHands.add(_dc.drawCard());
+                    });
+                    sleep(const Duration(seconds: 1));
+                  }
+
+                  // 勝敗処理
+                  int myScore = calculateHandScore(hands);
+                  int dealerScore = calculateHandScore(dealerHands);
+                  // 勝利
+                  if (myScore > dealerScore) {
+                    setState(() {
+                      possessionMoney += bet;
+                      statusMessage = 'ディーラーに勝ちました!!';
+                    });
+                    // 敗北
+                  } else if (myScore < dealerScore) {
+                    setState(() {
+                      possessionMoney -= bet;
+                      statusMessage = 'ディーラーに負けました…';
+                    });
+                    // 引き分け
+                  } else {
+                    setState(() {
+                      statusMessage = 'ディーラーと引き分けました';
+                    });
+                  }
+                },
+                child: const Icon(Icons.gavel),
+              ),
+              const Text('勝負!')
+            ],
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -94,9 +181,9 @@ class _CardPageState extends State<CardPage> {
                     bet += 100;
                   });
                 },
-                child: Icon(Icons.attach_money),
+                child: const Icon(Icons.attach_money),
               ),
-              Text('掛け金:${bet}'),
+              Text('掛け金: $bet'),
             ],
           ),
         ],
