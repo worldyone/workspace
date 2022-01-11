@@ -23,6 +23,7 @@ class _CardPageState extends State<CardPage> {
   int bet = 100;
   int possessionMoney = 10000;
   String statusMessage = "";
+  bool inGame = true;
 
   void _drawCard() {
     setState(() {
@@ -85,7 +86,20 @@ class _CardPageState extends State<CardPage> {
         ),
       ),
       floatingActionButton: GestureDetector(
-        onTap: _drawCard,
+        onTap: () {
+          // 試合中であればカードを引くことができる
+          if (inGame) {
+            _drawCard();
+
+            if (calculateHandScore(hands) > 21) {
+              setState(() {
+                statusMessage = 'バーストしました';
+                possessionMoney -= bet;
+                inGame = false;
+              });
+            }
+          }
+        },
         child: Image.asset(
           "assets/cards/cardgame_deck.png",
           width: 160,
@@ -117,6 +131,9 @@ class _CardPageState extends State<CardPage> {
                     // 掛け金を初期化
                     // todo: 初期化しない方がいいか？
                     bet = 100;
+
+                    // ゲーム中である
+                    inGame = true;
                   });
                 },
                 child: const Icon(Icons.arrow_right, size: 48),
@@ -131,6 +148,8 @@ class _CardPageState extends State<CardPage> {
                 onPressed: () {
                   // バーストしていた場合は、勝負できない
                   if (calculateHandScore(hands) > 21) return;
+                  // ゲームが終了している場合は、勝負できない
+                  if (!inGame) return;
 
                   // ディーラーの処理
                   // 裏向きのカードを表向きにする
@@ -166,6 +185,9 @@ class _CardPageState extends State<CardPage> {
                       statusMessage = 'ディーラーと引き分けました';
                     });
                   }
+
+                  // ゲーム終了 リセットが掛かるまで勝負ができず、カードも引けない
+                  inGame = false;
                 },
                 child: const Icon(Icons.gavel),
               ),
@@ -223,7 +245,5 @@ int calculateHandScore(List<PlayingCard> hands) {
   return score;
 }
 
-// todo: ディーラーの実装
-// todo: チェック?や勝負?の実装
-// todo: 掛け金の実装
 // todo: スタート画面の実装
+// todo: 掛け金をより簡単に設定できるようにする
