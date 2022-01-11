@@ -48,12 +48,12 @@ class PlayingCard {
   CardSuit suit;
   CardNumber number;
   Image image;
-  bool? opened;
+  bool opened;
 
   PlayingCard({
     required this.suit,
     required this.number,
     required this.image,
-    this.opened,
+    required this.opened,
   });
 }

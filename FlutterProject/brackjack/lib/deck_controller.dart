@@ -27,6 +27,7 @@ class DeckController {
               width: 96,
               height: 192,
             ),
+            opened: true,
           ),
         );
       });
