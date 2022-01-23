@@ -168,7 +168,7 @@ class _CardPageState extends State<CardPage> {
                   int myScore = calculateHandScore(hands);
                   int dealerScore = calculateHandScore(dealerHands);
                   // 勝利
-                  if (myScore > dealerScore) {
+                  if (myScore > dealerScore || dealerScore > 21) {
                     setState(() {
                       possessionMoney += bet;
                       statusMessage = 'ディーラーに勝ちました!!';
@@ -218,27 +218,26 @@ class _CardPageState extends State<CardPage> {
 int calculateHandScore(List<PlayingCard> hands) {
   int score = 0;
   List<int> cardDecimals = [];
+  int aceCount = 0;
 
   for (PlayingCard card in hands) {
     cardDecimals.add(card.number.decimal!);
   }
-
-  // 逆順にソート
-  // aceを一番最後に処理したいため
-  cardDecimals.sort(((a, b) => -1 * a.compareTo(b)));
 
   // todo: debugprint
   print(cardDecimals);
 
   for (int num in cardDecimals) {
     if (num >= 11) score += 10;
-    if (num >= 2 && num <= 10) score += num;
-    if (num == 1) {
-      if (score <= 10) {
-        score += 11;
-      } else {
-        score += 1;
-      }
+    if (num >= 1 && num <= 10) score += num;
+  }
+
+  aceCount =
+      cardDecimals.where((int cardDecimal) => cardDecimal == 1).toList().length;
+
+  for (int i = 0; i < aceCount; i++) {
+    if (score + 10 <= 21) {
+      score += 10;
     }
   }
 
