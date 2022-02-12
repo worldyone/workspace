@@ -124,4 +124,42 @@ public class Enemy : Token
             Vanish();
         }
     }
+
+    /// 消滅
+    public override void Vanish()
+    {
+        // パーティクル生成
+        // リングエフェクト生成
+        {
+            // 生存時間は30フレーム。移動はしない
+            Particle p = Particle.Add(Particle.eType.Ring, 30, X, Y, 0, 0);
+            if (p)
+            {
+                // 明るい緑
+                p.SetColor(0.7f, 1, 0.7f);
+            }
+        }
+
+        // ボールエフェクト生成
+        float dir = Random.Range(35, 55);
+        for (int i = 0; i < 8; i++)
+        {
+            // 消滅フレーム数
+            int timer = Random.Range(20, 40);
+            // 移動速度
+            float spd = Random.Range(0.5f, 2.5f);
+            Particle p = Particle.Add(Particle.eType.Ball, timer, X, Y, dir, spd);
+            // 移動方向
+            dir += Random.Range(35, 55);
+            if (p)
+            {
+                // 緑色を設定
+                p.SetColor(0.0f, 1, 0.0f);
+                // 大きさを設定
+                p.Scale = 0.8f;
+            }
+        }
+
+        base.Vanish();
+    }
 }

@@ -16,6 +16,9 @@ public class GameMgr : MonoBehaviour
         // ショット管理を生成
         Shot.parent = new TokenMgr<Shot>("Shot", 128);
 
+        // パーティクル管理を生成
+        Particle.parent = new TokenMgr<Particle>("Particle", 256);
+
         // マップ管理を生成
         GameObject prefab = null;
         prefab = Util.GetPrefab(prefab, "Field");
