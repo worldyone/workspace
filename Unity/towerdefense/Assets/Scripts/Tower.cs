@@ -4,17 +4,30 @@ using UnityEngine;
 
 public class Tower : Token
 {
+    // ショットの速度
+    const float SHOT_SPEED = 5.0f;
+    // 射程範囲
     float _range;
+    // 連射速度
+    float _firerate;
+    // 連射速度インターバルタイマー
+    float _tFirerate;
 
     // Start is called before the first frame update
     void Start()
     {
         _range = Field.GetChipSize() * 1.5f;
+        _firerate = 2.0f; // 2sec
+        _tFirerate = 0; // 連射速度インターバル初期化
     }
 
     // Update is called once per frame
     void Update()
     {
+        // インターバルタイマー更新
+        _tFirerate += Time.deltaTime;
+
+        // 一番近い敵を求める
         Enemy e = Enemy.parent.Nearest(this);
         if (e == null)
         {
@@ -43,6 +56,15 @@ public class Tower : Token
             return;
         }
 
+        // インターバルチェック
+        if (_tFirerate < _firerate)
+        {
+            // インターバル中（連射抑制）
+            return;
+        }
+
         // ショットを撃つ
+        Shot.Add(X, Y, Angle, SHOT_SPEED);
+        _tFirerate = 0;
     }
 }

@@ -13,6 +13,9 @@ public class GameMgr : MonoBehaviour
         // 敵管理を生成
         Enemy.parent = new TokenMgr<Enemy>("Enemy", 128);
 
+        // ショット管理を生成
+        Shot.parent = new TokenMgr<Shot>("Shot", 128);
+
         // マップ管理を生成
         GameObject prefab = null;
         prefab = Util.GetPrefab(prefab, "Field");
