@@ -15,8 +15,8 @@ public class Field : Token
         get { return _path; }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // void Start()
+    public void Load()
     {
         // マップ読み込み
         TMXLoader tmx = new TMXLoader();
@@ -39,12 +39,6 @@ public class Field : Token
 
         // 座標リスト作成
         CreatePath(lPath, pos.X, pos.Y, _path);
-
-        // 敵を取得
-        Enemy enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
-
-        // パスを変換して敵を移動
-        enemy.Init(_path);
 
     }
 

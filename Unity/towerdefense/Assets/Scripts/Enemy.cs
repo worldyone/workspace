@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : Token
 {
+    /// 管理オブジェクト
+    public static TokenMgr<Enemy> parent = null;
     public Sprite spr0;
     public Sprite spr1;
 
@@ -79,5 +81,17 @@ public class Enemy : Token
         float dx = _next.x - _prev.x;
         float dy = _next.y - _prev.y;
         Angle = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
+    }
+
+    // プレハブから敵を生成
+    public static Enemy Add(List<Vec2D> path)
+    {
+        Enemy e = parent.Add(0, 0);
+        if (e == null)
+        {
+            return null;
+        }
+        e.Init(path);
+        return e;
     }
 }
