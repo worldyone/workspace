@@ -34,7 +34,7 @@ public class GameMgr : MonoBehaviour
     void Update()
     {
         _tAppear++;
-        if (_tAppear % 120 == 0)
+        if (_tAppear % 240 == 0)
         {
             // 敵を生成するテスト
             Enemy.Add(_path);

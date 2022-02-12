@@ -9,6 +9,9 @@ public class Enemy : Token
     public Sprite spr0;
     public Sprite spr1;
 
+    // HP
+    int _hp;
+
     int _tAnim = 0;
 
     float _speed = 0;
@@ -44,6 +47,19 @@ public class Enemy : Token
         UpdateAngle();
     }
 
+    /// 衝突判定
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        string name = LayerMask.LayerToName(other.gameObject.layer);
+        if (name == "Shot")
+        {
+            Shot s = other.gameObject.GetComponent<Shot>();
+            s.Vanish();
+
+            Damage(1);
+        }
+    }
+
     void MoveNext()
     {
         if (_pathIdx >= _path.Count)
@@ -74,6 +90,9 @@ public class Enemy : Token
         _prev.Copy(_next);
         _prev.x -= Field.GetChipSize();
         FixedUpdate();
+
+        // HPを設定する
+        _hp = 2;
     }
 
     void UpdateAngle()
@@ -93,5 +112,16 @@ public class Enemy : Token
         }
         e.Init(path);
         return e;
+    }
+
+    /// ダメージを受ける処理
+    void Damage(int val)
+    {
+        _hp -= val;
+        if (_hp <= 0)
+        {
+            // HPがなくなったので死亡
+            Vanish();
+        }
     }
 }
