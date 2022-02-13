@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMgr : MonoBehaviour
 {
+    /// 状態
+    enum eState
+    {
+        Wait, // Wave開始前
+        Main, // メイン
+        Gameover, // ゲームオーバー
+    }
+    eState _state = eState.Wait;
+
     /// 選択モード
     public enum eSelMode
     {
@@ -58,21 +68,49 @@ public class GameMgr : MonoBehaviour
         _cursor = GameObject.Find("Cursor").GetComponent<Cursor>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // GUIを更新
         _gui.Update(_selMode);
 
+        // カーソルを更新
+        _cursor.Proc(_lCollision);
+
+        switch (_state)
+        {
+            case eState.Wait:
+                _state = eState.Main;
+                break;
+            case eState.Main:
+                // メインの更新
+                UpdateMain();
+
+                // ゲームオーバーチェック
+                if (Global.Life <= 0)
+                {
+                    _state = eState.Gameover;
+                    MyCanvas.SetActive("TextGameover", true);
+                    break;
+                }
+                break;
+            case eState.Gameover:
+                if (Input.GetMouseButton(0))
+                {
+                    // やり直し
+                    SceneManager.LoadScene("Main");
+                }
+                break;
+        }
+    }
+
+    void UpdateMain()
+    {
         _tAppear++;
         if (_tAppear % 240 == 0)
         {
             // 敵を生成するテスト
             Enemy.Add(_path);
         }
-
-        // カーソルを更新
-        _cursor.Proc(_lCollision);
 
         // 配置できるかどうか判定
         if (_cursor.Placeable == false)
