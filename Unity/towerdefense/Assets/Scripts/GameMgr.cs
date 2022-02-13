@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GameMgr : MonoBehaviour
 {
+    /// 停止タイマー
+    // 2sec停止する
+    const float TIMER_WAIT = 2.0f;
+    float _tWait = TIMER_WAIT;
+
     /// 状態
     enum eState
     {
@@ -21,11 +26,12 @@ public class GameMgr : MonoBehaviour
         Buy, // 購入モード
     }
     eSelMode _selMode = eSelMode.None;
-    int _tAppear = 0;
     List<Vec2D> _path;
     Cursor _cursor;
     Layer2D _lCollision;
     Gui _gui;
+    EnemyGenerator _enemyGenerator;
+    WaveStart _waveStart;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +70,12 @@ public class GameMgr : MonoBehaviour
         // GUIを生成
         _gui = new Gui();
 
+        // 敵生成管理を生成
+        _enemyGenerator = new EnemyGenerator(_path);
+
+        // Wave開始演出を取得
+        _waveStart = MyCanvas.Find<WaveStart>("TextWaveStart");
+
         // カーソルを取得
         _cursor = GameObject.Find("Cursor").GetComponent<Cursor>();
     }
@@ -79,7 +91,16 @@ public class GameMgr : MonoBehaviour
         switch (_state)
         {
             case eState.Wait:
-                _state = eState.Main;
+                // Wave開始
+                _tWait -= Time.deltaTime;
+                if (_tWait < 0)
+                {
+                    _enemyGenerator.Start(Global.Wave);
+                    // Wave開始演出を呼び出す
+                    _waveStart.Begin(Global.Wave);
+                    // メイン状態に遷移する
+                    _state = eState.Main;
+                }
                 break;
             case eState.Main:
                 // メインの更新
@@ -92,6 +113,17 @@ public class GameMgr : MonoBehaviour
                     MyCanvas.SetActive("TextGameover", true);
                     break;
                 }
+
+                // Waveクリアチェック
+                if (IsWaveClear())
+                {
+                    // 次のWaveへ
+                    Global.NextWave();
+                    // 停止タイマー設定
+                    _tWait = TIMER_WAIT;
+                    _state = eState.Wait;
+                }
+
                 break;
             case eState.Gameover:
                 if (Input.GetMouseButton(0))
@@ -105,12 +137,8 @@ public class GameMgr : MonoBehaviour
 
     void UpdateMain()
     {
-        _tAppear++;
-        if (_tAppear % 240 == 0)
-        {
-            // 敵を生成するテスト
-            Enemy.Add(_path);
-        }
+        // 敵生成管理の更新
+        _enemyGenerator.Update();
 
         // 配置できるかどうか判定
         if (_cursor.Placeable == false)
@@ -172,5 +200,24 @@ public class GameMgr : MonoBehaviour
                 break;
         }
         _selMode = mode;
+    }
+
+    /// Waveをクリアしたかどうか
+    bool IsWaveClear()
+    {
+        if (_enemyGenerator.Number > 0)
+        {
+            // 敵がまだ出現する
+            return false;
+        }
+
+        if (Enemy.parent.Count() > 0)
+        {
+            // 敵が存在するのでクリアしていない
+            return false;
+        }
+
+        // クリア
+        return true;
     }
 }

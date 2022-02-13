@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gui
 {
+    // Wave数テキスト
+    TextObj _txtWave;
     // 所持金テキスト
     TextObj _txtMoney;
     // コストテキスト
@@ -14,6 +16,8 @@ public class Gui
     /// コンストラクタ
     public Gui()
     {
+        // Wave数
+        _txtWave = MyCanvas.Find<TextObj>("TextWave");
         // 所持金テキスト
         _txtMoney = MyCanvas.Find<TextObj>("TextMoney");
         // コストテキスト
@@ -25,6 +29,7 @@ public class Gui
 
     public void Update(GameMgr.eSelMode selMode)
     {
+        _txtWave.SetLabelFormat("Wave: {0}", Global.Wave);
         _txtMoney.SetLabelFormat("Money: ${0}", Global.Money);
 
         // 生産コストを取得する

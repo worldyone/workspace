@@ -24,6 +24,7 @@ public class Global
     {
         get { return _life; }
     }
+
     public static void Damage()
     {
         // ライフを1つ減らす
@@ -32,6 +33,18 @@ public class Global
         {
             _life = 0;
         }
+    }
+
+    /// Wave数
+    static int _wave = 1;
+    public static int Wave
+    {
+        get { return _wave; }
+    }
+    /// Wave数を次に進める
+    public static void NextWave()
+    {
+        _wave++;
     }
 
     // 所持金を増やす
@@ -53,6 +66,7 @@ public class Global
     /// 初期化
     public static void Init()
     {
+        _wave = 1;
         _money = MONEY_INIT;
         _life = LIFE_INIT;
     }
