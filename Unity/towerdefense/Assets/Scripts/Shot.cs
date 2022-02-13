@@ -7,6 +7,13 @@ public class Shot : Token
     // ショットオブジェクト管理
     public static TokenMgr<Shot> parent;
 
+    /// ショットの威力
+    int _power;
+    public int Power
+    {
+        get { return _power; }
+    }
+
     void Update()
     {
         if (IsOutside())
@@ -16,9 +23,15 @@ public class Shot : Token
     }
 
     // ショットを撃つ
-    public static Shot Add(float px, float py, float direction, float speed)
+    public static Shot Add(float px, float py, float direction, float speed, int power)
     {
-        return parent.Add(px, py, direction, speed);
+        Shot s = parent.Add(px, py, direction, speed);
+        if (s == null)
+        {
+            return null;
+        }
+        s.Init(power);
+        return s;
     }
 
     /// 消滅
@@ -43,5 +56,11 @@ public class Shot : Token
         }
 
         base.Vanish();
+    }
+
+    /// 初期化
+    public void Init(int power)
+    {
+        _power = power;
     }
 }

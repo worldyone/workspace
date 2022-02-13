@@ -15,13 +15,79 @@ public class Tower : Token
     float _firerate;
     // 連射速度インターバルタイマー
     float _tFirerate;
+    // 攻撃威力
+    int _power;
+
+    /// レベル
+    // 射程範囲
+    int _lvRange;
+    public int LvRange
+    {
+        get { return _lvRange; }
+    }
+
+    // 連射速度
+    int _lvFirerate;
+    public int LvFirerate
+    {
+        get { return _lvFirerate; }
+    }
+    // 攻撃威力
+    int _lvPower;
+    public int LvPower
+    {
+        get { return _lvPower; }
+    }
+
+    /// アップグレードの種類
+    public enum eUpgrade
+    {
+        Range, // 射程範囲
+        Firerate, // 連射速度
+        Power, // 攻撃威力
+    }
+
+    /// コスト
+    // 射程範囲
+    public int CostRange
+    {
+        get { return Cost.TowerUpgrade(eUpgrade.Range, _lvRange); }
+    }
+
+    // 連射速度
+    public int CostFirerate
+    {
+        get { return Cost.TowerUpgrade(eUpgrade.Firerate, _lvFirerate); }
+    }
+
+    // 攻撃威力
+    public int CostPower
+    {
+        get { return Cost.TowerUpgrade(eUpgrade.Power, _lvPower); }
+    }
+
+    /// アップグレード種別に対応したコストを取得する
+    public int GetCost(eUpgrade type)
+    {
+        switch (type)
+        {
+            case eUpgrade.Range: return CostRange;
+            case eUpgrade.Firerate: return CostFirerate;
+            case eUpgrade.Power: return CostPower;
+        }
+        return 0;
+    }
 
     // void Start()
     void Init()
     {
-        _range = Field.GetChipSize() * 1.5f;
-        _firerate = 2.0f; // 2sec
-        _tFirerate = 0; // 連射速度インターバル初期化
+        // レベル初期化
+        _lvRange = 1;
+        _lvFirerate = 1;
+        _lvPower = 1;
+
+        // パラメータ更新
+        UpdateParam();
     }
 
     // Update is called once per frame
@@ -67,7 +133,7 @@ public class Tower : Token
         }
 
         // ショットを撃つ
-        Shot.Add(X, Y, Angle, SHOT_SPEED);
+        Shot.Add(X, Y, Angle, SHOT_SPEED, _power);
         _tFirerate = 0;
     }
 
@@ -81,5 +147,46 @@ public class Tower : Token
         }
         t.Init();
         return t;
+    }
+
+    /// パラメータ更新
+    void UpdateParam()
+    {
+        // 射程範囲
+        _range = TowerParam.Range(_lvRange);
+        // 連射速度
+        _firerate = TowerParam.Firerate(_lvFirerate);
+        // 攻撃威力
+        _power = TowerParam.Power(_lvPower);
+    }
+
+    /// アップグレードする
+    public void Upgrade(eUpgrade type)
+    {
+        switch (type)
+        {
+            case eUpgrade.Range:
+                // 射程範囲のレベルアップ
+                _lvRange++;
+                break;
+            case eUpgrade.Firerate:
+                // 連射速度のアップグレード
+                _lvFirerate++;
+                break;
+            case eUpgrade.Power:
+                // 攻撃威力のアップグレード
+                _lvPower++;
+                break;
+        }
+
+        // パラメータ更新
+        UpdateParam();
+
+        // アップグレードエフェクト生成
+        Particle p = Particle.Add(Particle.eType.Ellipse, 20, X, Y, 0, 0);
+        if (p)
+        {
+            p.SetColor(0.2f, 0.2f, 1);
+        }
     }
 }

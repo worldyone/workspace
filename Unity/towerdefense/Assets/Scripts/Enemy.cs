@@ -59,7 +59,7 @@ public class Enemy : Token
             Shot s = other.gameObject.GetComponent<Shot>();
             s.Vanish();
 
-            Damage(1);
+            Damage(s.Power);
 
             if (Exists == false)
             {

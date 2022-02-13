@@ -12,6 +12,15 @@ public class Gui
     TextObj _txtCost;
     // 購入ボタン
     ButtonObj _btnBuy;
+    // タワー情報テキスト
+    TextObj _txtTowerInfo;
+    /// アップグレードボタン
+    // 射程範囲
+    ButtonObj _btnRange;
+    // 連射速度
+    ButtonObj _btnFirerate;
+    // 攻撃威力
+    ButtonObj _btnPower;
 
     /// コンストラクタ
     public Gui()
@@ -25,9 +34,17 @@ public class Gui
         _txtCost.Label = "";
         // 購入ボタン
         _btnBuy = MyCanvas.Find<ButtonObj>("ButtonBuy");
+        // タワー情報を取得する
+        _txtTowerInfo = MyCanvas.Find<TextObj>("TextTowerInfo");
+        // 射程範囲ボタン
+        _btnRange = MyCanvas.Find<ButtonObj>("ButtonRange");
+        // 連射速度ボタン
+        _btnFirerate = MyCanvas.Find<ButtonObj>("ButtonFirerate");
+        // 攻撃威力ボタン
+        _btnPower = MyCanvas.Find<ButtonObj>("ButtonPower");
     }
 
-    public void Update(GameMgr.eSelMode selMode)
+    public void Update(GameMgr.eSelMode selMode, Tower tower)
     {
         _txtWave.SetLabelFormat("Wave: {0}", Global.Wave);
         _txtMoney.SetLabelFormat("Money: ${0}", Global.Money);
@@ -52,6 +69,31 @@ public class Gui
         {
             bool b = (Global.Life > i);
             MyCanvas.SetActive("ImageLife" + i, b);
+        }
+
+        if (selMode == GameMgr.eSelMode.Upgrade)
+        {
+            // 選択しているタワーの情報を表示する
+            _txtTowerInfo.SetLabelFormat("<<Tower Info>>\n  Range: Lv.{0}\n  Firerate: Lv.{1}\n  Power: Lv.{2}",
+                tower.LvRange,
+                tower.LvFirerate,
+                tower.LvPower
+            );
+        }
+
+        // アップグレードボタン更新
+        if (tower != null)
+        {
+            int money = Global.Money;
+            // 射程範囲
+            _btnRange.Enabled = (money >= tower.CostRange);
+            _btnRange.FormatLabel("Range (${0})", tower.CostRange);
+            // 連射速度
+            _btnFirerate.Enabled = (money >= tower.CostFirerate);
+            _btnFirerate.FormatLabel("Firerate (${0})", tower.CostFirerate);
+            // 攻撃威力
+            _btnPower.Enabled = (money >= tower.CostPower);
+            _btnPower.FormatLabel("Power (${0})", tower.CostPower);
         }
     }
 }

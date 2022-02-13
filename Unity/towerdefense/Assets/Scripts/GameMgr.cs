@@ -24,14 +24,20 @@ public class GameMgr : MonoBehaviour
     {
         None, // なし
         Buy, // 購入モード
+        Upgrade, // アップグレード
     }
     eSelMode _selMode = eSelMode.None;
+    // 選択中のオブジェクト
+    GameObject _selObj = null;
+    // 選択中のタワー
+    Tower _selTower = null;
     List<Vec2D> _path;
     Cursor _cursor;
     Layer2D _lCollision;
     Gui _gui;
     EnemyGenerator _enemyGenerator;
     WaveStart _waveStart;
+    CursorRange _cursorRange;
 
     // Start is called before the first frame update
     void Start()
@@ -78,12 +84,18 @@ public class GameMgr : MonoBehaviour
 
         // カーソルを取得
         _cursor = GameObject.Find("Cursor").GetComponent<Cursor>();
+
+        // 射程範囲カーソルを取得する
+        _cursorRange = GameObject.Find("CursorRange").GetComponent<CursorRange>();
+
+        // 初期状態は選択しないモード
+        ChangeSelMode(eSelMode.None);
     }
 
     void Update()
     {
         // GUIを更新
-        _gui.Update(_selMode);
+        _gui.Update(_selMode, _selTower);
 
         // カーソルを更新
         _cursor.Proc(_lCollision);
@@ -146,11 +158,30 @@ public class GameMgr : MonoBehaviour
             return;
         }
 
+        // カーソルの下にあるオブジェクトをチェック
+        int mask = 1 << LayerMask.NameToLayer("Tower");
+        Collider2D col = Physics2D.OverlapPoint(_cursor.GetPosition(), mask);
+        _selObj = null;
+        if (col != null)
+        {
+            // 選択中のオブジェクトを格納
+            _selObj = col.gameObject;
+        }
+
         // マウスクリック判定
         if (Input.GetMouseButtonDown(0) == false)
         {
             // クリックしていないので以下の処理は不要
             return;
+        }
+
+        if (_selObj != null)
+        {
+            // タワーをクリックした
+            _selTower = _selObj.GetComponent<Tower>();
+
+            // アップグレードモードに移行する
+            ChangeSelMode(eSelMode.Upgrade);
         }
 
         switch (_selMode)
@@ -183,6 +214,24 @@ public class GameMgr : MonoBehaviour
         ChangeSelMode(eSelMode.Buy);
     }
 
+    /// アップグレード・射程範囲をクリックした
+    public void OnClickRange()
+    {
+        ExecUpgrade(Tower.eUpgrade.Range);
+    }
+
+    /// アップグレード・連射速度をクリックした
+    public void OnClickFirerate()
+    {
+        ExecUpgrade(Tower.eUpgrade.Firerate);
+    }
+
+    /// アップグレード・攻撃威力をクリックした
+    public void OnClickPower()
+    {
+        ExecUpgrade(Tower.eUpgrade.Power);
+    }
+
     /// 選択モードの変更
     void ChangeSelMode(eSelMode mode)
     {
@@ -192,11 +241,35 @@ public class GameMgr : MonoBehaviour
                 // 初期状態に戻す
                 // 購入ボタンを表示する
                 MyCanvas.SetActive("ButtonBuy", true);
+                // タワー情報は非表示
+                MyCanvas.SetActive("TextTowerInfo", false);
+                // 射程範囲を非表示
+                _cursorRange.SetVisible(false, 0);
+                // アップグレードモードボタンを非表示
+                SetActiveUpgrade(false);
                 break;
             case eSelMode.Buy:
                 // 購入モード
                 // 購入ボタンを非表示にする
                 MyCanvas.SetActive("ButtonBuy", false);
+                // タワー情報は非表示
+                MyCanvas.SetActive("TextTowerInfo", false);
+                // 射程範囲を非表示
+                _cursorRange.SetVisible(false, 0);
+                // アップグレードモードボタンを非表示
+                SetActiveUpgrade(false);
+                break;
+            case eSelMode.Upgrade:
+                // アップグレードモード
+                // 購入ボタンを表示する
+                MyCanvas.SetActive("ButtonBuy", true);
+                // タワー情報は非表示
+                MyCanvas.SetActive("TextTowerInfo", false);
+                // 射程範囲を表示
+                _cursorRange.SetVisible(true, _selTower.LvRange);
+                _cursorRange.SetPosition(_cursor);
+                // アップグレードモードボタンを表示
+                SetActiveUpgrade(true);
                 break;
         }
         _selMode = mode;
@@ -219,5 +292,30 @@ public class GameMgr : MonoBehaviour
 
         // クリア
         return true;
+    }
+
+    /// アップグレードモードボタンの表示・非表示を切替
+    void SetActiveUpgrade(bool b)
+    {
+        // 各種ボタンの表示制御
+        MyCanvas.SetActive("ButtonRange", b);
+        MyCanvas.SetActive("ButtonFirerate", b);
+        MyCanvas.SetActive("ButtonPower", b);
+    }
+
+    /// アップグレードを実行する
+    void ExecUpgrade(Tower.eUpgrade type)
+    {
+        // コストを取得する
+        int cost = _selTower.GetCost(type);
+
+        // 所持金を減らす
+        Global.UseMoney(cost);
+
+        // アップグレード実行
+        _selTower.Upgrade(type);
+
+        // 射程範囲カーソルの大きさを反映
+        _cursorRange.SetVisible(true, _selTower.LvRange);
     }
 }
