@@ -41,5 +41,12 @@ public class Gui
 
         // 購入コストを表示する
         _btnBuy.FormatLabel("Buy (${0})", cost);
+
+        // ライフ表示
+        for (int i = 0; i < Global.LIFE_MAX; i++)
+        {
+            bool b = (Global.Life > i);
+            MyCanvas.SetActive("ImageLife" + i, b);
+        }
     }
 }

@@ -14,6 +14,26 @@ public class Global
         get { return _money; }
     }
 
+    /// ライフ
+    // 初期値
+    const int LIFE_INIT = 3;
+    // 最大値
+    public const int LIFE_MAX = 3;
+    static int _life;
+    public static int Life
+    {
+        get { return _life; }
+    }
+    public static void Damage()
+    {
+        // ライフを1つ減らす
+        _life--;
+        if (_life < 0)
+        {
+            _life = 0;
+        }
+    }
+
     // 所持金を増やす
     public static void AddMoney(int v)
     {
@@ -34,5 +54,6 @@ public class Global
     public static void Init()
     {
         _money = MONEY_INIT;
+        _life = LIFE_INIT;
     }
 }

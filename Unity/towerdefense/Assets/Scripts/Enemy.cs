@@ -75,8 +75,13 @@ public class Enemy : Token
         {
             // ゴールに辿り着いた
             _tSpeed = 100.0f;
+            // ダメージを与える
+            Global.Damage();
+            // 自爆する
+            Vanish();
             return;
         }
+
 
         // 移動先を移動元にコピーする
         _prev.Copy(_next);
