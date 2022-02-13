@@ -19,6 +19,9 @@ public class GameMgr : MonoBehaviour
         // パーティクル管理を生成
         Particle.parent = new TokenMgr<Particle>("Particle", 256);
 
+        // タワー管理を生成
+        Tower.parent = new TokenMgr<Tower>("Tower", 64);
+
         // マップ管理を生成
         GameObject prefab = null;
         prefab = Util.GetPrefab(prefab, "Field");
@@ -41,6 +44,17 @@ public class GameMgr : MonoBehaviour
         {
             // 敵を生成するテスト
             Enemy.Add(_path);
+        }
+
+        // マウスクリック判定 0は左クリック
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 posScreen = Input.mousePosition;
+
+            // ワールド座標に変換
+            Vector2 posWorld = Camera.main.ScreenToWorldPoint(posScreen);
+
+            Tower.Add(posWorld.x, posWorld.y);
         }
     }
 }

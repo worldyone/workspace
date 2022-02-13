@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Tower : Token
 {
+    // タワー管理
+    public static TokenMgr<Tower> parent;
+
     // ショットの速度
     const float SHOT_SPEED = 5.0f;
     // 射程範囲
@@ -13,8 +16,8 @@ public class Tower : Token
     // 連射速度インターバルタイマー
     float _tFirerate;
 
-    // Start is called before the first frame update
-    void Start()
+    // void Start()
+    void Init()
     {
         _range = Field.GetChipSize() * 1.5f;
         _firerate = 2.0f; // 2sec
@@ -66,5 +69,17 @@ public class Tower : Token
         // ショットを撃つ
         Shot.Add(X, Y, Angle, SHOT_SPEED);
         _tFirerate = 0;
+    }
+
+    // タワー生成
+    public static Tower Add(float px, float py)
+    {
+        Tower t = parent.Add(px, py);
+        if (t == null)
+        {
+            return null;
+        }
+        t.Init();
+        return t;
     }
 }
