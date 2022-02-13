@@ -12,6 +12,9 @@ public class Enemy : Token
     // HP
     int _hp;
 
+    // 所持金
+    int _money;
+
     int _tAnim = 0;
 
     float _speed = 0;
@@ -57,6 +60,12 @@ public class Enemy : Token
             s.Vanish();
 
             Damage(1);
+
+            if (Exists == false)
+            {
+                // 所持金を増やす
+                Global.AddMoney(_money);
+            }
         }
     }
 
@@ -93,6 +102,9 @@ public class Enemy : Token
 
         // HPを設定する
         _hp = 2;
+
+        // 所持金を設定
+        _money = 1;
     }
 
     void UpdateAngle()
