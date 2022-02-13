@@ -24,13 +24,13 @@ public class EnemyGenerator
         _pathList = pathList;
     }
 
-    public void Start(int nWave)
+    public void Start()
     {
         // 出現間隔
-        _interval = 1.5f; // 1.5秒
+        _interval = EnemyParam.GenerationInterval();
         _tInterval = 0;
         // 出現数
-        _number = 5 + nWave;
+        _number = EnemyParam.GenerationNumber();
     }
 
     public void Update()

@@ -96,7 +96,7 @@ public class Enemy : Token
     {
         _path = path;
         _pathIdx = 0;
-        _speed = 2.0f;
+        _speed = EnemyParam.Speed();
         _tSpeed = 0;
 
         // アニメーションの違和感をなくすため、画面外から出るようにする
@@ -106,10 +106,10 @@ public class Enemy : Token
         FixedUpdate();
 
         // HPを設定する
-        _hp = 2;
+        _hp = EnemyParam.Hp();
 
         // 所持金を設定
-        _money = 1;
+        _money = EnemyParam.Money();
     }
 
     void UpdateAngle()

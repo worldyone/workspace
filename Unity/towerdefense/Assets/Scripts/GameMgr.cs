@@ -95,7 +95,7 @@ public class GameMgr : MonoBehaviour
                 _tWait -= Time.deltaTime;
                 if (_tWait < 0)
                 {
-                    _enemyGenerator.Start(Global.Wave);
+                    _enemyGenerator.Start();
                     // Wave開始演出を呼び出す
                     _waveStart.Begin(Global.Wave);
                     // メイン状態に遷移する
