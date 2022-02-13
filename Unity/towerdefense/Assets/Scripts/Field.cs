@@ -15,6 +15,13 @@ public class Field : Token
         get { return _path; }
     }
 
+    /// コリジョンレイヤー
+    Layer2D _lCollision;
+    public Layer2D lCollision
+    {
+        get { return _lCollision; }
+    }
+
     // void Start()
     public void Load()
     {
@@ -39,6 +46,9 @@ public class Field : Token
 
         // 座標リスト作成
         CreatePath(lPath, pos.X, pos.Y, _path);
+
+        // コリジョンレイヤーを取得する
+        _lCollision = tmx.GetLayer("collision");
 
     }
 
@@ -102,6 +112,25 @@ public class Field : Token
                 CreatePath(layer, x2, y2, path);
             }
         }
+    }
 
+    /// ワールド座標をチップ座標系のX座標に変換する
+    public static int ToChipX(float x)
+    {
+        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+        var spr = GetChipSprite();
+        var sprW = spr.bounds.size.x;
+
+        return (int)((x - min.x) / sprW);
+    }
+
+    /// ワールド座標をチップ座標系のY座標に変換する
+    public static int ToChipY(float y)
+    {
+        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+        var spr = GetChipSprite();
+        var sprH = spr.bounds.size.y;
+
+        return (int)((y - max.y) / -sprH);
     }
 }

@@ -6,6 +6,8 @@ public class GameMgr : MonoBehaviour
 {
     int _tAppear = 0;
     List<Vec2D> _path;
+    Cursor _cursor;
+    Layer2D _lCollision;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,12 @@ public class GameMgr : MonoBehaviour
 
         // パスを取得
         _path = field.Path;
+
+        // コリジョンレイヤーを取得
+        _lCollision = field.lCollision;
+
+        // カーソルを取得
+        _cursor = GameObject.Find("Cursor").GetComponent<Cursor>();
     }
 
     // Update is called once per frame
@@ -46,15 +54,24 @@ public class GameMgr : MonoBehaviour
             Enemy.Add(_path);
         }
 
-        // マウスクリック判定 0は左クリック
-        if (Input.GetMouseButtonDown(0))
+        // カーソルを更新
+        _cursor.Proc(_lCollision);
+
+        // 配置できるかどうか判定
+        if (_cursor.Placeable == false)
         {
-            Vector3 posScreen = Input.mousePosition;
+            return;
+        }
 
-            // ワールド座標に変換
-            Vector2 posWorld = Camera.main.ScreenToWorldPoint(posScreen);
+        // マウスクリックがされていないことの判定 0は左クリック
+        if (Input.GetMouseButtonDown(0) == false)
+        {
+            return;
+        }
+        if (_cursor.SelObj == null)
+        {
+            Tower.Add(_cursor.X, _cursor.Y);
 
-            Tower.Add(posWorld.x, posWorld.y);
         }
     }
 }
