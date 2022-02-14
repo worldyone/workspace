@@ -158,6 +158,25 @@ public class Tower : Token
         _firerate = TowerParam.Firerate(_lvFirerate);
         // 攻撃威力
         _power = TowerParam.Power(_lvPower);
+
+        // レベルに対する色を設定
+        // 平均レベルを計算
+        float avg = (_lvRange + _lvFirerate + _lvPower) / 3.0f;
+        int avgLv = Mathf.CeilToInt(avg);
+        Color c;
+        switch (avgLv)
+        {
+            case 1: c = Color.white; break;
+            case 2: c = Color.cyan; break;
+            case 3: c = Color.green; break;
+            case 4: c = Color.yellow; break;
+            default: c = Color.red; break;
+        }
+        // 少し明るくする
+        c.r += 0.3f;
+        c.g += 0.3f;
+        c.b += 0.3f;
+        SetColor(c);
     }
 
     /// アップグレードする

@@ -263,8 +263,8 @@ public class GameMgr : MonoBehaviour
                 // アップグレードモード
                 // 購入ボタンを表示する
                 MyCanvas.SetActive("ButtonBuy", true);
-                // タワー情報は非表示
-                MyCanvas.SetActive("TextTowerInfo", false);
+                // タワー情報は表示
+                MyCanvas.SetActive("TextTowerInfo", true);
                 // 射程範囲を表示
                 _cursorRange.SetVisible(true, _selTower.LvRange);
                 _cursorRange.SetPosition(_cursor);
