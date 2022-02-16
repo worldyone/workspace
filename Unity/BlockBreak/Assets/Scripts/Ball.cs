@@ -10,9 +10,9 @@ public class BallScript : MonoBehaviour
 
     void Start()
     {
-        _speed = new Vector3(Random.Range(-25f, 25f), 0, Random.Range(300f, 360f));
-        _Rigidbody = GetComponent<Rigidbody>();
-        _Rigidbody.AddForce(_speed);
+        // _speed = new Vector3(Random.Range(-25f, 25f), 0, Random.Range(300f, 360f));
+        // _Rigidbody = GetComponent<Rigidbody>();
+        // _Rigidbody.AddForce(_speed);
     }
 
     void Update()
