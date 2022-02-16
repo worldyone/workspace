@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    GameObject blockFactory;
+    BlockFactory blockFactoryComponent;
+
+    void Start()
+    {
+        blockFactory = GameObject.Find("BlockFactory");
+        blockFactoryComponent = blockFactory.GetComponent<BlockFactory>();
+    }
 
     /// ぶつかり処理
-    // ぶつかるのはボールとのみ
+    // ぶつかるのはボールとのみを想定している
     // ステージのブロック総数を1つ減らし、ブロックが消える.
     void OnCollisionEnter(Collision other)
     {
-        GameObject factory = GameObject.Find("BlockFactory");
-        BlockFactory factoryComponent = factory.GetComponent<BlockFactory>();
-        factoryComponent.BlockNum--;
+        blockFactoryComponent.BlockNum--;
 
         Destroy(gameObject);
     }

@@ -1,29 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
-    private Vector3 _speed;
+    GameObject ballFactory;
+    BallFactory ballFactoryComponent;
+    Vector3 _speed;
     Rigidbody _Rigidbody;
 
     void Start()
     {
+        ballFactory = GameObject.Find("BallFactory");
+        ballFactoryComponent = ballFactory.GetComponent<BallFactory>();
     }
 
     void Update()
     {
         if (transform.position.z < Global.OUT_OF_FIELD)
         {
-            SceneManager.LoadScene("GameOver");
+            // ボールの総数を1つ減らす
+            ballFactoryComponent.BallNum--;
+
+            // ボールを削除
+            Destroy(gameObject);
         }
     }
 
     // ぶつかったら跳ね返る
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         string name = LayerMask.LayerToName(collision.gameObject.layer);
-
     }
 }

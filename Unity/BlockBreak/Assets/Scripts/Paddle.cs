@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    private float _speed;
+    float _speed;
     public float Speed
     {
         get { return _speed; }
     }
-    private float _size;
+    float _size;
     public float Size
     {
         get { return _size; }
     }
-    private Vector3 _position;
+    Vector3 _position;
     public Vector3 Position
     {
         get { return _position; }

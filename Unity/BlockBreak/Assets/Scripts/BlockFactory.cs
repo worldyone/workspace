@@ -6,7 +6,7 @@ using UnityEngine;
 public class BlockFactory : MonoBehaviour
 {
     public GameObject block;
-    private int _blockNum;
+    int _blockNum;
     public int BlockNum
     {
         get { return _blockNum; }
@@ -26,6 +26,16 @@ public class BlockFactory : MonoBehaviour
             {
                 Instantiate(block, new Vector3(-10.0f + w * 2, 1f, 12f + h * 2), transform.rotation);
             }
+        }
+    }
+
+    public void MakeStage2()
+    {
+        _blockNum = 3;
+
+        for (int w = 0; w < _blockNum; w++)
+        {
+            Instantiate(block, new Vector3(-10.0f + w * 2, 1f, 12f), transform.rotation);
         }
     }
 
