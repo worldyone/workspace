@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallFactoryScript : MonoBehaviour
+public class BallFactory : MonoBehaviour
 {
     public GameObject ball;
 
@@ -19,7 +19,6 @@ public class BallFactoryScript : MonoBehaviour
         GameObject newBall = Instantiate(ball, position, transform.rotation);
         Rigidbody _rigidbody = newBall.GetComponent<Rigidbody>();
         _rigidbody.AddForce(speed);
-        // Instantiate(ball, new Vector3(Random.Range(-5f, 5f), transform.position.y, transform.position.z - 3), transform.rotation);
     }
 
     void Update()

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonScript : MonoBehaviour
+public class Button : MonoBehaviour
 {
     public void ReplayGame()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("Main");
     }
 
     // Start is called before the first frame update

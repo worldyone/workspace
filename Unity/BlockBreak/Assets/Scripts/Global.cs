@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Global
 {
-    public static float OUT_OF_FIELD_Z = -13.0f;
+    public static float OUT_OF_FIELD = -13.0f;
 }
