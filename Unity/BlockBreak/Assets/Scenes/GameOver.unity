@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 1240412515}
   - component: {fileID: 1240412518}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonReplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1240412513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28af0c0e6a10cad40aad0b2dbb0a41a0, type: 3}
+  m_Script: {fileID: 11500000, guid: c9c4329b2065c7c4296eb841c2972c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1418561159

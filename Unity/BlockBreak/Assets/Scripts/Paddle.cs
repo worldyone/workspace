@@ -22,8 +22,8 @@ public class Paddle : MonoBehaviour
 
     void Start()
     {
-        _speed = 10.0f;
-        _size = 5.0f;
+        _speed = 20.0f;
+        _size = 8.0f;
         _position = transform.position;
 
         transform.localScale = new Vector3(_size, transform.localScale.y, transform.localScale.z);
@@ -36,8 +36,8 @@ public class Paddle : MonoBehaviour
         float dx = transform.position.x + moveX;
 
         // パドルがフィールドの外にまで動けないようにする
-        dx = Mathf.Max(dx, -5.0f + _size / 2.0f);
-        dx = Mathf.Min(dx, 5.0f - _size / 2.0f);
+        dx = Mathf.Max(dx, Global.LEFT_WALL_X + _size / 2.0f);
+        dx = Mathf.Min(dx, Global.RIGHT_WALL_X - _size / 2.0f);
         transform.position = new Vector3(dx, transform.position.y, transform.position.z);
     }
 }

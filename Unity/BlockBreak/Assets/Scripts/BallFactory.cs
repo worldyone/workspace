@@ -10,7 +10,7 @@ public class BallFactory : MonoBehaviour
     {
         GameObject paddle = GameObject.Find("Paddle");
         Vector3 position = paddle.transform.position;
-        Vector3 speed = new Vector3(200.0f, 0, Random.Range(600f, 660f));
+        Vector3 speed = new Vector3(200.0f, 0, Random.Range(800f, 880f));
         SpawnBall(position, speed);
     }
 
