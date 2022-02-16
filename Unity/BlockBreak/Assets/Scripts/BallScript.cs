@@ -5,36 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class BallScript : MonoBehaviour
 {
-    private float speed;
+    private Vector3 _speed;
+    Rigidbody _Rigidbody;
 
-    // Start is called before the first frame update
     void Start()
     {
-        speed = Random.Range(5f, 15f);
+        _speed = new Vector3(Random.Range(-25f, 25f), 0, Random.Range(300f, 360f));
+        _Rigidbody = GetComponent<Rigidbody>();
+        _Rigidbody.AddForce(_speed);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(0f, 0f, -1 * speed * Time.deltaTime);
-        if (transform.position.z < -13.0f)
+        if (transform.position.z < Global.OUT_OF_FIELD_Z)
         {
-            // Debug.Log("Game Over");
-            // Time.timeScale = 0;
             SceneManager.LoadScene("GameOverScene");
         }
     }
 
+    // ぶつかったら跳ね返る
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Paddle"))
-        {
-            Destroy(gameObject);
-            collision.gameObject.transform.localScale -= new Vector3(Random.Range(0.2f, 1.0f) ,0f, 0f);
-            if (collision.gameObject.transform.localScale.x < 1.0f)
-            {
-                collision.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            }
-        }
+        string name = LayerMask.LayerToName(collision.gameObject.layer);
+
+        // 上辺・パドルとぶつかったら縦方向座標の反転跳ね返り
+        // 右辺・左辺とぶつかったら横方向座標の反転跳ね返り
+        // if (name == "Paddle" || name == "WallUp")
+        // {
+        //     _speed = -_speed;
+        // }
     }
 }
