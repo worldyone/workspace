@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,20 +10,27 @@ public class BlockFactory : MonoBehaviour
     public int BlockNum
     {
         get { return _blockNum; }
-    }
-
-    void Start()
-    {
-        _blockNum = 10;
-
-        for (int i = 0; i < _blockNum; i++)
+        set
         {
-            Instantiate(block, new Vector3(-10.0f + i * 2, 1f, 20f), transform.rotation);
+            _blockNum = value;
         }
     }
 
-    void Update()
+    public void MakeStage1()
     {
+        _blockNum = 30;
 
+        for (int h = 0; h < _blockNum / 10; h++)
+        {
+            for (int w = 0; w < _blockNum / 3; w++)
+            {
+                Instantiate(block, new Vector3(-10.0f + w * 2, 1f, 12f + h * 2), transform.rotation);
+            }
+        }
+    }
+
+    public void BreakBlock()
+    {
+        _blockNum--;
     }
 }
