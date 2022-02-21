@@ -24,6 +24,9 @@ public class Ball : MonoBehaviour
 
             // ボールを削除
             Destroy(gameObject);
+
+            // もしボールの上下方向が0になってしまっているなら、少し下方向に追加修正
+            // todo:
         }
     }
 

@@ -20,6 +20,11 @@ public class Block : MonoBehaviour
     {
         blockFactoryComponent.BlockNum--;
 
+        if (Random.Range(0, 10) <= 5)
+        {
+            blockFactoryComponent.addPanel(transform.position);
+        }
+
         Destroy(gameObject);
     }
 }

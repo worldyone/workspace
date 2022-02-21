@@ -17,7 +17,7 @@ public class GameMgr : MonoBehaviour
         ballFactory = GameObject.Find("BallFactory");
         ballFactoryComponent = ballFactory.GetComponent<BallFactory>();
 
-        blockFactoryComponent.MakeStage2();
+        blockFactoryComponent.MakeStage1();
     }
 
     void Update()

@@ -6,6 +6,8 @@ using UnityEngine;
 public class BlockFactory : MonoBehaviour
 {
     public GameObject block;
+    GameObject panelFactory;
+    PanelFactory panelFactoryComponent;
     int _blockNum;
     public int BlockNum
     {
@@ -14,6 +16,22 @@ public class BlockFactory : MonoBehaviour
         {
             _blockNum = value;
         }
+    }
+
+    void Start()
+    {
+        panelFactory = GameObject.Find("PanelFactory");
+        panelFactoryComponent = panelFactory.GetComponent<PanelFactory>();
+    }
+
+    internal void addPanel(Vector3 position)
+    {
+        panelFactoryComponent.addPanel(position);
+    }
+
+    public void BreakBlock()
+    {
+        _blockNum--;
     }
 
     public void MakeStage1()
@@ -37,10 +55,5 @@ public class BlockFactory : MonoBehaviour
         {
             Instantiate(block, new Vector3(-10.0f + w * 2, 1f, 12f), transform.rotation);
         }
-    }
-
-    public void BreakBlock()
-    {
-        _blockNum--;
     }
 }
