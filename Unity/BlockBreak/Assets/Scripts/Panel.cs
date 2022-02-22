@@ -6,11 +6,13 @@ using static Global;
 
 public class Panel : MonoBehaviour
 {
+    PanelAttribute attribute;
+
     void Start()
     {
         // 属性をランダムに付与
         int no = UnityEngine.Random.Range(0, Enum.GetValues(typeof(PanelAttribute)).Length);
-        PanelAttribute attribute = (PanelAttribute)Enum.ToObject(typeof(PanelAttribute), no);
+        attribute = (PanelAttribute)Enum.ToObject(typeof(PanelAttribute), no);
 
         switch (attribute)
         {
@@ -45,6 +47,7 @@ public class Panel : MonoBehaviour
         // パドルと当たったら、取得処理
         if (name == "Paddle")
         {
+            GameMgr.getPanel(attribute);
             Destroy(gameObject);
         }
     }
