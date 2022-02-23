@@ -14,11 +14,12 @@ public class PanelFactory : MonoBehaviour
         speed = new Vector3(0.0f, 0.0f, -800.0f);
     }
 
-    internal void addPanel(Vector3 position)
+    public void addPanel(Vector3 position)
     {
         GameObject newPanel = Instantiate(panel, position, transform.rotation);
 
         Rigidbody _rigidbody = newPanel.GetComponent<Rigidbody>();
         _rigidbody.AddForce(speed);
     }
+
 }
