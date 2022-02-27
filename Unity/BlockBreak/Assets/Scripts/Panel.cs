@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static Global;
 
@@ -10,25 +8,8 @@ public class Panel : MonoBehaviour
 
     void Start()
     {
-        // 属性をランダムに付与
-        int no = UnityEngine.Random.Range(0, Enum.GetValues(typeof(PanelAttribute)).Length);
-        attribute = (PanelAttribute)Enum.ToObject(typeof(PanelAttribute), no);
-
-        switch (attribute)
-        {
-            case PanelAttribute.Fire:
-                // 赤色に変更する
-                gameObject.GetComponent<Renderer>().material.color = Color.red;
-                break;
-            case PanelAttribute.Water:
-                // 水色に変更する
-                gameObject.GetComponent<Renderer>().material.color = Color.blue;
-                break;
-            case PanelAttribute.Earth:
-                // 黄色に変更する
-                gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-        }
+        // 属性を付与する
+        grantAttribute();
     }
 
     void Update()
@@ -49,6 +30,29 @@ public class Panel : MonoBehaviour
         {
             GameMgr.getPanel(attribute);
             Destroy(gameObject);
+        }
+    }
+
+    void grantAttribute()
+    {
+        // 属性をランダムに付与
+        int no = UnityEngine.Random.Range(0, Enum.GetValues(typeof(PanelAttribute)).Length);
+        attribute = (PanelAttribute)Enum.ToObject(typeof(PanelAttribute), no);
+
+        switch (attribute)
+        {
+            case PanelAttribute.Fire:
+                // 赤色に変更する
+                gameObject.GetComponent<Renderer>().material.color = Color.red;
+                break;
+            case PanelAttribute.Water:
+                // 水色に変更する
+                gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case PanelAttribute.Earth:
+                // 黄色に変更する
+                gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+                break;
         }
     }
 

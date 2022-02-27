@@ -5,10 +5,11 @@ using static Global;
 
 public class GameMgr : MonoBehaviour
 {
-    GameObject blockFactory;
-    BlockFactory blockFactoryComponent;
-    GameObject ballFactory;
-    BallFactory ballFactoryComponent;
+    public GameObject element;
+    BlockFactory blockFactory;
+    BallFactory ballFactory;
+    PanelFactory panelFactory;
+    List<GameObject> displayedPanels;
 
     // グローバル
     static List<PanelAttribute> PanelAttributes;
@@ -17,32 +18,49 @@ public class GameMgr : MonoBehaviour
     {
         // 初期化
         PanelAttributes = new List<PanelAttribute>();
-        blockFactory = GameObject.Find("BlockFactory");
-        blockFactoryComponent = blockFactory.GetComponent<BlockFactory>();
-        ballFactory = GameObject.Find("BallFactory");
-        ballFactoryComponent = ballFactory.GetComponent<BallFactory>();
+        blockFactory = GameObject.Find("BlockFactory").GetComponent<BlockFactory>();
+        ballFactory = GameObject.Find("BallFactory").GetComponent<BallFactory>();
+        panelFactory = GameObject.Find("PanelFactory").GetComponent<PanelFactory>();
+
+        displayedPanels = new List<GameObject>();
+        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, -10f)));
+        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, -5f)));
+        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, 0f)));
 
         // ステージ生成
-        blockFactoryComponent.MakeStage1();
+        blockFactory.MakeStage1();
     }
 
     void Update()
     {
-        if (blockFactoryComponent.BlockNum <= 0)
+        // ゲームクリア・ゲームオーバー条件
+        if (blockFactory.BlockNum <= 0)
         {
             Debug.Log("Game Clear!");
         }
-
-        if (ballFactoryComponent.BallNum <= 0)
+        if (ballFactory.BallNum <= 0)
         {
             Debug.Log("Game Over");
         }
+
+        // パネル表示
+        displayPanel();
+
     }
 
     public static void getPanel(PanelAttribute attribute)
     {
         PanelAttributes.Add(attribute);
-        Debug.Log(PanelAttributes);
-        Debug.Log(PanelAttributes.Count);
+    }
+
+    void displayPanel()
+    {
+        // Vector3 position = DISPLAY_ELEMENT_POSITION;
+
+        foreach (PanelAttribute e in PanelAttributes)
+        {
+            // GameObject newElement = Instantiate(element, position, transform.rotation);
+            // position += new Vector3(0f, 50f, 0f);
+        }
     }
 }

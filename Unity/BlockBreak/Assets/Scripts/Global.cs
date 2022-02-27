@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Global
 {
     public static float OUT_OF_FIELD = -30.0f;
@@ -10,4 +12,6 @@ public class Global
         Water,
         Earth,
     }
+    public static int PANEL_MAX = 3;
+    public static Vector3 DISPLAY_ELEMENT_POSITION = new Vector3(0f, 0f, 0f);
 }
