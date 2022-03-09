@@ -22,11 +22,6 @@ public class GameMgr : MonoBehaviour
         ballFactory = GameObject.Find("BallFactory").GetComponent<BallFactory>();
         panelFactory = GameObject.Find("PanelFactory").GetComponent<PanelFactory>();
 
-        displayedPanels = new List<GameObject>();
-        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, -10f)));
-        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, -5f)));
-        displayedPanels.Add(panelFactory.add(new Vector3(20f, 1f, 0f)));
-
         // ステージ生成
         blockFactory.MakeStage1();
     }
@@ -44,7 +39,7 @@ public class GameMgr : MonoBehaviour
         }
 
         // パネル表示
-        displayPanel();
+        displayGotPanel();
 
     }
 
@@ -53,14 +48,17 @@ public class GameMgr : MonoBehaviour
         PanelAttributes.Add(attribute);
     }
 
-    void displayPanel()
+    void displayGotPanel()
     {
-        // Vector3 position = DISPLAY_ELEMENT_POSITION;
+        Vector3 position = DISPLAY_ELEMENT_POSITION;
+        displayedPanels = new List<GameObject>();
 
         foreach (PanelAttribute e in PanelAttributes)
         {
-            // GameObject newElement = Instantiate(element, position, transform.rotation);
-            // position += new Vector3(0f, 50f, 0f);
+            // GameObject panel = panelFactory.add(position);
+
+            // displayedPanels.Add(panelFactory.add(position));
+            // position += new Vector3(0f, 0f, 5f);
         }
     }
 }

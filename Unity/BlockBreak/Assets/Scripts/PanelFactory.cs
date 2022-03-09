@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Global;
 
 public class PanelFactory : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class PanelFactory : MonoBehaviour
 
     public GameObject add(Vector3 position)
     {
-        return Instantiate(panel, position, transform.rotation);
+        GameObject newPanel = Instantiate(panel, position, transform.rotation);
+        // PanelAttribute attribute = newPanel.GetComponent<Panel>().Attribute;
+
+        return newPanel;
     }
 
     public void addPanel(Vector3 position)

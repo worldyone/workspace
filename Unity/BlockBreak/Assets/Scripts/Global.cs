@@ -13,5 +13,5 @@ public class Global
         Earth,
     }
     public static int PANEL_MAX = 3;
-    public static Vector3 DISPLAY_ELEMENT_POSITION = new Vector3(0f, 0f, 0f);
+    public static Vector3 DISPLAY_ELEMENT_POSITION = new Vector3(20f, 1f, -10f);
 }
