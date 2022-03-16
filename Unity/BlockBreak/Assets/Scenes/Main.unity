@@ -949,6 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   element: {fileID: 555459184290200663, guid: 244f73a8f0df74c41986b5d7f6e2239e, type: 3}
+  gotPanel: {fileID: 2818380942364221707, guid: a7f1f2607d385444aabcc2821a27daa0, type: 3}
 --- !u!4 &1931677262
 Transform:
   m_ObjectHideFlags: 0
