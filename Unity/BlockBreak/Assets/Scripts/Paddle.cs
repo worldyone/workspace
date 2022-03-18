@@ -8,11 +8,17 @@ public class Paddle : MonoBehaviour
     public float Speed
     {
         get { return _speed; }
+        set { _speed = value; }
     }
     float _size;
     public float Size
     {
         get { return _size; }
+        set
+        {
+            _size = value;
+            transform.localScale = new Vector3(_size, transform.localScale.y, transform.localScale.z);
+        }
     }
     Vector3 _position;
     public Vector3 Position

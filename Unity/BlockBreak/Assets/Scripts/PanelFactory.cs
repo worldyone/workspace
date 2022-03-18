@@ -18,7 +18,6 @@ public class PanelFactory : MonoBehaviour
     public GameObject add(Vector3 position)
     {
         GameObject newPanel = Instantiate(panel, position, transform.rotation);
-        PanelAttribute attribute = newPanel.GetComponent<Panel>().Attribute;
 
         return newPanel;
     }

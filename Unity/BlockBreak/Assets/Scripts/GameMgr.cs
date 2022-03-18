@@ -9,11 +9,11 @@ public class GameMgr : MonoBehaviour
     public GameObject element;
     public GameObject gotPanel;
     BlockFactory blockFactory;
-    BallFactory ballFactory;
     PanelFactory panelFactory;
     List<GameObject> displayedPanels;
 
     // グローバル
+    static BallFactory ballFactory;
     static List<PanelAttribute> PanelAttributes;
 
     void Start()
@@ -54,10 +54,44 @@ public class GameMgr : MonoBehaviour
     {
         PanelAttributes.Add(attribute);
 
-        // 上限3つとするため、配列の2, 3, 4の要素を1, 2, 3に移す
-        if (PanelAttributes.Count > 3)
+        // Panelが3つ揃った時、3つのパターンによって効果を発揮して、取得Panelを削除する
+        if (PanelAttributes.Count >= 3)
         {
-            PanelAttributes = PanelAttributes.GetRange(1, 3);
+            List<PanelAttribute> pa = PanelAttributes;
+            exerciseByPanelPattern(pa);
+            PanelAttributes.Clear();
+        }
+    }
+
+    private static void exerciseByPanelPattern(List<PanelAttribute> panelAttributes)
+    {
+        List<PanelAttribute> pa = panelAttributes;
+        pa.Sort();
+        // PanelAttribute.Fire  : 0
+        // PanelAttribute.Water : 1
+        // PanelAttribute.Earth : 2
+
+        if (pa[0] == PanelAttribute.Fire
+            && pa[1] == PanelAttribute.Water
+            && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Size += 5.0f;
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Fire
+            && pa[1] == PanelAttribute.Fire
+            && pa[2] == PanelAttribute.Water)
+        {
+
+        }
+        else
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            Vector3 position = paddle.transform.position;
+            Vector3 speed = new Vector3(200.0f, 0, UnityEngine.Random.Range(800f, 880f));
+            ballFactory.SpawnBall(position, speed);
         }
     }
 
@@ -67,9 +101,13 @@ public class GameMgr : MonoBehaviour
         {
             coloredGotPanel(displayedPanels[i], PanelAttributes[i]);
         }
+        for (int i = 0; i < displayedPanels.Count - PanelAttributes.Count; i++)
+        {
+            coloredGotPanel(displayedPanels[displayedPanels.Count - 1 - i], null);
+        }
     }
 
-    private void coloredGotPanel(GameObject gameObject, PanelAttribute panelAttribute)
+    private void coloredGotPanel(GameObject gameObject, PanelAttribute? panelAttribute)
     {
         switch (panelAttribute)
         {
@@ -84,6 +122,10 @@ public class GameMgr : MonoBehaviour
             case PanelAttribute.Earth:
                 // 黄色に変更する
                 gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+            default:
+                // 白色に変更する
+                gameObject.GetComponent<Renderer>().material.color = Color.white;
                 break;
         }
     }

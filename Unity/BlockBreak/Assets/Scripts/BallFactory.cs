@@ -25,7 +25,7 @@ public class BallFactory : MonoBehaviour
         SpawnBall(position, speed);
     }
 
-    void SpawnBall(Vector3 position, Vector3 speed)
+    public void SpawnBall(Vector3 position, Vector3 speed)
     {
         GameObject newBall = Instantiate(ball, position, transform.rotation);
         _ballNum++;
