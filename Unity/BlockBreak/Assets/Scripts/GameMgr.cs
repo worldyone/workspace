@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static Global;
 
 public class GameMgr : MonoBehaviour
@@ -42,7 +43,7 @@ public class GameMgr : MonoBehaviour
         }
         if (ballFactory.BallNum <= 0)
         {
-            Debug.Log("Game Over");
+            SceneManager.LoadScene("GameOver");
         }
 
         // パネル表示
@@ -66,7 +67,7 @@ public class GameMgr : MonoBehaviour
     private static void exerciseByPanelPattern(List<PanelAttribute> panelAttributes)
     {
         List<PanelAttribute> pa = panelAttributes;
-        pa.Sort();
+        pa.Sort(); // Fire, Water, Earthの順番でソートされる
         // PanelAttribute.Fire  : 0
         // PanelAttribute.Water : 1
         // PanelAttribute.Earth : 2
