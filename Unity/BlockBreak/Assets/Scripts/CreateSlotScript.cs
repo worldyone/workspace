@@ -29,6 +29,8 @@ public class CreateSlotScript : MonoBehaviour
 
         int i = 0;
 
+        Debug.Log(itemList.Count);
+
         foreach (var item in itemList)
         {
             if (myStatus.GetItemFlag(item.GetItemName()))
@@ -38,7 +40,7 @@ public class CreateSlotScript : MonoBehaviour
                 //　スロットゲームオブジェクトの名前を設定
                 instanceSlot.name = "ItemSlot" + i++;
                 //　Scaleを設定しないと0になるので設定
-                instanceSlot.transform.localScale = new Vector3(1f, 1f, 1f);
+                instanceSlot.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 //　アイテム情報をスロットのProcessingSlotに設定する
                 instanceSlot.GetComponent<ProcessingSlot>().SetItemData(item);
             }

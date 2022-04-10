@@ -10,6 +10,11 @@ public class StartMenuButton : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
+    public void GotoEditSkill()
+    {
+        SceneManager.LoadScene("EditSkill");
+    }
+
     public void QuitGame()
     {
         Application.Quit();

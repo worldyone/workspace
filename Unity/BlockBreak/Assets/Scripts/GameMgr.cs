@@ -40,6 +40,7 @@ public class GameMgr : MonoBehaviour
         if (blockFactory.BlockNum <= 0)
         {
             Debug.Log("Game Clear!");
+            Time.timeScale = 0f;
         }
         if (ballFactory.BallNum <= 0)
         {
@@ -72,27 +73,67 @@ public class GameMgr : MonoBehaviour
         // PanelAttribute.Water : 1
         // PanelAttribute.Earth : 2
 
-        if (pa[0] == PanelAttribute.Fire
-            && pa[1] == PanelAttribute.Water
-            && pa[2] == PanelAttribute.Earth)
+        if (pa[0] == PanelAttribute.Fire && pa[1] == PanelAttribute.Fire && pa[2] == PanelAttribute.Fire)
         {
             Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
-            paddle.Size += 5.0f;
             paddle.Speed += 10.0f;
             Debug.Log("Power Up!!");
         }
-        else if (pa[0] == PanelAttribute.Fire
-            && pa[1] == PanelAttribute.Fire
-            && pa[2] == PanelAttribute.Water)
+        else if (pa[0] == PanelAttribute.Water && pa[1] == PanelAttribute.Water && pa[2] == PanelAttribute.Water)
         {
-
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Size += 5.0f;
+            Debug.Log("Power Up!!");
         }
-        else
+        else if (pa[0] == PanelAttribute.Earth && pa[1] == PanelAttribute.Earth && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Fire && pa[1] == PanelAttribute.Fire && pa[2] == PanelAttribute.Water)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Fire && pa[1] == PanelAttribute.Fire && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Fire && pa[1] == PanelAttribute.Water && pa[2] == PanelAttribute.Water)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Water && pa[1] == PanelAttribute.Water && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Fire && pa[1] == PanelAttribute.Earth && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else if (pa[0] == PanelAttribute.Water && pa[1] == PanelAttribute.Earth && pa[2] == PanelAttribute.Earth)
+        {
+            Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
+            paddle.Speed += 10.0f;
+            Debug.Log("Power Up!!");
+        }
+        else // pa[0] == Fire && pa[1] == Water && pa[2] == Earth
         {
             Paddle paddle = GameObject.Find("Paddle").GetComponent<Paddle>();
             Vector3 position = paddle.transform.position;
             Vector3 speed = new Vector3(200.0f, 0, UnityEngine.Random.Range(800f, 880f));
             ballFactory.SpawnBall(position, speed);
+            Debug.Log("Duplicate ball!!");
         }
     }
 

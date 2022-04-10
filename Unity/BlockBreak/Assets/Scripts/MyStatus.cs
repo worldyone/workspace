@@ -19,9 +19,14 @@ public class MyStatus : MonoBehaviour
             itemFlags.Add(item.GetItemName(), false);
         }
         //　とりあえず適当にアイテムを持っていることにする
-        itemFlags["FlashLight"] = true;
-        itemFlags["BroadSword"] = true;
-        itemFlags["HandGun"] = true;
+        itemFlags["skill1"] = true;
+        itemFlags["skill2"] = true;
+        itemFlags["skill3"] = true;
+        itemFlags["skill4"] = true;
+        itemFlags["skill5"] = true;
+        itemFlags["skill6"] = true;
+        itemFlags["skill7"] = true;
+
     }
 
     //　アイテムを所持しているかどうか

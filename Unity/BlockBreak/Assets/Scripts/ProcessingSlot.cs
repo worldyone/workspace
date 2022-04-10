@@ -46,11 +46,7 @@ public class ProcessingSlot : MonoBehaviour
             Destroy(itemSlotTitleUIInstance);
         }
         //　アイテムの名前を表示するUIを位置を調整してインスタンス化
-        itemSlotTitleUIInstance = Instantiate<GameObject>(itemSlotTitleUI, new Vector2(transform.position.x - 25f, transform.position.y + 25f), Quaternion.identity, transform.parent.parent);
-        //　アイテム表示Textを取得
-        var itemSlotTitleText = itemSlotTitleUIInstance.GetComponentInChildren<Text>();
-        //　アイテム表示テキストに自身のアイテムの名前を表示
-        itemSlotTitleText.text = myItemData.GetItemName();
+        itemSlotTitleUIInstance = Instantiate<GameObject>(itemSlotTitleUI, new Vector2(transform.position.x, transform.position.y), Quaternion.identity, transform.parent.parent);
         //　情報表示テキストに自身のアイテムの情報を表示
         informationText.text = myItemData.GetItemInformation();
     }
