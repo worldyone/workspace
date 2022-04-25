@@ -22,9 +22,26 @@ public class GameSceneDirector : MonoBehaviour
     public List<GameObject> prefabWhiteUnits;
     public List<GameObject> prefabBlackUnits;
 
+    // 1:ポーン 2:ルーク 3:ナイト 4:ビショップ 5:クイーン 6:キング
+    public int[,] unitType =
+    {
+        {2, 1, 0, 0, 0, 0, 11, 12 },
+        {3, 1, 0, 0, 0, 0, 11, 13 },
+        {4, 1, 0, 0, 0, 0, 11, 14 },
+        {5, 1, 0, 0, 0, 0, 11, 15 },
+        {6, 1, 0, 0, 0, 0, 11, 16 },
+        {4, 1, 0, 0, 0, 0, 11, 14 },
+        {3, 1, 0, 0, 0, 0, 11, 13 },
+        {2, 1, 0, 0, 0, 0, 11, 12 },
+    };
+
     // Start is called before the first frame update
     void Start()
     {
+        // 内部データの初期化
+        tiles = new GameObject[TILE_X, TILE_Y];
+        units = new UnitController[TILE_X, TILE_Y];
+
         for (int i = 0; i < TILE_X; i++)
         {
             for (int j = 0; j < TILE_Y; j++)
@@ -40,6 +57,25 @@ public class GameSceneDirector : MonoBehaviour
 
                 tiles[i, j] = tile;
 
+                // ユニットの生成
+                int type = unitType[i, j] % 10;
+                int player = unitType[i, j] / 10;
+
+                GameObject prefab = getPrefabUnit(player, type);
+                GameObject unit = null;
+                UnitController ctrl = null;
+
+                if (null == prefab) continue;
+
+                pos.y += 1.5f;
+                unit = Instantiate(prefab);
+
+                // 初期化処理
+                ctrl = unit.GetComponent<UnitController>();
+                ctrl.SetUnit(player, (UnitController.TYPE)type, tile);
+
+                // 内部データセット
+                units[i, j] = ctrl;
             }
         }
     }
@@ -48,5 +84,17 @@ public class GameSceneDirector : MonoBehaviour
     void Update()
     {
 
+    }
+
+    GameObject getPrefabUnit(int player, int type)
+    {
+        int idx = type - 1;
+
+        if (0 > idx) return null;
+
+        GameObject prefab = prefabWhiteUnits[idx];
+        if (1 == player) prefab = prefabBlackUnits[idx];
+
+        return prefab;
     }
 }
