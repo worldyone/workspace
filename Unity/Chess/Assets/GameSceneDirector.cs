@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,9 @@ public class GameSceneDirector : MonoBehaviour
     GameObject txtResultInfo;
     GameObject btnApply;
     GameObject btnCancel;
+
+    // 選択ユニット
+    UnitController selectUnit;
 
     // Start is called before the first frame update
     void Start()
@@ -99,7 +103,68 @@ public class GameSceneDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject tile = null;
+        UnitController unit = null;
 
+        // プレイヤーの処理
+        if (Input.GetMouseButtonUp(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+            foreach (RaycastHit hit in Physics.RaycastAll(ray))
+            {
+                if (hit.transform.name.Contains("Tile"))
+                {
+                    tile = hit.transform.gameObject;
+                    break;
+                }
+            }
+        }
+
+        // タイルが押されていなければ処理しない
+        if (null == tile) return;
+
+        // 選択されたタイルからユニット取得
+        Vector2Int tilepos = new Vector2Int(
+            (int)tile.transform.position.x + TILE_X / 2,
+            (int)tile.transform.position.z + TILE_Y / 2
+        );
+
+        // ユニット
+        unit = units[tilepos.x, tilepos.y];
+
+        // ユニット選択
+        if (null != unit && selectUnit != unit)
+        {
+            setSelectCursors(unit);
+        }
+
+    }
+
+    // 選択時の関数
+    void setSelectCursors(UnitController unit = null, bool setunit = true)
+    {
+        // TODO カーソル解除
+
+        // 選択ユニットの非選択状態
+        if (null != selectUnit)
+        {
+            selectUnit.SelectUnit(false);
+            selectUnit = null;
+        }
+
+        // なにもセットされないなら終了
+        if (null == unit) return;
+
+        // TODO カーソル作成
+
+        // 選択状態
+        if (setunit)
+        {
+            selectUnit = unit;
+            selectUnit.SelectUnit();
+        }
     }
 
     GameObject getPrefabUnit(int player, int type)
