@@ -35,9 +35,25 @@ public class GameSceneDirector : MonoBehaviour
         {2, 1, 0, 0, 0, 0, 11, 12 },
     };
 
+    // UI関連
+    GameObject txtTurnInfo;
+    GameObject txtResultInfo;
+    GameObject btnApply;
+    GameObject btnCancel;
+
     // Start is called before the first frame update
     void Start()
     {
+        // UIオブジェクト取得
+        txtTurnInfo = GameObject.Find("TextTurnInfo");
+        txtResultInfo = GameObject.Find("TextResultInfo");
+        btnApply = GameObject.Find("ButtonApply");
+        btnCancel = GameObject.Find("ButtonCancel");
+
+        // リザルト関連は非表示
+        btnApply.SetActive(false);
+        btnCancel.SetActive(false);
+
         // 内部データの初期化
         tiles = new GameObject[TILE_X, TILE_Y];
         units = new UnitController[TILE_X, TILE_Y];
