@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,105 @@ public class UnitController : MonoBehaviour
         Type = type;
         MoveUnit(tile);
         ProgressTurnCount = -1; // 初期状態に戻す
+    }
+
+    // 移動可能範囲取得
+    public List<Vector2Int> GetMovableTiles(UnitController[,] units, bool checkking = true)
+    {
+        List<Vector2Int> ret = new List<Vector2Int>();
+
+        // クイーン
+        if (TYPE.QUEEN == Type)
+        {
+            ret = getMovableTiles(units, TYPE.ROOK);
+            // ret += getMovableTiles(units, TYPE.BISHOP);
+        }
+        else if (TYPE.KING == Type)
+        {
+            ret = getMovableTiles(units, TYPE.KING);
+
+            // TODO 敵の移動範囲にはいけないようにする
+        }
+        else
+        {
+            ret = getMovableTiles(units, Type);
+        }
+
+        return ret;
+    }
+
+    // 移動可能範囲を返す（プレーンな状態）
+    List<Vector2Int> getMovableTiles(UnitController[,] units, TYPE type)
+    {
+        List<Vector2Int> ret = new List<Vector2Int>();
+
+        // ポーン
+        if (TYPE.PAWN == type)
+        {
+            int dir = 1;
+            if (1 == Player) dir = -1;
+
+            // 前方2マス
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(0, 1 * dir),
+                new Vector2Int(0, 2 * dir),
+            };
+
+            // 2回目以降は1マスしかすすめない
+            if (-1 < ProgressTurnCount) vec.RemoveAt(vec.Count - 1);
+
+            // 前方
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+                if (null != units[checkpos.x, checkpos.y]) break;
+
+                ret.Add(checkpos);
+            }
+
+            // 取れる時は斜めに進める
+            vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1, 1 * dir),
+                new Vector2Int(1, 1 * dir),
+            };
+
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                // アンパッサン
+                if (null != getEnPassantUnit(units, checkpos))
+                {
+                    ret.Add(checkpos);
+                    continue;
+                }
+
+                // なにもない
+                if (null == units[checkpos.x, checkpos.y]) continue;
+
+                // 自軍のユニットは無視
+                if (Player == units[checkpos.x, checkpos.y].Player) continue;
+
+                // 追加
+                ret.Add(checkpos);
+            }
+        }
+
+        return ret;
+    }
+
+    bool isCheckable(UnitController[,] ary, Vector2Int idx)
+    {
+        if (idx.x < 0 || ary.GetLength(0) <= idx.x
+            || idx.y < 0 || ary.GetLength(1) <= idx.y)
+        {
+            return false;
+        }
+        return true;
     }
 
     // 選択時の処理
