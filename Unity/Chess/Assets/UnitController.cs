@@ -144,6 +144,42 @@ public class UnitController : MonoBehaviour
             }
         }
 
+        // ルーク
+        if (TYPE.ROOK == type)
+        {
+            // 上下左右ユニットぶつかるまでどこまでも進める
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(0, 1),
+                new Vector2Int(0, -1),
+                new Vector2Int(1, 0),
+                new Vector2Int(-1, 0),
+            };
+
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                while (isCheckable(units, checkpos))
+                {
+                    // 誰かいたら終了
+                    if (null != units[checkpos.x, checkpos.y])
+                    {
+                        if (Player != units[checkpos.x, checkpos.y].Player)
+                        {
+                            ret.Add(checkpos);
+                        }
+
+                        break;
+                    }
+
+                    ret.Add(checkpos);
+                    checkpos += v;
+                }
+            }
+
+
+        }
+
         return ret;
     }
 
