@@ -145,9 +145,9 @@ public class UnitController : MonoBehaviour
         }
 
         // ルーク
-        if (TYPE.ROOK == type)
+        else if (TYPE.ROOK == type)
         {
-            // 上下左右ユニットぶつかるまでどこまでも進める
+            // 上下左右にユニットがぶつかるまでどこまでも進める
             List<Vector2Int> vec = new List<Vector2Int>()
             {
                 new Vector2Int(0, 1),
@@ -176,8 +176,72 @@ public class UnitController : MonoBehaviour
                     checkpos += v;
                 }
             }
+        }
 
+        // ナイト
+        else if (TYPE.KNIGHT == type)
+        {
+            // 八方桂の位置に進める
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1, 2),
+                new Vector2Int(-2, 1),
+                new Vector2Int(1, 2),
+                new Vector2Int(2, 1),
+                new Vector2Int(-1, -2),
+                new Vector2Int(-2, -1),
+                new Vector2Int(1, -2),
+                new Vector2Int(2, -1),
+            };
 
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                // 同じプレイヤーの場所へは行けない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+
+                ret.Add(checkpos);
+            }
+        }
+
+        // ビショップ
+        else if (TYPE.BISHOP == type)
+        {
+            // 上下左右斜めにユニットがぶつかるまでどこまでも進める
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(1, 1),
+                new Vector2Int(1, -1),
+                new Vector2Int(-1, 1),
+                new Vector2Int(-1, -1),
+            };
+
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                while (isCheckable(units, checkpos))
+                {
+                    // 誰かいたら終了
+                    if (null != units[checkpos.x, checkpos.y])
+                    {
+                        if (Player != units[checkpos.x, checkpos.y].Player)
+                        {
+                            ret.Add(checkpos);
+                        }
+
+                        break;
+                    }
+
+                    ret.Add(checkpos);
+                    checkpos += v;
+                }
+            }
         }
 
         return ret;
