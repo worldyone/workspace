@@ -27,23 +27,23 @@ public class GameSceneDirector : MonoBehaviour
     // 1:ポーン 2:ルーク 3:ナイト 4:ビショップ 5:クイーン 6:キング
     public int[,] unitType =
     {
-        // {2, 1, 0, 0, 0, 0, 11, 12 },
-        // {3, 1, 0, 0, 0, 0, 11, 13 },
-        // {4, 1, 0, 0, 0, 0, 11, 14 },
-        // {5, 1, 0, 0, 0, 0, 11, 15 },
-        // {6, 1, 0, 0, 0, 0, 11, 16 },
-        // {4, 1, 0, 0, 0, 0, 11, 14 },
-        // {3, 1, 0, 0, 0, 0, 11, 13 },
-        // {2, 1, 0, 0, 0, 0, 11, 12 },
+        {2, 1, 0, 0, 0, 0, 11, 12 },
+        {3, 1, 0, 0, 0, 0, 11, 13 },
+        {4, 1, 0, 0, 0, 0, 11, 14 },
+        {5, 1, 0, 0, 0, 0, 11, 15 },
+        {6, 1, 0, 0, 0, 0, 11, 16 },
+        {4, 1, 0, 0, 0, 0, 11, 14 },
+        {3, 1, 0, 0, 0, 0, 11, 13 },
+        {2, 1, 0, 0, 0, 0, 11, 12 },
 
-        {2, 0, 0, 0, 0, 0, 11, 12 },
-        {0, 0, 0, 0, 0, 0, 11, 13 },
-        {0, 0, 0, 0, 0, 0, 11, 14 },
-        {5, 0, 0, 0, 0, 0, 11, 15 },
-        {6, 0, 0, 0, 0, 0, 11, 16 },
-        {0, 0, 0, 0, 0, 0, 11, 14 },
-        {0, 0, 0, 0, 0, 0, 11, 13 },
-        {2, 0, 0, 0, 0, 0, 11, 12 },
+        // {2, 0, 0, 0, 0, 0, 11, 12 },
+        // {0, 0, 0, 0, 0, 0, 11, 13 },
+        // {0, 0, 0, 0, 0, 0, 11, 14 },
+        // {5, 0, 0, 0, 0, 0, 11, 15 },
+        // {6, 0, 0, 0, 0, 0, 11, 16 },
+        // {0, 0, 0, 0, 0, 0, 11, 14 },
+        // {0, 0, 0, 0, 0, 0, 11, 13 },
+        // {2, 0, 0, 0, 0, 0, 11, 12 },
     };
 
     // UI関連
@@ -203,6 +203,19 @@ public class GameSceneDirector : MonoBehaviour
         }
 
         // アンパッサン
+        if (UnitController.TYPE.PAWN == selectUnit.Type)
+        {
+            foreach (var v in getUnits(getNextPlayer()))
+            {
+                if (!v.Status.Contains(UnitController.STATUS.EN_PASSANT)) continue;
+
+                // 置いた場所がアンパッサン対象か
+                if (selectUnit.Pos == v.OldPos)
+                {
+                    Destroy(v.gameObject);
+                }
+            }
+        }
 
         // プロモーション
 
@@ -375,7 +388,7 @@ public class GameSceneDirector : MonoBehaviour
         return ret;
     }
 
-    /// 指定された配列をコピーして返す
+    // 指定された配列をコピーして返す
     public static UnitController[,] GetCopyArray(UnitController[,] org)
     {
         UnitController[,] ret = new UnitController[org.GetLength(0), org.GetLength(1)];
