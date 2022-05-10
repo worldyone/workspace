@@ -66,12 +66,19 @@ public class UnitController : MonoBehaviour
         // クイーン
         if (TYPE.QUEEN == Type)
         {
+            // ルークとビショップの動きを合成
             ret = getMovableTiles(units, TYPE.ROOK);
-            // ret += getMovableTiles(units, TYPE.BISHOP);
+            foreach (var v in getMovableTiles(units, TYPE.BISHOP))
+            {
+                if (!ret.Contains(v)) ret.Add(v);
+            }
         }
         else if (TYPE.KING == Type)
         {
             ret = getMovableTiles(units, TYPE.KING);
+
+            // 相手の移動範囲を考慮しない
+            if (!checkking) return ret;
 
             // TODO 敵の移動範囲にはいけないようにする
         }
@@ -242,6 +249,42 @@ public class UnitController : MonoBehaviour
                     checkpos += v;
                 }
             }
+        }
+
+        // キング
+        else if (TYPE.KING == type)
+        {
+            // 周り1マスすべてに進める
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(1, 1),
+                new Vector2Int(1, 0),
+                new Vector2Int(1, -1),
+                new Vector2Int(0, 1),
+                new Vector2Int(0, -1),
+                new Vector2Int(-1, 1),
+                new Vector2Int(-1, 0),
+                new Vector2Int(-1, -1),
+            };
+
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                // 同じプレイヤーの場所へは行けない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+
+                ret.Add(checkpos);
+            }
+
+            // TODO
+            // キャスリング
+
         }
 
         return ret;
