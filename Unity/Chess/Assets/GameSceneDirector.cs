@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameSceneDirector : MonoBehaviour
 {
@@ -26,14 +27,23 @@ public class GameSceneDirector : MonoBehaviour
     // 1:ポーン 2:ルーク 3:ナイト 4:ビショップ 5:クイーン 6:キング
     public int[,] unitType =
     {
-        {2, 1, 0, 0, 0, 0, 11, 12 },
-        {3, 1, 0, 0, 0, 0, 11, 13 },
-        {4, 1, 0, 0, 0, 0, 11, 14 },
-        {5, 1, 0, 0, 0, 0, 11, 15 },
-        {6, 1, 0, 0, 0, 0, 11, 16 },
-        {4, 1, 0, 0, 0, 0, 11, 14 },
-        {3, 1, 0, 0, 0, 0, 11, 13 },
-        {2, 1, 0, 0, 0, 0, 11, 12 },
+        // {2, 1, 0, 0, 0, 0, 11, 12 },
+        // {3, 1, 0, 0, 0, 0, 11, 13 },
+        // {4, 1, 0, 0, 0, 0, 11, 14 },
+        // {5, 1, 0, 0, 0, 0, 11, 15 },
+        // {6, 1, 0, 0, 0, 0, 11, 16 },
+        // {4, 1, 0, 0, 0, 0, 11, 14 },
+        // {3, 1, 0, 0, 0, 0, 11, 13 },
+        // {2, 1, 0, 0, 0, 0, 11, 12 },
+
+        {2, 0, 0, 0, 0, 0, 11, 12 },
+        {0, 0, 0, 0, 0, 0, 11, 13 },
+        {0, 0, 0, 0, 0, 0, 11, 14 },
+        {5, 0, 0, 0, 0, 0, 11, 15 },
+        {6, 0, 0, 0, 0, 0, 11, 16 },
+        {0, 0, 0, 0, 0, 0, 11, 14 },
+        {0, 0, 0, 0, 0, 0, 11, 13 },
+        {2, 0, 0, 0, 0, 0, 11, 12 },
     };
 
     // UI関連
@@ -175,6 +185,22 @@ public class GameSceneDirector : MonoBehaviour
     void statusUpdateMode()
     {
         // キャスリング
+        if (selectUnit.Status.Contains(UnitController.STATUS.QSIDE_CASTLING))
+        {
+            // 左端のルーク
+            UnitController unit = units[0, selectUnit.Pos.y];
+            Vector2Int tile = new Vector2Int(selectUnit.Pos.x + 1, selectUnit.Pos.y);
+
+            moveUnit(unit, tile);
+        }
+        else if (selectUnit.Status.Contains(UnitController.STATUS.KSIDE_CASTLING))
+        {
+            // 右端のルーク
+            UnitController unit = units[TILE_X - 1, selectUnit.Pos.y];
+            Vector2Int tile = new Vector2Int(selectUnit.Pos.x - 1, selectUnit.Pos.y);
+
+            moveUnit(unit, tile);
+        }
 
         // アンパッサン
 
@@ -494,5 +520,10 @@ public class GameSceneDirector : MonoBehaviour
         }
 
         return ret;
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }

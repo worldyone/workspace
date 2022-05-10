@@ -100,7 +100,19 @@ public class UnitController : MonoBehaviour
             {
                 ret.Remove(v);
 
-                // TODO キャスリングできる時だけ真横のタイルも全て削除する
+                // キャスリングできる時だけ真横のタイルも全て削除する
+                if (-1 < ProgressTurnCount || Pos.y != v.y) continue;
+
+                // 方向
+                int dir = -1;
+                int cnt = units.GetLength(0);
+                if (0 > Pos.x - v.x) dir = 1;
+
+                for (int i = 0; i < cnt; i++)
+                {
+                    Vector2Int del = new Vector2Int(v.x + (i * dir), v.y);
+                    ret.Remove(del);
+                }
             }
         }
         else
@@ -303,8 +315,57 @@ public class UnitController : MonoBehaviour
                 ret.Add(checkpos);
             }
 
-            // TODO
             // キャスリング
+            // 初動じゃないならば出来ない
+            if (-1 != ProgressTurnCount) return ret;
+
+            // チェックされていたら出来ない
+            if (Status.Contains(STATUS.CHECK)) return ret;
+
+            // キャスリングの移動場所
+            vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-2, 0),
+                new Vector2Int(2, 0),
+            };
+
+            foreach (var v in vec)
+            {
+                // 左ルーク
+                int posx = 0;
+                int dir = -1;
+                // 右ルーク
+                if (0 < v.x)
+                {
+                    dir = 1;
+                    posx = units.GetLength(0) - 1;
+                }
+
+                // 端にいるかどうか
+                if (null == units[posx, Pos.y]) continue;
+
+                // ルークじゃない
+                if (TYPE.ROOK != units[posx, Pos.y].Type) continue;
+
+                // 初動じゃない
+                if (-1 != units[posx, Pos.y].ProgressTurnCount) continue;
+
+                // 移動する途中に誰かいる
+                bool lineok = true;
+                int cnt = Mathf.Abs(Pos.x - posx);
+                for (int i = 1; i < cnt; i++)
+                {
+                    if (null != units[Pos.x + (i * dir), Pos.y])
+                    {
+                        lineok = false;
+                    }
+                }
+                if (!lineok) continue;
+
+                Vector2Int checkpos = Pos + v;
+                ret.Add(checkpos);
+
+            }
 
         }
 
