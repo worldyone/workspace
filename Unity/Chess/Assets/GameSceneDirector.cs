@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 public class GameSceneDirector : MonoBehaviour
 {
+    public bool debug = false;
+    float debtimer;
+
     // ゲーム設定
     public const int TILE_X = 8;
     public const int TILE_Y = 8;
@@ -36,15 +39,6 @@ public class GameSceneDirector : MonoBehaviour
         {4, 1, 0, 0, 0, 0, 11, 14 },
         {3, 1, 0, 0, 0, 0, 11, 13 },
         {2, 1, 0, 0, 0, 0, 11, 12 },
-
-        // {2, 0, 0, 0, 0, 0, 11, 12 },
-        // {0, 0, 0, 0, 0, 0, 11, 13 },
-        // {0, 0, 0, 0, 0, 0, 11, 14 },
-        // {5, 0, 0, 0, 0, 0, 11, 15 },
-        // {6, 0, 0, 0, 0, 0, 11, 16 },
-        // {0, 0, 0, 0, 0, 0, 11, 14 },
-        // {0, 0, 0, 0, 0, 0, 11, 13 },
-        // {2, 0, 0, 0, 0, 0, 11, 12 },
     };
 
     // UI関連
@@ -159,6 +153,18 @@ public class GameSceneDirector : MonoBehaviour
         else if (MODE.TURN_CHANGE == nowMode)
         {
             turnChangeMode();
+        }
+        else if (MODE.RESULT == nowMode)
+        {
+            if (debug)
+            {
+                debtimer += Time.deltaTime;
+                if (2 < debtimer)
+                {
+                    print("勝敗 " + txtResultInfo.GetComponent<UnityEngine.UI.Text>().text);
+                    Retry();
+                }
+            }
         }
 
         // モード変更
