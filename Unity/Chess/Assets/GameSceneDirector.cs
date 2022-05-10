@@ -202,9 +202,10 @@ public class GameSceneDirector : MonoBehaviour
             moveUnit(unit, tile);
         }
 
-        // アンパッサン
+        // アンパッサンとプロモーション
         if (UnitController.TYPE.PAWN == selectUnit.Type)
         {
+            // アンパッサン
             foreach (var v in getUnits(getNextPlayer()))
             {
                 if (!v.Status.Contains(UnitController.STATUS.EN_PASSANT)) continue;
@@ -215,9 +216,25 @@ public class GameSceneDirector : MonoBehaviour
                     Destroy(v.gameObject);
                 }
             }
+
+            // プロモーション
+            int py = TILE_Y - 1;
+            if (selectUnit.Player == 1) py = 0;
+
+            // 端に到達
+            if (py == selectUnit.Pos.y)
+            {
+                // クイーン固定
+                GameObject prefab = getPrefabUnit(nowPlayer, (int)UnitController.TYPE.QUEEN);
+                UnitController unit = Instantiate(prefab).GetComponent<UnitController>();
+                GameObject tile = tiles[selectUnit.Pos.x, selectUnit.Pos.y];
+
+                unit.SetUnit(selectUnit.Player, UnitController.TYPE.QUEEN, tile);
+                moveUnit(unit, new Vector2Int(selectUnit.Pos.x, selectUnit.Pos.y));
+
+            }
         }
 
-        // プロモーション
 
         // ターン経過
         foreach (var v in getUnits(nowPlayer))
