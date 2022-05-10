@@ -80,7 +80,28 @@ public class UnitController : MonoBehaviour
             // 相手の移動範囲を考慮しない
             if (!checkking) return ret;
 
-            // TODO 敵の移動範囲にはいけないようにする
+            // 削除対象のタイル
+            List<Vector2Int> removetiles = new List<Vector2Int>();
+            // 敵の移動範囲にはいけないようにする
+            foreach (var v in ret)
+            {
+                // 移動した状態を作る
+                UnitController[,] copyunits2 = GameSceneDirector.GetCopyArray(units);
+                copyunits2[Pos.x, Pos.y] = null;
+                copyunits2[v.x, v.y] = this;
+
+                int checkcount = GameSceneDirector.GetCheckUnits(copyunits2, Player, false).Count;
+
+                if (0 < checkcount) removetiles.Add(v);
+            }
+
+            // 敵の移動可能範囲と被るタイルを削除する
+            foreach (var v in removetiles)
+            {
+                ret.Remove(v);
+
+                // TODO キャスリングできる時だけ真横のタイルも全て削除する
+            }
         }
         else
         {
