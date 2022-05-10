@@ -73,6 +73,12 @@ public class GameSceneDirector : MonoBehaviour
     MODE nowMode, nextMode;
     int nowPlayer;
 
+    // 前回ユニット削除からの経過ターン
+    int prevDestoryTurn;
+
+    // 前回の盤面
+    List<UnitController[,]> prevUnits;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +96,7 @@ public class GameSceneDirector : MonoBehaviour
         tiles = new GameObject[TILE_X, TILE_Y];
         units = new UnitController[TILE_X, TILE_Y];
         cursors = new List<GameObject>();
+        prevUnits = new List<UnitController[,]>();
 
         for (int i = 0; i < TILE_X; i++)
         {
@@ -170,6 +177,12 @@ public class GameSceneDirector : MonoBehaviour
         // Infoの更新
         txtTurnInfo.GetComponent<UnityEngine.UI.Text>().text = "" + (nowPlayer + 1) + "Pの番です";
 
+        // 経過ターン（1P側にきたら1ターン経過する）
+        if (0 == nowPlayer)
+        {
+            prevDestoryTurn++;
+        }
+
         nextMode = MODE.CHECK_MATE;
     }
 
@@ -235,7 +248,6 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
-
         // ターン経過
         foreach (var v in getUnits(nowPlayer))
         {
@@ -258,9 +270,44 @@ public class GameSceneDirector : MonoBehaviour
         info.text = "";
 
         // --------------------
-        // TODO ドローのチェック
+        // 引き分けのチェック(簡易版)
         // --------------------
 
+        // ユニット数が1体ずつになったら引き分け
+        if (3 > getUnits().Count)
+        {
+            info.text = "チェックメイトできないので\n引き分け";
+            nextMode = MODE.RESULT;
+        }
+
+        // 50ターンの間、どのユニットも削除されなければ引き分け
+        if (50 < prevDestoryTurn)
+        {
+            info.text = "50ターンルールで\n引き分け";
+            nextMode = MODE.RESULT;
+        }
+
+        // 3回同じ盤面になったら引き分け
+        int prevcount = 0;
+        foreach (var v in prevUnits)
+        {
+            bool check = true;
+            for (int i = 0; i < v.GetLength(0); i++)
+            {
+                for (int j = 0; j < v.GetLength(1); j++)
+                {
+                    if (v[i, j] != units[i, j]) check = false;
+                }
+            }
+
+            if (check) prevcount++;
+        }
+
+        if (2 < prevcount)
+        {
+            info.text = "同じ盤面が続いたので\n引き分け";
+            nextMode = MODE.RESULT;
+        }
 
         // --------------------
         // チェックのチェック
@@ -305,6 +352,10 @@ public class GameSceneDirector : MonoBehaviour
 
             nextMode = MODE.RESULT;
         }
+
+        // 今回の盤面をコピー
+        UnitController[,] copyunits = GetCopyArray(units);
+        prevUnits.Add(copyunits);
 
         // 次のモードの準備
         if (MODE.RESULT == nextMode)
@@ -499,6 +550,7 @@ public class GameSceneDirector : MonoBehaviour
         if (null != units[tilepos.x, tilepos.y])
         {
             Destroy(units[tilepos.x, tilepos.y].gameObject);
+            prevDestoryTurn = 0;
         }
 
         // 新しい場所へ移動
@@ -555,5 +607,10 @@ public class GameSceneDirector : MonoBehaviour
     public void Retry()
     {
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void Title()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }
