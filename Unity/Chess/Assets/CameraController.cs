@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             float val = prevPosition.x - Input.mousePosition.x;
-            val *= -1;
+            val *= -0.1f;
 
             transform.RotateAround(lookatPosition, new Vector3(0, 1, 0), val);
             prevPosition = Input.mousePosition;

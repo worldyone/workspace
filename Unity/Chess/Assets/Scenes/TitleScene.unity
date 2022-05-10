@@ -905,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd73fe5f9c9d4524ba0d85370c40a5c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoRotate: 0
+  AutoRotate: 1
 --- !u!1 &1010184942
 GameObject:
   m_ObjectHideFlags: 0

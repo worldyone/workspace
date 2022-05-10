@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameSceneDirector : MonoBehaviour
 {
@@ -388,6 +389,35 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
+        // CPUの処理
+        while (TitleSceneDirector.PlayerCount <= nowPlayer && (null == selectUnit || null == tile))
+        {
+            // ユニット選択
+            if (null == selectUnit)
+            {
+                // 今回の全ユニット
+                List<UnitController> tmpunits = getUnits(nowPlayer);
+                // ランダムで1体選ぶ
+                UnitController tmp = tmpunits[Random.Range(0, tmpunits.Count)];
+                // ユニットがいるタイルを選択
+                tile = tiles[tmp.Pos.x, tmp.Pos.y];
+
+                // 一旦処理へ流す
+                break;
+            }
+
+            // ここから下はselectUnitが入った状態で来る
+            if (1 > movableTiles.Count)
+            {
+                setSelectCursors();
+                break;
+            }
+
+            // 移動可能範囲があればランダムで移動
+            int rnd = Random.Range(0, movableTiles.Count);
+            tile = tiles[movableTiles[rnd].x, movableTiles[rnd].y];
+        }
+
         // タイルが押されていなければ処理しない
         if (null == tile) return;
 
@@ -419,6 +449,18 @@ public class GameSceneDirector : MonoBehaviour
         {
             moveUnit(selectUnit, tilepos);
             nextMode = MODE.STATUS_UPDATE;
+        }
+
+        // 移動範囲だけ見られる
+        else if (null != unit && nowPlayer != unit.Player)
+        {
+            setSelectCursors(unit, false);
+        }
+
+        // 選択解除
+        else
+        {
+            setSelectCursors();
         }
 
     }
