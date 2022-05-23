@@ -14,6 +14,13 @@ public class Player
     // 相手の青いコマを取ったら得点
     public int Score;
 
+    // コンストラクタ
+    public Player(bool isPlayer, int playerno)
+    {
+        this.IsPlayer = isPlayer;
+        this.PlayerNo = playerno;
+    }
+
     // プレイヤーの名前を返す
     public string GetPlayerName()
     {

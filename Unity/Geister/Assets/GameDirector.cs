@@ -76,7 +76,81 @@ public class GameDirector : MonoBehaviour
     void Start()
     {
         // ユニットとフィールドを作成
+        List<int> p1rnd = getRandomList(UNIT_MAX, UNIT_MAX / 2);
+        List<int> p2rnd = getRandomList(UNIT_MAX, UNIT_MAX / 2);
+        int p1unit = 0;
+        int p2unit = 0;
 
+        unitData = new List<GameObject>[tileData.GetLength(0), tileData.GetLength(1)];
+
+        // プレイヤー設定
+        player = new Player[2]; // 2人対戦
+        player[0] = new Player(isPlayer[0], 1);
+        player[1] = new Player(isPlayer[0], 2);
+
+        // タイルとユニットの初期化
+        for (int i = 0; i < tileData.GetLength(0); i++)
+        {
+            for (int j = 0; j < tileData.GetLength(1); j++)
+            {
+                float x = j - (tileData.GetLength(1) / 2 - 0.5f);
+                float y = i - (tileData.GetLength(0) / 2 - 0.5f);
+
+                // タイルの配置
+                string resname = "";
+
+                // 1:通常タイル 2:ゴールタイル 4:1Pのゴール 8:2Pのゴール
+                int no = tileData[i, j];
+                if (4 == no || 8 == no) no = 5;
+
+                resname = "Cube (" + no + ")";
+
+                resourcesInstantiate(resname, new Vector3(x, 0.5f, y), Quaternion.identity);
+
+                // ユニット配置
+                unitData[i, j] = new List<GameObject>();
+
+                Vector3 angle = new Vector3(0, 0, 0);
+                int unittype = UnitController.TYPE_BLUE;
+
+                List<int> unitrnd = new List<int>();
+                int unitnum = -1;
+                resname = "Unit1";
+
+                // 1Pユニット配置
+                if (1 == initUnitData[i, j])
+                {
+                    unitrnd = p1rnd;
+                    unitnum = p1unit++;
+                }
+                else if (2 == initUnitData[i, j])
+                {
+                    unitrnd = p2rnd;
+                    unitnum = p2unit++;
+                    angle.y = 180;
+                }
+                else
+                {
+                    resname = "";
+                }
+
+                // 赤のユニットを配置するかチェック
+                if (-1 < unitrnd.IndexOf(unitnum))
+                {
+                    resname = "Unit2";
+                    unittype = UnitController.TYPE_RED;
+                }
+
+                GameObject unit = resourcesInstantiate(resname, new Vector3(x, 1f, y), Quaternion.Euler(angle));
+
+                if (null != unit)
+                {
+                    unit.GetComponent<UnitController>().PlayerNo = initUnitData[i, j];
+                    unit.GetComponent<UnitController>().Type = unittype;
+                    unitData[i, j].Add(unit);
+                }
+            }
+        }
 
     }
 
