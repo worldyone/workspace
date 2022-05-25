@@ -185,10 +185,38 @@ public class GameDirector : MonoBehaviour
         int x = (int)(pos.x + (tileData.GetLength(1) / 2 - 0.5f));
         int y = (int)(pos.z + (tileData.GetLength(0) / 2 - 0.5f));
 
+        // ユニット選択
         if (0 < unitData[y, x].Count
             && player[nowTurn].PlayerNo == unitData[y, x][0].GetComponent<UnitController>().PlayerNo)
         {
             print("現在のターンのユニットです");
+
+            if (null != selectUnit)
+            {
+                selectUnit.GetComponent<UnitController>().Select(false);
+            }
+
+            selectUnit = unitData[y, x][0];
+            oldX = x;
+            oldY = y;
+
+            selectUnit.GetComponent<UnitController>().Select();
+        }
+
+        // 移動先タイル選択
+        else if (null != selectUnit)
+        {
+            if (movableTile(oldX, oldY, x, y))
+            {
+                unitData[oldY, oldX].Clear();
+
+                pos.y += 0.5f;
+                selectUnit.transform.position = pos;
+
+                unitData[y, x].Add(selectUnit);
+
+                nextMode = MODE.FIELD_UPDATE;
+            }
         }
     }
 
@@ -233,6 +261,44 @@ public class GameDirector : MonoBehaviour
         }
 
         GameObject ret = Instantiate(prefab, pos, ang);
+        return ret;
+    }
+
+    // そこへ移動可能かどうか
+    bool movableTile(int oldx, int oldy, int x, int y)
+    {
+        bool ret = false;
+
+        // 差分を取得
+        int dx = Mathf.Abs(oldx - x);
+        int dy = Mathf.Abs(oldy - y);
+
+        // 斜めは進めない
+        if (1 < dx + dy)
+        {
+            ret = false;
+        }
+        // 壁以外
+        else if (1 == tileData[y, x]
+            || 2 == tileData[y, x]
+            || player[nowTurn].PlayerNo * 4 == tileData[y, x])
+        {
+            // 誰も乗っていない
+            if (0 == unitData[y, x].Count)
+            {
+                ret = true;
+
+            }
+            // 誰か乗っている
+            else
+            {
+                if (unitData[y, x][0].GetComponent<UnitController>().PlayerNo != player[nowTurn].PlayerNo)
+                {
+                    ret = true;
+                }
+            }
+        }
+
         return ret;
     }
 }
