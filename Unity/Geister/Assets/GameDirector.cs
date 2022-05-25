@@ -152,12 +152,44 @@ public class GameDirector : MonoBehaviour
             }
         }
 
+        nowTurn = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        selectMode();
 
+    }
+
+    void selectMode()
+    {
+        GameObject hitobj = null;
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                hitobj = hit.collider.gameObject;
+            }
+
+            print(hitobj);
+        }
+
+        if (null == hitobj) return;
+
+        Vector3 pos = hitobj.transform.position;
+        int x = (int)(pos.x + (tileData.GetLength(1) / 2 - 0.5f));
+        int y = (int)(pos.z + (tileData.GetLength(0) / 2 - 0.5f));
+
+        if (0 < unitData[y, x].Count
+            && player[nowTurn].PlayerNo == unitData[y, x][0].GetComponent<UnitController>().PlayerNo)
+        {
+            print("現在のターンのユニットです");
+        }
     }
 
     // ランダムの被らない数値をリストで返す
