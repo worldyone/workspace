@@ -153,13 +153,46 @@ public class GameDirector : MonoBehaviour
         }
 
         nowTurn = 0;
+        nextMode = MODE.MOVE_SELECT;
     }
 
     // Update is called once per frame
     void Update()
     {
-        selectMode();
+        mode();
 
+        if (MODE.NONE != nextMode) initMode(nextMode);
+
+    }
+
+    // メインモード
+    void mode()
+    {
+        if (MODE.MOVE_SELECT == nowMode)
+        {
+            selectMode();
+        }
+        else if (MODE.FIELD_UPDATE == nowMode)
+        {
+
+        }
+        else if (MODE.TURN_CHANGE == nowMode)
+        {
+
+        }
+
+    }
+
+    // 次のモードの準備
+    void initMode(MODE next)
+    {
+        if (MODE.MOVE_SELECT == next)
+        {
+            selectUnit = null;
+        }
+
+        nowMode = next;
+        nextMode = MODE.NONE;
     }
 
     void selectMode()
