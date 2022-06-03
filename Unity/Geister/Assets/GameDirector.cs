@@ -159,10 +159,26 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isWait()) return;
+
         mode();
 
         if (MODE.NONE != nextMode) initMode(nextMode);
 
+    }
+
+    // ウェイト
+    bool isWait()
+    {
+        bool ret = false;
+
+        if (0 < waitTime)
+        {
+            waitTime -= Time.deltaTime;
+            ret = true;
+        }
+
+        return ret;
     }
 
     // メインモード
