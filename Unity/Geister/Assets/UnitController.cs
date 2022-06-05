@@ -38,7 +38,7 @@ public class UnitController : MonoBehaviour
 
         if (!select)
         {
-            pos = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            pos = new Vector3(transform.position.x, 1.0f, transform.position.z);
         }
 
         transform.position = pos;
