@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -75,6 +76,13 @@ public class GameDirector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 画面上のオブジェクト取得
+        txtInfo = GameObject.Find("Info");
+        btnTurnEnd = GameObject.Find("Button (1)");
+        objCamera = GameObject.Find("Main Camera");
+
+        txtInfo.GetComponent<UnityEngine.UI.Text>().text = "";
+
         // ユニットとフィールドを作成
         List<int> p1rnd = getRandomList(UNIT_MAX, UNIT_MAX / 2);
         List<int> p2rnd = getRandomList(UNIT_MAX, UNIT_MAX / 2);
@@ -190,11 +198,11 @@ public class GameDirector : MonoBehaviour
         }
         else if (MODE.FIELD_UPDATE == nowMode)
         {
-
+            fieldUpdateMode();
         }
         else if (MODE.TURN_CHANGE == nowMode)
         {
-
+            turnChangeMode();
         }
 
     }
@@ -202,6 +210,8 @@ public class GameDirector : MonoBehaviour
     // 次のモードの準備
     void initMode(MODE next)
     {
+        updateHp();
+
         if (MODE.MOVE_SELECT == next)
         {
             selectUnit = null;
@@ -225,7 +235,6 @@ public class GameDirector : MonoBehaviour
                 hitobj = hit.collider.gameObject;
             }
 
-            print(hitobj);
         }
 
         if (null == hitobj) return;
@@ -238,8 +247,6 @@ public class GameDirector : MonoBehaviour
         if (0 < unitData[y, x].Count
             && player[nowTurn].PlayerNo == unitData[y, x][0].GetComponent<UnitController>().PlayerNo)
         {
-            print("現在のターンのユニットです");
-
             if (null != selectUnit)
             {
                 selectUnit.GetComponent<UnitController>().Select(false);
@@ -269,6 +276,67 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    void fieldUpdateMode()
+    {
+        for (int i = 0; i < unitData.GetLength(0); i++)
+        {
+            for (int j = 0; j < unitData.GetLength(1); j++)
+            {
+                // ゴールしてたら消す
+                if (1 == unitData[i, j].Count && player[nowTurn].PlayerNo * 4 == tileData[i, j])
+                {
+                    // 青だったら勝利
+                    if (UnitController.TYPE_BLUE == unitData[i, j][0].GetComponent<UnitController>().Type)
+                    {
+                        player[nowTurn].IsGoal = true;
+                    }
+
+                    Destroy(unitData[i, j][0]);
+                    unitData[i, j].RemoveAt(0);
+                }
+
+                // 2つ置いてあったら古いユニットを消す
+                if (1 < unitData[i, j].Count)
+                {
+                    // 赤ならダメージ
+                    if (UnitController.TYPE_RED == unitData[i, j][0].GetComponent<UnitController>().Type)
+                    {
+                        player[nowTurn].Hp--;
+                        waitTime = 1.5f;
+                    }
+                    // 青ならスコア加算
+                    else
+                    {
+                        player[nowTurn].Score++;
+                        waitTime = 1.5f;
+                    }
+
+                    Destroy(unitData[i, j][0]);
+                    unitData[i, j].RemoveAt(0);
+                }
+            }
+        }
+
+        nextMode = MODE.TURN_CHANGE;
+    }
+
+    void turnChangeMode()
+    {
+        // 次のターンへ
+        nowTurn = getNextTurn();
+        nextMode = MODE.MOVE_SELECT;
+    }
+
+    int getNextTurn()
+    {
+        int ret = nowTurn;
+
+        ret++;
+        if (1 < ret) ret = 0;
+
+        return ret;
+    }
+
     // ランダムの被らない数値をリストで返す
     List<int> getRandomList(int range = 8, int count = 4)
     {
@@ -282,7 +350,7 @@ public class GameDirector : MonoBehaviour
 
         while (true)
         {
-            int no = Random.Range(0, range);
+            int no = UnityEngine.Random.Range(0, range);
 
             // 入ってないならば追加する
             if (-1 == ret.IndexOf(no))
@@ -349,5 +417,19 @@ public class GameDirector : MonoBehaviour
         }
 
         return ret;
+    }
+
+    // HPのアップデート
+    void updateHp()
+    {
+        for (int i = 0; i < player.Length; i++)
+        {
+            GameObject obj = GameObject.Find(player[i].PlayerNo + "PText");
+            print(obj.name);
+            if (null == obj) continue;
+            string t = player[i].GetPlayerName() + " Hp : " + player[i].Hp + " Score : " + player[i].Score;
+
+            obj.GetComponent<UnityEngine.UI.Text>().text = t;
+        }
     }
 }
