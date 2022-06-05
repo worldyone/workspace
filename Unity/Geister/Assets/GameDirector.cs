@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
@@ -322,11 +324,28 @@ public class GameDirector : MonoBehaviour
 
     void turnChangeMode()
     {
-        // 次のターンへ
-        nowTurn = getNextTurn();
-        nextMode = MODE.MOVE_SELECT;
+        nextMode = MODE.NONE;
+
+        // 自分の勝ち
+        // ゴールしているか、スコアが全取得されているか
+        if (player[nowTurn].IsGoal || 4 <= player[nowTurn].Score)
+        {
+            txtInfo.GetComponent<UnityEngine.UI.Text>().text = player[nowTurn].GetPlayerName() + "の勝ち！";
+        }
+        // 相手の勝ち
+        else if (1 > player[nowTurn].Hp)
+        {
+            txtInfo.GetComponent<UnityEngine.UI.Text>().text = player[getNextTurn()].GetPlayerName() + "の勝ち！";
+        }
+        else
+        {
+            // 次のターンへ
+            nowTurn = getNextTurn();
+            nextMode = MODE.MOVE_SELECT;
+        }
     }
 
+    // 次のターンを取得
     int getNextTurn()
     {
         int ret = nowTurn;
@@ -425,11 +444,15 @@ public class GameDirector : MonoBehaviour
         for (int i = 0; i < player.Length; i++)
         {
             GameObject obj = GameObject.Find(player[i].PlayerNo + "PText");
-            print(obj.name);
             if (null == obj) continue;
             string t = player[i].GetPlayerName() + " Hp : " + player[i].Hp + " Score : " + player[i].Score;
 
             obj.GetComponent<UnityEngine.UI.Text>().text = t;
         }
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
