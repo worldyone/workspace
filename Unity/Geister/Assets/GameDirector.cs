@@ -95,8 +95,10 @@ public class GameDirector : MonoBehaviour
 
         // プレイヤー設定
         player = new Player[2]; // 2人対戦
-        player[0] = new Player(isPlayer[0], 1);
-        player[1] = new Player(isPlayer[0], 2);
+        // player[0] = new Player(isPlayer[0], 1);
+        // player[1] = new Player(isPlayer[0], 2);
+        player[0] = new Player(true, 1);
+        player[1] = new Player(false, 2);
 
         // タイルとユニットの初期化
         for (int i = 0; i < tileData.GetLength(0); i++)
@@ -225,6 +227,50 @@ public class GameDirector : MonoBehaviour
 
     void selectMode()
     {
+        // CPUの処理
+        if (!player[nowTurn].IsPlayer)
+        {
+            while (true)
+            {
+                selectUnit = null;
+
+                // ユニットをランダムで選択する
+                oldX = UnityEngine.Random.Range(0, unitData.GetLength(1));
+                oldY = UnityEngine.Random.Range(0, unitData.GetLength(0));
+
+                if (0 < unitData[oldY, oldX].Count
+                 && player[nowTurn].PlayerNo == unitData[oldY, oldX][0].GetComponent<UnitController>().PlayerNo)
+                {
+                    selectUnit = unitData[oldY, oldX][0];
+                }
+
+                // 移動先のタイルをランダムで選択する
+                if (null != selectUnit)
+                {
+                    int rndx = UnityEngine.Random.Range(0, unitData.GetLength(1));
+                    int rndy = UnityEngine.Random.Range(0, unitData.GetLength(0));
+
+                    if (movableTile(oldX, oldY, rndx, rndy))
+                    {
+                        Vector3 tpos = new Vector3(rndx - (tileData.GetLength(1) / 2 - 0.5f),
+                                                   1.0f,
+                                                   rndy - (tileData.GetLength(0) / 2 - 0.5f));
+
+                        unitData[oldY, oldX].Clear();
+                        selectUnit.transform.position = tpos;
+                        unitData[rndy, rndx].Add(selectUnit);
+
+                        break;
+                    }
+                }
+            }
+
+            nextMode = MODE.FIELD_UPDATE;
+            return;
+        }
+
+
+        // プレイヤーの処理
         GameObject hitobj = null;
 
         if (Input.GetMouseButtonUp(0))
