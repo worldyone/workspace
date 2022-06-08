@@ -95,10 +95,10 @@ public class GameDirector : MonoBehaviour
 
         // プレイヤー設定
         player = new Player[2]; // 2人対戦
-        // player[0] = new Player(isPlayer[0], 1);
-        // player[1] = new Player(isPlayer[0], 2);
-        player[0] = new Player(true, 1);
-        player[1] = new Player(false, 2);
+        player[0] = new Player(isPlayer[0], 1);
+        player[1] = new Player(isPlayer[0], 2);
+        // player[0] = new Player(true, 1);
+        // player[1] = new Player(false, 2);
 
         // タイルとユニットの初期化
         for (int i = 0; i < tileData.GetLength(0); i++)
@@ -218,7 +218,12 @@ public class GameDirector : MonoBehaviour
 
         if (MODE.MOVE_SELECT == next)
         {
+            btnTurnEnd.SetActive(false);
             selectUnit = null;
+        }
+        else if (MODE.WAIT_TURN_END == next)
+        {
+            btnTurnEnd.SetActive(true);
         }
 
         nowMode = next;
@@ -383,11 +388,20 @@ public class GameDirector : MonoBehaviour
         {
             txtInfo.GetComponent<UnityEngine.UI.Text>().text = player[getNextTurn()].GetPlayerName() + "の勝ち！";
         }
+        // 次のターンへ
         else
         {
-            // 次のターンへ
-            nowTurn = getNextTurn();
             nextMode = MODE.MOVE_SELECT;
+
+            int oldTurn = nowTurn;
+            nowTurn = getNextTurn();
+
+            // 次がプレイヤーだったら
+            if (player[oldTurn].IsPlayer && player[nowTurn].IsPlayer)
+            {
+                // ターンエンドを待つ
+                nextMode = MODE.WAIT_TURN_END;
+            }
         }
     }
 
@@ -497,8 +511,71 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    // シーン再読み込み
     public void RestartScene()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    // 対人戦ターン終了ボタン
+    public void TurnEnd()
+    {
+        // ターンのスタート
+        if (MODE.WAIT_TURN_START == nowMode)
+        {
+            // 1Pのカメラ
+            objCamera.transform.position = new Vector3(0, 5, -5);
+            objCamera.transform.eulerAngles = new Vector3(50, 0, 0);
+
+            // 2Pのカメラ
+            if (2 == player[nowTurn].PlayerNo)
+            {
+                objCamera.transform.position = new Vector3(0, 5, 5);
+                objCamera.transform.eulerAngles = new Vector3(50, 180, 0);
+            }
+
+            // 上空から見えるポッチ
+            foreach (GameObject obj in getUnits())
+            {
+                obj.transform.Find("Sphere").gameObject.SetActive(true);
+            }
+
+            nextMode = MODE.MOVE_SELECT;
+
+        }
+        else if (MODE.WAIT_TURN_END == nowMode)
+        {
+            // カメラを上にセット
+            objCamera.transform.position = new Vector3(0, 9, 0);
+            objCamera.transform.eulerAngles = new Vector3(90, 0, 0);
+
+            // 上空から見えるポッチを消す
+            foreach (GameObject obj in getUnits())
+            {
+                obj.transform.Find("Sphere").gameObject.SetActive(false);
+            }
+
+            nextMode = MODE.WAIT_TURN_START;
+
+        }
+
+
+    }
+
+    // 全ユニットを取得
+    List<GameObject> getUnits()
+    {
+        List<GameObject> ret = new List<GameObject>();
+
+        for (int i = 0; i < unitData.GetLength(0); i++)
+        {
+            for (int j = 0; j < unitData.GetLength(1); j++)
+            {
+                if (1 > unitData[i, j].Count) continue;
+                ret.AddRange(unitData[i, j]);
+            }
+        }
+
+        return ret;
     }
 }
