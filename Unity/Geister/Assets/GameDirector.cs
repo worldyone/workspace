@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class GameDirector : MonoBehaviour
 {
     // プレイヤー
-    public bool[] isPlayer;
     Player[] player;
     int nowTurn;
 
@@ -95,10 +94,13 @@ public class GameDirector : MonoBehaviour
 
         // プレイヤー設定
         player = new Player[2]; // 2人対戦
-        player[0] = new Player(isPlayer[0], 1);
-        player[1] = new Player(isPlayer[0], 2);
-        // player[0] = new Player(true, 1);
-        // player[1] = new Player(false, 2);
+        player[0] = new Player(false, 1);
+        player[1] = new Player(false, 2);
+
+        for (int i = 0; i < TitleSceneDirector.PlayerNum; i++)
+        {
+            player[i].IsPlayer = true;
+        }
 
         // タイルとユニットの初期化
         for (int i = 0; i < tileData.GetLength(0); i++)

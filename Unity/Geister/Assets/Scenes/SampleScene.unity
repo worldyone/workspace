@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 571761588}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 876789057}
+        m_TargetAssemblyTypeName: GameDirector, Assembly-CSharp
+        m_MethodName: TurnEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &571761588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b72c2be7fd46f34391f29e5f7bb0a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0100
+  isPlayer: 0101
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
