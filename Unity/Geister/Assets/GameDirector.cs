@@ -79,7 +79,7 @@ public class GameDirector : MonoBehaviour
     {
         // 画面上のオブジェクト取得
         txtInfo = GameObject.Find("Info");
-        btnTurnEnd = GameObject.Find("Button (1)");
+        btnTurnEnd = GameObject.Find("Button");
         objCamera = GameObject.Find("Main Camera");
 
         txtInfo.GetComponent<UnityEngine.UI.Text>().text = "";
