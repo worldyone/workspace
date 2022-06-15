@@ -7,12 +7,10 @@ public class Player : MonoBehaviour
 {
     public Text HPText;
     public Slider HPSlider;
-    Transform tf;
 
     // Start is called before the first frame update
     void Start()
     {
-        tf = GetComponent<Transform>();
         HPText.text = "50";
         HPSlider.value = 50;
     }
@@ -20,6 +18,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tf.position += new Vector3(1f, 0f, 0f);
+        transform.position += new Vector3(1f, 0f, 0f);
     }
 }
