@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int hp;
+    public int at;
+
+    public void Attack(UnitManager target)
     {
-        
+        target.Damage(at);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Damage(int damage)
     {
-        
+        hp -= damage;
+        Debug.Log(name + "は" + damage + "ダメージを受けた");
     }
 }
