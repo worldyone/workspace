@@ -10,7 +10,18 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // player.Attack(enemy);
+        // enemy.Attack(player);
+    }
+
+    public void OnAttackButton()
+    {
         player.Attack(enemy);
+        EnemyTurn();
+    }
+
+    void EnemyTurn()
+    {
         enemy.Attack(player);
     }
 
