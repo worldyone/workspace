@@ -5,6 +5,8 @@ using UnityEngine;
 // 対戦の管理
 public class BattleManager : MonoBehaviour
 {
+    public PlayerUIManager playerUI;
+    public EnemyUIManager enemyUI;
     public PlayerManager player;
     public EnemyManager enemy;
 
@@ -12,8 +14,10 @@ public class BattleManager : MonoBehaviour
     {
         // PlayerがEnemyに攻撃
         player.Attack(enemy);
+        enemyUI.UpdateUI(enemy);
 
         // EnemyがPlayerに攻撃
         enemy.Attack(player);
+        playerUI.UpdateUI(player);
     }
 }

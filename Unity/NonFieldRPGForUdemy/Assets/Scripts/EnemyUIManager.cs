@@ -8,8 +8,8 @@ public class EnemyUIManager : MonoBehaviour
     public Text hpText;
     public Text nameText;
 
-    public void UpdateUI()
+    public void UpdateUI(EnemyManager enemy)
     {
-        hpText.text = string.Format("HP：{0}", 80);
+        hpText.text = string.Format("HP：{0}", enemy.hp);
     }
 }
