@@ -410,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5737cd37ed1474491331038f806e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questManager: {fileID: 162629414}
   playerUI: {fileID: 1742012245}
   enemyUI: {fileID: 2091232024}
   player: {fileID: 759930417}
