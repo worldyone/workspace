@@ -20,10 +20,7 @@ public class EnemyManager : MonoBehaviour
     public void Damage(int damage)
     {
         hp -= damage;
-        if (hp <= 0)
-        {
-
-        }
+        hp = Math.Max(hp, 0);
     }
 
     // tapActionに関数を登録する関数
