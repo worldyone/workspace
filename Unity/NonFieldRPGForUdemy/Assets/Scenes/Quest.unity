@@ -367,6 +367,7 @@ MonoBehaviour:
   stageUI: {fileID: 1216062064}
   enemyPrefab: {fileID: 1195951032511078772, guid: 2b29b0f2f627aea4dbeee8b3079cba49, type: 3}
   battleManager: {fileID: 290703444}
+  sceneTransitionManager: {fileID: 873457761}
 --- !u!4 &162629415
 Transform:
   m_ObjectHideFlags: 0
@@ -810,6 +811,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &873457760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873457762}
+  - component: {fileID: 873457761}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &873457761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873457760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1636af6d046d40bdb856909d190cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &873457762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873457760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 321.56207, y: 1200.3391, z: -182.0685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1084980075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1291,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1710729796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 873457761}
+        m_TargetAssemblyTypeName: SceneTransitionManager, Assembly-CSharp
+        m_MethodName: LoadTo
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Town
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1710729796
 MonoBehaviour:
   m_ObjectHideFlags: 0
