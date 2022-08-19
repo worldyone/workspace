@@ -50,6 +50,8 @@ public class QuestManager : MonoBehaviour
 
     void QuestClear()
     {
-        sceneTransitionManager.LoadTo("Town");
+        // クエストクリアと表示する
+        // 街に戻るボタンのみ表示する
+
     }
 }

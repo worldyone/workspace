@@ -8,6 +8,12 @@ public class StageUIManager : MonoBehaviour
     public Text stageText;
     public GameObject nextButton;
     public GameObject toTownButton;
+    public GameObject stageClearText;
+
+    void Start()
+    {
+        stageClearText.SetActive(false);
+    }
 
     public void UpdateUI(int currentStage)
     {
@@ -18,6 +24,13 @@ public class StageUIManager : MonoBehaviour
     {
         nextButton.SetActive(seeable);
         toTownButton.SetActive(seeable);
+    }
+
+    public void ShowClearText()
+    {
+        stageClearText.SetActive(true);
+        nextButton.SetActive(false);
+        toTownButton.SetActive(true);
     }
 
 }
