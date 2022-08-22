@@ -20,6 +20,8 @@ public class QuestManager : MonoBehaviour
 
     public void OnNextButton()
     {
+        SoundManager.instance.PlaySE();
+
         currentStage++;
         stageUI.UpdateUI(currentStage);
 
@@ -33,6 +35,11 @@ public class QuestManager : MonoBehaviour
             Debug.Log("敵に遭遇した！");
             EncounterEnemy();
         }
+    }
+
+    public void OnToTownButton()
+    {
+        SoundManager.instance.PlaySE();
     }
 
     void EncounterEnemy()
