@@ -29,6 +29,7 @@ public class BattleManager : MonoBehaviour
 
     void PlayerAttack()
     {
+        StopAllCoroutines();
         SoundManager.instance.PlaySE(1);
         player.Attack(enemy);
         enemyUI.UpdateUI(enemy);
@@ -41,12 +42,14 @@ public class BattleManager : MonoBehaviour
         else
         {
             // まだ倒していないので、敵のターン
-            EnemyTurn();
+            StartCoroutine(EnemyTurn());
         }
     }
 
-    void EnemyTurn()
+    IEnumerator EnemyTurn()
     {
+        yield return new WaitForSeconds(1f);
+        SoundManager.instance.PlaySE(1);
         enemy.Attack(player);
         playerUI.UpdateUI(player);
     }
