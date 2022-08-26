@@ -6,6 +6,6 @@ public class TitleManager : MonoBehaviour
 {
     public void OnToTownButton()
     {
-        SoundManager.instance.PlaySE();
+        SoundManager.instance.PlaySE(0);
     }
 }

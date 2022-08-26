@@ -20,7 +20,7 @@ public class QuestManager : MonoBehaviour
 
     public void OnNextButton()
     {
-        SoundManager.instance.PlaySE();
+        SoundManager.instance.PlaySE(0);
 
         currentStage++;
         stageUI.UpdateUI(currentStage);
@@ -39,11 +39,12 @@ public class QuestManager : MonoBehaviour
 
     public void OnToTownButton()
     {
-        SoundManager.instance.PlaySE();
+        SoundManager.instance.PlaySE(0);
     }
 
     void EncounterEnemy()
     {
+        SoundManager.instance.PlayBGM("Battle");
         stageUI.ShowButtons(false);
         GameObject enemyObj = Instantiate(enemyPrefab);
         EnemyManager enemy = enemyObj.GetComponent<EnemyManager>();
@@ -52,12 +53,15 @@ public class QuestManager : MonoBehaviour
 
     public void EndBattle()
     {
+        SoundManager.instance.PlayBGM("Quest");
         stageUI.ShowButtons(true);
     }
 
     void QuestClear()
     {
         // クエストクリア
+        SoundManager.instance.StopBGM();
+        SoundManager.instance.PlaySE(2);
         stageUI.ShowClearText();
     }
 }

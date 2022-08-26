@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource audioSourceBGM; // BGMのスピーカー
     public AudioClip[] audioClipsBGM; // BGMの音源(0: Title, 1:Town, 2:Quest, 3:Battle)
     public AudioSource audioSourceSE; // SEのスピーカー
-    public AudioClip audioClip; // 音源
+    public AudioClip[] audioClipsSE; // 音源
 
     public void PlayBGM(string sceneName)
     {
@@ -45,9 +45,15 @@ public class SoundManager : MonoBehaviour
         }
         audioSourceBGM.Play();
     }
-    public void PlaySE()
+
+    public void StopBGM()
     {
-        audioSourceSE.PlayOneShot(audioClip);
+        audioSourceBGM.Stop();
+    }
+
+    public void PlaySE(int index)
+    {
+        audioSourceSE.PlayOneShot(audioClipsSE[index]);
     }
 
 }

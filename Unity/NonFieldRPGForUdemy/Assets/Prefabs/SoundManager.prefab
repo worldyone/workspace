@@ -148,7 +148,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 50e96ebb37589c84ea16358620cf3776, type: 3}
   - {fileID: 8300000, guid: d9dc644f3ee580643a9ecb9f9db807b3, type: 3}
   audioSourceSE: {fileID: 2276596803202010659}
-  audioClip: {fileID: 8300000, guid: b90a892eddbe26a49932bf321ac546c0, type: 3}
+  audioClipsSE:
+  - {fileID: 8300000, guid: b90a892eddbe26a49932bf321ac546c0, type: 3}
+  - {fileID: 8300000, guid: 65eb2f2135ab8c048924e5f09b058b3e, type: 3}
+  - {fileID: 8300000, guid: f030039d668fa1b4f8d61da68549629f, type: 3}
 --- !u!82 &2276596803202010659
 AudioSource:
   m_ObjectHideFlags: 0

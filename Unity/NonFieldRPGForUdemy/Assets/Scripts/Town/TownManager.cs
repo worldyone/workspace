@@ -6,7 +6,7 @@ public class TownManager : MonoBehaviour
 {
     public void OnToQuestButton()
     {
-        SoundManager.instance.PlaySE();
+        SoundManager.instance.PlaySE(0);
     }
 
 }

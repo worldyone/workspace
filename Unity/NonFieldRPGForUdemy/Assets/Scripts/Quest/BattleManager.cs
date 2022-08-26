@@ -29,6 +29,7 @@ public class BattleManager : MonoBehaviour
 
     void PlayerAttack()
     {
+        SoundManager.instance.PlaySE(1);
         player.Attack(enemy);
         enemyUI.UpdateUI(enemy);
         if (enemy.hp <= 0)
