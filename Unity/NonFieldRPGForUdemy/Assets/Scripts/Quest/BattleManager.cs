@@ -38,9 +38,7 @@ public class BattleManager : MonoBehaviour
         if (enemy.hp <= 0)
         {
             // 撃破
-            enemyUI.gameObject.SetActive(false);
-            Destroy(enemy.gameObject);
-            EndBattle();
+            StartCoroutine(EndBattle());
         }
         else
         {
@@ -58,11 +56,11 @@ public class BattleManager : MonoBehaviour
         playerUI.UpdateUI(player);
     }
 
-    void EndBattle()
+    IEnumerator EndBattle()
     {
-        Debug.Log("EndBattle");
-        questManager.EndBattle();
+        yield return new WaitForSeconds(1f);
         enemyUI.gameObject.SetActive(false);
+        Destroy(enemy.gameObject);
+        questManager.EndBattle();
     }
-
 }
