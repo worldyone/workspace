@@ -12,6 +12,7 @@ public class EnemyManager : MonoBehaviour
     public new string name;
     public int hp;
     public int at;
+    public GameObject hitEffect;
 
     public void Attack(PlayerManager player)
     {
@@ -20,6 +21,7 @@ public class EnemyManager : MonoBehaviour
 
     public void Damage(int damage)
     {
+        Instantiate(hitEffect, this.transform, false);
         transform.DOShakePosition(0.3f, 0.5f, 20, 0, false, true);
         hp -= damage;
         hp = Math.Max(hp, 0);
