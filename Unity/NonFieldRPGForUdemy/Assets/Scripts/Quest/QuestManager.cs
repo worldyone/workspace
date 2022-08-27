@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class QuestManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class QuestManager : MonoBehaviour
     public GameObject enemyPrefab;
     public BattleManager battleManager;
     public SceneTransitionManager sceneTransitionManager;
+    public GameObject questBG;
 
     // 敵に遭遇するテーブル：-1なら遭遇しない, 0なら遭遇
     int[] encounterTable = { -1, -1, 0, -1, 0, -1 };
@@ -20,6 +22,12 @@ public class QuestManager : MonoBehaviour
 
     public void OnNextButton()
     {
+        questBG.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 2f)
+            .OnComplete(() => questBG.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f));
+        SpriteRenderer questBGSpriteRenderer = questBG.GetComponent<SpriteRenderer>();
+        questBGSpriteRenderer.DOFade(0, 2f)
+            .OnComplete(() => questBGSpriteRenderer.DOFade(1, 0f));
+
         SoundManager.instance.PlaySE(0);
 
         currentStage++;
