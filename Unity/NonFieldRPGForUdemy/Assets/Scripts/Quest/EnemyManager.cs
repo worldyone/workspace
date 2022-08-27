@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 // 敵を管理する(ステータス/クリック検出)
 public class EnemyManager : MonoBehaviour
@@ -19,6 +20,7 @@ public class EnemyManager : MonoBehaviour
 
     public void Damage(int damage)
     {
+        transform.DOShakePosition(0.3f, 0.5f, 20, 0, false, true);
         hp -= damage;
         hp = Math.Max(hp, 0);
     }
@@ -31,7 +33,6 @@ public class EnemyManager : MonoBehaviour
 
     public void OnTap()
     {
-        Debug.Log("クリックされた");
         tapAction();
     }
 }
