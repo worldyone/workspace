@@ -66,6 +66,15 @@ public class BattleManager : MonoBehaviour
         DialogTextManager.instance.SetScenarios(new string[] {
             "モンスターの攻撃！\nプレイヤーは" + damage + "ダメージを受けた。"
         });
+
+        if (player.hp <= 0)
+        {
+            yield return new WaitForSeconds(2f);
+
+            // 倒されてしまった
+            DialogTextManager.instance.SetScenarios(new string[] { "プレイヤーは倒れてしまった…。" });
+            questManager.QuestFailure();
+        }
     }
 
     IEnumerator EndBattle()

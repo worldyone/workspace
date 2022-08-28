@@ -86,11 +86,16 @@ public class QuestManager : MonoBehaviour
 
     void QuestClear()
     {
+        // クエストクリア
         DialogTextManager.instance.SetScenarios(new string[] { "宝箱を手に入れた。\n街に戻りましょう。" });
 
-        // クエストクリア
         SoundManager.instance.StopBGM();
         SoundManager.instance.PlaySE(2);
         stageUI.ShowClearText();
+    }
+
+    public void QuestFailure()
+    {
+        sceneTransitionManager.LoadTo("Town");
     }
 }
