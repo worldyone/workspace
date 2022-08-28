@@ -32,8 +32,15 @@ public class BattleManager : MonoBehaviour
     void PlayerAttack()
     {
         StopAllCoroutines();
+
+
         SoundManager.instance.PlaySE(1);
-        player.Attack(enemy);
+        int damage = player.Attack(enemy);
+
+        DialogTextManager.instance.SetScenarios(new string[] {
+            "プレイヤーの攻撃！\nモンスターに" + damage + "ダメージを与えた。"
+        });
+
         enemyUI.UpdateUI(enemy);
         if (enemy.hp <= 0)
         {
@@ -49,16 +56,26 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+
         SoundManager.instance.PlaySE(1);
         playerDamagePanel.DOShakePosition(0.3f, 0.5f, 20, 0, false, true);
-        enemy.Attack(player);
+        int damage = enemy.Attack(player);
         playerUI.UpdateUI(player);
+
+        DialogTextManager.instance.SetScenarios(new string[] {
+            "モンスターの攻撃！\nプレイヤーは" + damage + "ダメージを受けた。"
+        });
     }
 
     IEnumerator EndBattle()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+
+        DialogTextManager.instance.SetScenarios(new string[] {
+            "モンスターは逃げていった。"
+        });
+
         enemyUI.gameObject.SetActive(false);
         Destroy(enemy.gameObject);
         questManager.EndBattle();
