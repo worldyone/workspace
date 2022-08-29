@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Transform playerHandTransform;
-    [SerializeField] GameObject cardPrefab;
+    [SerializeField] CardController cardPrefab;
 
     void Start()
     {
@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
 
     void CreateCard(Transform hand)
     {
-        Instantiate(cardPrefab, playerHandTransform, false);
+        CardController card = Instantiate(cardPrefab, playerHandTransform, false);
+        card.Init(1);
     }
 
 }

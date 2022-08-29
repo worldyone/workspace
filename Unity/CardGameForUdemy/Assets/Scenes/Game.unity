@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHandTransform: {fileID: 1462241368}
-  cardPrefab: {fileID: 2228467189712492309, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
+  cardPrefab: {fileID: 5133894028403954589, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
 --- !u!4 &624134181
 Transform:
   m_ObjectHideFlags: 0
