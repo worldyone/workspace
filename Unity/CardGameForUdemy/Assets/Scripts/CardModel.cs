@@ -5,7 +5,7 @@ using UnityEngine;
 // カードデータとその処理
 public class CardModel : MonoBehaviour
 {
-    public string cardName;
+    public string name;
     public int hp;
     public int at;
     public int cost;
@@ -14,7 +14,7 @@ public class CardModel : MonoBehaviour
     public CardModel(int cardID)
     {
         CardEntity cardEntity = Resources.Load<CardEntity>("CardEntityList/Card" + cardID);
-        cardName = cardEntity.cardName;
+        name = cardEntity.name;
         hp = cardEntity.hp;
         at = cardEntity.at;
         cost = cardEntity.cost;
