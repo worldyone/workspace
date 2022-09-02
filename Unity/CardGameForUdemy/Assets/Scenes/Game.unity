@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 764173109}
   - component: {fileID: 764173108}
   - component: {fileID: 764173110}
+  - component: {fileID: 764173111}
   m_Layer: 5
   m_Name: PlayerField
   m_TagString: Untagged
@@ -688,6 +689,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &764173111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764173106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3d04fce5d4fea4ca47b4562d638d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &879184891
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +869,7 @@ GameObject:
   - component: {fileID: 1462241370}
   - component: {fileID: 1462241369}
   - component: {fileID: 1462241371}
+  - component: {fileID: 1462241372}
   m_Layer: 5
   m_Name: PlayerHand
   m_TagString: Untagged
@@ -946,6 +960,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1462241372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462241367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3d04fce5d4fea4ca47b4562d638d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1550684791
 GameObject:
   m_ObjectHideFlags: 0
