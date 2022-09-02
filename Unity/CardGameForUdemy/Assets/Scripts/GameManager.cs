@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] Transform playerHandTransform;
     [SerializeField] Transform enemyHandTransform;
+    [SerializeField] Transform playerFieldTransform;
     [SerializeField] Transform enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
     bool isPlayerTurn;
@@ -66,14 +67,42 @@ public class GameManager : MonoBehaviour
     void EnemyTurn()
     {
         Debug.Log("enemyのターン");
+
+        /* 場にカードを出す */
         // 手札のカードリストを取得
-        CardController[] cardList = enemyHandTransform.GetComponentsInChildren<CardController>();
+        CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
         // 場に出すカードを選択
-        CardController card = cardList[0];
+        CardController enemyCard = handCardList[0];
         // カードを移動
-        card.movement.SetCardTransform(enemyFieldTransform);
+        enemyCard.movement.SetCardTransform(enemyFieldTransform);
+
+        /* 攻撃 */
+        // フィールドのカードリストを取得
+        CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        // 攻撃するカード(attacker)を選択
+        CardController attacker = fieldCardList[0];
+        // 被攻撃カード(defender)を選択(Playerフィールドから選択)
+        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
+        CardController defender = playerFieldCardList[0];
+        // attackerとdefenderを戦わせる
+        CardsBattle(attacker, defender);
 
         ChangeTurn();
+    }
+
+    void CardsBattle(CardController attacker, CardController defender)
+    {
+        Debug.Log("CardsBattle");
+        Debug.Log("attacker HP:" + attacker.model.hp);
+        Debug.Log("defender HP:" + defender.model.hp);
+
+        attacker.model.Attack(defender);
+        defender.model.Attack(attacker);
+        Debug.Log("Attacked!");
+
+        Debug.Log("attacker HP:" + attacker.model.hp);
+        Debug.Log("defender HP:" + defender.model.hp);
+
     }
 
     void CreateCard(Transform hand)
