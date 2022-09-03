@@ -12,6 +12,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] CardController cardPrefab;
     bool isPlayerTurn;
 
+    // シングルトン
+    public static GameManager instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         StartGame();
@@ -90,7 +100,7 @@ public class GameManager : MonoBehaviour
         ChangeTurn();
     }
 
-    void CardsBattle(CardController attacker, CardController defender)
+    public void CardsBattle(CardController attacker, CardController defender)
     {
         Debug.Log("CardsBattle");
         attacker.model.Attack(defender);
