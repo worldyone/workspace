@@ -72,6 +72,15 @@ public class GameManager : MonoBehaviour
     void PlayerTurn()
     {
         Debug.Log("playerのターン");
+        // フィールドのカードを攻撃可能状態にする
+        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
+        foreach (CardController card in playerFieldCardList)
+        {
+            // cardを攻撃可能状態にする
+            card.SetCanAttack(true);
+
+        }
+
     }
 
     void EnemyTurn()
@@ -89,13 +98,20 @@ public class GameManager : MonoBehaviour
         /* 攻撃 */
         // フィールドのカードリストを取得
         CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
-        // 攻撃するカード(attacker)を選択
-        CardController attacker = fieldCardList[0];
-        // 被攻撃カード(defender)を選択(Playerフィールドから選択)
+        // 攻撃可能カードを取得
+        CardController[] enemyCanAttackCardList = Array.FindAll(fieldCardList, card => card.model.canAttack);
         CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
-        CardController defender = playerFieldCardList[0];
-        // attackerとdefenderを戦わせる
-        CardsBattle(attacker, defender);
+        if (enemyCanAttackCardList.Length > 0 && playerFieldCardList.Length > 0)
+        {
+            // 攻撃するカード(attacker)を選択
+            CardController attacker = enemyCanAttackCardList[0];
+
+            // 被攻撃カード(defender)を選択(Playerフィールドから選択)
+            CardController defender = playerFieldCardList[0];
+
+            // attackerとdefenderを戦わせる
+            CardsBattle(attacker, defender);
+        }
 
         ChangeTurn();
     }
@@ -103,8 +119,8 @@ public class GameManager : MonoBehaviour
     public void CardsBattle(CardController attacker, CardController defender)
     {
         Debug.Log("CardsBattle");
-        attacker.model.Attack(defender);
-        defender.model.Attack(attacker);
+        attacker.Attack(defender);
+        defender.Attack(attacker);
         attacker.CheckAlive();
         defender.CheckAlive();
     }

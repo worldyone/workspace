@@ -13,8 +13,15 @@ public class AttackedCard : MonoBehaviour, IDropHandler
         CardController attacker = eventData.pointerDrag.GetComponent<CardController>();
         // 被攻撃カード(defender)を選択
         CardController defender = GetComponent<CardController>();
-        // attackerとdefenderを戦わせる
-        GameManager.instance.CardsBattle(attacker, defender);
+
+        if (attacker == null || defender == null)
+            return;
+
+        if (attacker.model.canAttack)
+        {
+            // attackerとdefenderを戦わせる
+            GameManager.instance.CardsBattle(attacker, defender);
+        }
 
     }
 }

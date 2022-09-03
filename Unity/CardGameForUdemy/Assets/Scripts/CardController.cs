@@ -32,4 +32,16 @@ public class CardController : MonoBehaviour
         }
     }
 
+    public void Attack(CardController enemyCard)
+    {
+        model.Attack(enemyCard);
+        SetCanAttack(false);
+    }
+
+    public void SetCanAttack(bool canAttack)
+    {
+        model.canAttack = canAttack;
+        view.SetActiveSelectablePanel(canAttack);
+    }
+
 }
