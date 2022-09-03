@@ -10,6 +10,7 @@ public class CardModel : MonoBehaviour
     public int at;
     public int cost;
     public Sprite icon;
+    public bool isAlive;
 
     public CardModel(int cardID)
     {
@@ -19,6 +20,7 @@ public class CardModel : MonoBehaviour
         at = cardEntity.at;
         cost = cardEntity.cost;
         icon = cardEntity.icon;
+        isAlive = true;
     }
 
     void Damage(int dmg)
@@ -27,6 +29,7 @@ public class CardModel : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
+            isAlive = false;
         }
     }
 

@@ -93,16 +93,10 @@ public class GameManager : MonoBehaviour
     void CardsBattle(CardController attacker, CardController defender)
     {
         Debug.Log("CardsBattle");
-        Debug.Log("attacker HP:" + attacker.model.hp);
-        Debug.Log("defender HP:" + defender.model.hp);
-
         attacker.model.Attack(defender);
         defender.model.Attack(attacker);
-        Debug.Log("Attacked!");
-
-        Debug.Log("attacker HP:" + attacker.model.hp);
-        Debug.Log("defender HP:" + defender.model.hp);
-
+        attacker.CheckAlive();
+        defender.CheckAlive();
     }
 
     void CreateCard(Transform hand)

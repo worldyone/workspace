@@ -14,11 +14,22 @@ public class CardController : MonoBehaviour
         movement = GetComponent<CardMovement>();
     }
 
-
     public void Init(int cardID)
     {
         model = new CardModel(cardID);
         view.Show(model);
+    }
+
+    public void CheckAlive()
+    {
+        if (model.isAlive)
+        {
+            view.Refresh(model);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 }
