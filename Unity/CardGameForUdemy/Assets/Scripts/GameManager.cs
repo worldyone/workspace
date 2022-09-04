@@ -106,7 +106,6 @@ public class GameManager : MonoBehaviour
         {
             // cardを攻撃可能状態にする
             card.SetCanAttack(true);
-
         }
 
     }
@@ -115,30 +114,46 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("enemyのターン");
 
+        // フィールドのカードリストを取得
+        CardController[] enemyFieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        // フィールドのカードを攻撃可能状態にする
+        foreach (CardController card in enemyFieldCardList)
+        {
+            // cardを攻撃可能状態にする
+            card.SetCanAttack(true);
+        }
+
         /* 場にカードを出す */
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
         // 場に出すカードを選択
-        CardController enemyCard = handCardList[0];
-        // カードを移動
-        enemyCard.movement.SetCardTransform(enemyFieldTransform);
+        if (handCardList.Length > 0)
+        {
+            CardController enemyCard = handCardList[0];
+            // カードを移動
+            enemyCard.movement.SetCardTransform(enemyFieldTransform);
+        }
 
         /* 攻撃 */
-        // フィールドのカードリストを取得
-        CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
         // 攻撃可能カードを取得
-        CardController[] enemyCanAttackCardList = Array.FindAll(fieldCardList, card => card.model.canAttack);
+        CardController[] enemyCanAttackCardList = Array.FindAll(enemyFieldCardList, card => card.model.canAttack);
         CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
-        if (enemyCanAttackCardList.Length > 0 && playerFieldCardList.Length > 0)
+        if (enemyCanAttackCardList.Length > 0)
         {
             // 攻撃するカード(attacker)を選択
             CardController attacker = enemyCanAttackCardList[0];
 
-            // 被攻撃カード(defender)を選択(Playerフィールドから選択)
-            CardController defender = playerFieldCardList[0];
-
-            // attackerとdefenderを戦わせる
-            CardsBattle(attacker, defender);
+            if (playerFieldCardList.Length > 0)
+            {
+                // 被攻撃カード(defender)を選択(Playerフィールドから選択)
+                CardController defender = playerFieldCardList[0];
+                // attackerとdefenderを戦わせる
+                CardsBattle(attacker, defender);
+            }
+            else
+            {
+                AttackToHero(attacker, false);
+            }
         }
 
         ChangeTurn();
