@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
     bool isPlayerTurn;
+    List<int> playerDeck = new List<int>() { 1, 1, 3, 2 };
+    List<int> enemyDeck = new List<int>() { 2, 1, 2, 3 };
 
     // シングルトン
     public static GameManager instance;
@@ -38,9 +40,27 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            CreateCard(playerHandTransform);
-            CreateCard(enemyHandTransform);
+            GiveCardToHand(playerDeck, playerHandTransform);
+            GiveCardToHand(enemyDeck, enemyHandTransform);
         }
+    }
+
+    void GiveCardToHand(List<int> deck, Transform hand)
+    {
+        if (deck.Count <= 0)
+        {
+            return;
+        }
+
+        int cardID = deck[0];
+        deck.RemoveAt(0);
+        CreateCard(cardID, hand);
+    }
+
+    void CreateCard(int cardID, Transform hand)
+    {
+        CardController card = Instantiate(cardPrefab, hand, false);
+        card.Init(cardID);
     }
 
     void TurnCalc()
@@ -60,11 +80,11 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = !isPlayerTurn;
         if (isPlayerTurn)
         {
-            CreateCard(playerHandTransform);
+            GiveCardToHand(playerDeck, playerHandTransform);
         }
         else
         {
-            CreateCard(enemyHandTransform);
+            GiveCardToHand(enemyDeck, enemyHandTransform);
         }
         TurnCalc();
     }
@@ -125,10 +145,5 @@ public class GameManager : MonoBehaviour
         defender.CheckAlive();
     }
 
-    void CreateCard(Transform hand)
-    {
-        CardController card = Instantiate(cardPrefab, hand, false);
-        card.Init(2);
-    }
 
 }
