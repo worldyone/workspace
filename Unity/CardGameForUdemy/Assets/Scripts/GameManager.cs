@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class GameManager : MonoBehaviour
     bool isPlayerTurn;
     List<int> playerDeck = new List<int>() { 1, 1, 3, 2 };
     List<int> enemyDeck = new List<int>() { 2, 1, 2, 3 };
+    int playerHeroHp;
+    int enemyHeroHp;
+    [SerializeField] Text playerHeroHpText;
+    [SerializeField] Text enemyHeroHpText;
 
     // シングルトン
     public static GameManager instance;
@@ -31,6 +36,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
+        playerHeroHp = 30;
+        enemyHeroHp = 30;
+        ShowHeroHp();
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
@@ -145,5 +153,23 @@ public class GameManager : MonoBehaviour
         defender.CheckAlive();
     }
 
+    void ShowHeroHp()
+    {
+        playerHeroHpText.text = playerHeroHp.ToString();
+        enemyHeroHpText.text = enemyHeroHp.ToString();
+    }
 
+    public void AttackToHero(CardController attacker, bool isPlayerCard)
+    {
+        if (isPlayerCard)
+        {
+            enemyHeroHp -= attacker.model.at;
+        }
+        else
+        {
+            playerHeroHp -= attacker.model.at;
+        }
+        attacker.SetCanAttack(false);
+        ShowHeroHp();
+    }
 }
