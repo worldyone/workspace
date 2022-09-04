@@ -712,6 +712,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 5133894028403954589, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
   playerHeroHpText: {fileID: 644216018}
   enemyHeroHpText: {fileID: 132784752}
+  playerManaCostText: {fileID: 879184893}
+  enemyManaCostText: {fileID: 1584966323}
 --- !u!4 &624134181
 Transform:
   m_ObjectHideFlags: 0

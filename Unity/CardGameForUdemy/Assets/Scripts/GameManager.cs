@@ -14,12 +14,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
     bool isPlayerTurn;
-    List<int> playerDeck = new List<int>() { 1, 1, 3, 2 };
+    List<int> playerDeck = new List<int>() { 1, 2, 3, 2 };
     List<int> enemyDeck = new List<int>() { 2, 1, 2, 3 };
     int playerHeroHp;
     int enemyHeroHp;
     [SerializeField] Text playerHeroHpText;
     [SerializeField] Text enemyHeroHpText;
+    public int playerManaCost;
+    int enemyManaCost;
+    [SerializeField] Text playerManaCostText;
+    [SerializeField] Text enemyManaCostText;
 
     // シングルトン
     public static GameManager instance;
@@ -41,7 +45,10 @@ public class GameManager : MonoBehaviour
         resultPanel.SetActive(false);
         playerHeroHp = 5;
         enemyHeroHp = 5;
+        playerManaCost = 1;
+        enemyManaCost = 1;
         ShowHeroHp();
+        ShowManaCost();
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
@@ -202,6 +209,25 @@ public class GameManager : MonoBehaviour
     {
         playerHeroHpText.text = playerHeroHp.ToString();
         enemyHeroHpText.text = enemyHeroHp.ToString();
+    }
+
+    void ShowManaCost()
+    {
+        playerManaCostText.text = playerManaCost.ToString();
+        enemyManaCostText.text = enemyManaCost.ToString();
+    }
+
+    public void ReduceManaCost(int cost, bool isPlayerCard)
+    {
+        if (isPlayerCard)
+        {
+            playerManaCost -= cost;
+        }
+        else
+        {
+            enemyManaCost -= cost;
+        }
+        ShowManaCost();
     }
 
     public void AttackToHero(CardController attacker, bool isPlayerCard)

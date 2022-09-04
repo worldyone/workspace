@@ -6,9 +6,26 @@ using UnityEngine.EventSystems;
 public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public Transform defaultParent;
+    public bool isDraggable;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // カードのコストとPlayerのManaCostを比較
+        CardController card = GetComponent<CardController>();
+        if (card.model.cost <= GameManager.instance.playerManaCost)
+        {
+            isDraggable = true;
+        }
+        else
+        {
+            isDraggable = false;
+        }
+
+        if (!isDraggable)
+        {
+            return;
+        }
+
         defaultParent = transform.parent;
         transform.SetParent(defaultParent.parent, false);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -16,11 +33,15 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!isDraggable) return;
+
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isDraggable) return;
+
         transform.SetParent(defaultParent, false);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }

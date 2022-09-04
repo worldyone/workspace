@@ -7,10 +7,11 @@ public class DropPlace : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        CardMovement card = eventData.pointerDrag.GetComponent<CardMovement>();
+        CardController card = eventData.pointerDrag.GetComponent<CardController>();
         if (card != null)
         {
-            card.defaultParent = this.transform;
+            card.movement.defaultParent = this.transform;
+            GameManager.instance.ReduceManaCost(card.model.cost, true);
         }
     }
 }
