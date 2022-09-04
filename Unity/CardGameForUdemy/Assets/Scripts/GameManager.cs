@@ -163,12 +163,15 @@ public class GameManager : MonoBehaviour
         /* 場にカードを出す */
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
+        // コスト以下のカードリストを取得
+        CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.model.cost <= enemyManaCost);
         // 場に出すカードを選択
-        if (handCardList.Length > 0)
+        if (selectableHandCardList.Length > 0)
         {
-            CardController enemyCard = handCardList[0];
-            // カードを移動
+            CardController enemyCard = selectableHandCardList[0];
             enemyCard.movement.SetCardTransform(enemyFieldTransform);
+            ReduceManaCost(enemyCard.model.cost, false);
+            enemyCard.model.isFieldCard = true;
         }
 
         /* 攻撃 */
