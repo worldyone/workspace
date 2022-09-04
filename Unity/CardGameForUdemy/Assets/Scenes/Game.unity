@@ -712,6 +712,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 5133894028403954589, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
   playerHeroHpText: {fileID: 644216018}
   enemyHeroHpText: {fileID: 132784752}
+  playerManaCost: 0
   playerManaCostText: {fileID: 879184893}
   enemyManaCostText: {fileID: 1584966323}
 --- !u!4 &624134181
@@ -922,6 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3d04fce5d4fea4ca47b4562d638d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &879184891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,6 +1287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3d04fce5d4fea4ca47b4562d638d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1550684791
 GameObject:
   m_ObjectHideFlags: 0
