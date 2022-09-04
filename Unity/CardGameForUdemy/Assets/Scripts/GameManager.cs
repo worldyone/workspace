@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject resultPanel;
+    [SerializeField] Text resultText;
     [SerializeField] Transform playerHandTransform;
     [SerializeField] Transform enemyHandTransform;
     [SerializeField] Transform playerFieldTransform;
@@ -36,12 +38,40 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        playerHeroHp = 30;
-        enemyHeroHp = 30;
+        resultPanel.SetActive(false);
+        playerHeroHp = 5;
+        enemyHeroHp = 5;
         ShowHeroHp();
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
+    }
+
+    public void Restart()
+    {
+        // handとFieldのカードを削除
+        foreach (Transform card in playerHandTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in playerFieldTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in enemyHandTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in enemyFieldTransform)
+        {
+            Destroy(card.gameObject);
+        }
+
+        // デッキを初期化
+        playerDeck = new List<int>() { 1, 1, 3, 2 };
+        enemyDeck = new List<int>() { 2, 1, 2, 3 };
+
+        StartGame();
     }
 
     void SettingInitHand()
@@ -186,5 +216,20 @@ public class GameManager : MonoBehaviour
         }
         attacker.SetCanAttack(false);
         ShowHeroHp();
+        CheckHeroHp();
+    }
+
+    void CheckHeroHp()
+    {
+        if (playerHeroHp <= 0)
+        {
+            resultPanel.SetActive(true);
+            resultText.text = "LOSE";
+        }
+        if (enemyHeroHp <= 0)
+        {
+            resultPanel.SetActive(true);
+            resultText.text = "WIN";
+        }
     }
 }
