@@ -21,7 +21,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text playerHeroHpText;
     [SerializeField] Text enemyHeroHpText;
     public int playerManaCost;
+    int playerDefaultManaCost;
     int enemyManaCost;
+    int enemyDefaultManaCost;
     [SerializeField] Text playerManaCostText;
     [SerializeField] Text enemyManaCostText;
 
@@ -46,7 +48,9 @@ public class GameManager : MonoBehaviour
         playerHeroHp = 5;
         enemyHeroHp = 5;
         playerManaCost = 1;
+        playerDefaultManaCost = 1;
         enemyManaCost = 1;
+        enemyDefaultManaCost = 1;
         ShowHeroHp();
         ShowManaCost();
         SettingInitHand();
@@ -125,12 +129,17 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = !isPlayerTurn;
         if (isPlayerTurn)
         {
+            playerDefaultManaCost++;
+            playerManaCost = playerDefaultManaCost;
             GiveCardToHand(playerDeck, playerHandTransform);
         }
         else
         {
+            enemyDefaultManaCost++;
+            enemyManaCost = playerDefaultManaCost;
             GiveCardToHand(enemyDeck, enemyHandTransform);
         }
+        ShowManaCost();
         TurnCalc();
     }
 
