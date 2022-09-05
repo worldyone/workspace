@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text playerManaCostText;
     [SerializeField] Text enemyManaCostText;
 
+    // 時間管理
+    [SerializeField] Text timeCountText;
+    int timeCount;
+
     // シングルトン
     public static GameManager instance;
     void Awake()
@@ -114,6 +118,9 @@ public class GameManager : MonoBehaviour
 
     void TurnCalc()
     {
+        StopAllCoroutines();
+        StartCoroutine(CountDown());
+
         if (isPlayerTurn)
         {
             PlayerTurn();
@@ -122,6 +129,21 @@ public class GameManager : MonoBehaviour
         {
             EnemyTurn();
         }
+    }
+
+    IEnumerator CountDown()
+    {
+        timeCount = 8;
+        timeCountText.text = timeCount.ToString();
+
+        while (timeCount > 0)
+        {
+            yield return new WaitForSeconds(1);
+            timeCount--;
+            timeCountText.text = timeCount.ToString();
+        }
+
+        ChangeTurn();
     }
 
     public void ChangeTurn()
@@ -153,7 +175,6 @@ public class GameManager : MonoBehaviour
             // cardを攻撃可能状態にする
             card.SetCanAttack(true);
         }
-
     }
 
     void EnemyTurn()
