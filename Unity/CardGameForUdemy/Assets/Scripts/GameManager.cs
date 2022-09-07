@@ -51,10 +51,8 @@ public class GameManager : MonoBehaviour
         resultPanel.SetActive(false);
         playerHeroHp = 5;
         enemyHeroHp = 5;
-        playerManaCost = 1;
-        playerDefaultManaCost = 1;
-        enemyManaCost = 1;
-        enemyDefaultManaCost = 1;
+        playerManaCost = playerDefaultManaCost = 10;
+        enemyManaCost = enemyDefaultManaCost = 10;
         ShowHeroHp();
         ShowManaCost();
         SettingInitHand();
@@ -127,7 +125,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EnemyTurn();
+            StartCoroutine(EnemyTurn());
         }
     }
 
@@ -149,6 +147,13 @@ public class GameManager : MonoBehaviour
     public void ChangeTurn()
     {
         isPlayerTurn = !isPlayerTurn;
+
+        // ターン変更時のため、一旦全フィールドカードを攻撃不能にする
+        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
+        SettingCanAttackView(playerFieldCardList, false);
+        CardController[] enemyFieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        SettingCanAttackView(enemyFieldCardList, false);
+
         if (isPlayerTurn)
         {
             playerDefaultManaCost++;
@@ -170,46 +175,52 @@ public class GameManager : MonoBehaviour
         Debug.Log("playerのターン");
         // フィールドのカードを攻撃可能状態にする
         CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
-        foreach (CardController card in playerFieldCardList)
-        {
-            // cardを攻撃可能状態にする
-            card.SetCanAttack(true);
-        }
+        SettingCanAttackView(playerFieldCardList, true);
     }
 
-    void EnemyTurn()
+    IEnumerator EnemyTurn()
     {
         Debug.Log("enemyのターン");
 
-        // フィールドのカードリストを取得
-        CardController[] enemyFieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
         // フィールドのカードを攻撃可能状態にする
-        foreach (CardController card in enemyFieldCardList)
-        {
-            // cardを攻撃可能状態にする
-            card.SetCanAttack(true);
-        }
+        CardController[] enemyFieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        SettingCanAttackView(enemyFieldCardList, true);
+
+        yield return new WaitForSeconds(1);
 
         /* 場にカードを出す */
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
-        // コスト以下のカードリストを取得
-        CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.model.cost <= enemyManaCost);
-        // 場に出すカードを選択
-        if (selectableHandCardList.Length > 0)
+
+        // コスト以下のカードがあれば、カードをフィールドに出し続ける
+        while (Array.Exists(handCardList, card => card.model.cost <= enemyManaCost))
         {
+            // コスト以下のカードリストを取得
+            CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.model.cost <= enemyManaCost);
+            // 場に出すカードを選択
             CardController enemyCard = selectableHandCardList[0];
             enemyCard.movement.SetCardTransform(enemyFieldTransform);
             ReduceManaCost(enemyCard.model.cost, false);
             enemyCard.model.isFieldCard = true;
+
+            // 手札を更新
+            handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
+
+            yield return new WaitForSeconds(1);
         }
 
+        yield return new WaitForSeconds(1);
+
         /* 攻撃 */
-        // 攻撃可能カードを取得
-        CardController[] enemyCanAttackCardList = Array.FindAll(enemyFieldCardList, card => card.model.canAttack);
-        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
-        if (enemyCanAttackCardList.Length > 0)
+        // フィールドのカードリストを取得
+        CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+
+        // 攻撃可能カードがあれば攻撃を繰り返す
+        while (Array.Exists(fieldCardList, card => card.model.canAttack))
         {
+            // 攻撃可能カードを取得
+            CardController[] enemyCanAttackCardList = Array.FindAll(fieldCardList, card => card.model.canAttack);
+            CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
             // 攻撃するカード(attacker)を選択
             CardController attacker = enemyCanAttackCardList[0];
 
@@ -224,9 +235,23 @@ public class GameManager : MonoBehaviour
             {
                 AttackToHero(attacker, false);
             }
+
+            // フィールドカードの再取得
+            fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+
+            yield return new WaitForSeconds(1);
         }
 
+        yield return new WaitForSeconds(1);
         ChangeTurn();
+    }
+
+    void SettingCanAttackView(CardController[] fieldCardList, bool canAttack)
+    {
+        foreach (CardController card in fieldCardList)
+        {
+            card.SetCanAttack(canAttack);
+        }
     }
 
     public void CardsBattle(CardController attacker, CardController defender)
