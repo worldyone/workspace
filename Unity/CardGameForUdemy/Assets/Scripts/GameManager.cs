@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     List<int> enemyDeck = new List<int>() { 2, 1, 2, 3 };
     int playerHeroHp;
     int enemyHeroHp;
+    [SerializeField] Transform playerHero;
     [SerializeField] Text playerHeroHpText;
     [SerializeField] Text enemyHeroHpText;
     public int playerManaCost;
@@ -199,7 +200,7 @@ public class GameManager : MonoBehaviour
             CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.model.cost <= enemyManaCost);
             // 場に出すカードを選択
             CardController enemyCard = selectableHandCardList[0];
-            enemyCard.movement.SetCardTransform(enemyFieldTransform);
+            StartCoroutine(enemyCard.movement.MoveToField(enemyFieldTransform));
             ReduceManaCost(enemyCard.model.cost, false);
             enemyCard.model.isFieldCard = true;
 
@@ -229,10 +230,14 @@ public class GameManager : MonoBehaviour
                 // 被攻撃カード(defender)を選択(Playerフィールドから選択)
                 CardController defender = playerFieldCardList[0];
                 // attackerとdefenderを戦わせる
+                StartCoroutine(attacker.movement.MoveToTarget(defender.transform));
+                yield return new WaitForSeconds(0.25f);
                 CardsBattle(attacker, defender);
             }
             else
             {
+                StartCoroutine(attacker.movement.MoveToTarget(playerHero.transform));
+                yield return new WaitForSeconds(0.25f);
                 AttackToHero(attacker, false);
             }
 
