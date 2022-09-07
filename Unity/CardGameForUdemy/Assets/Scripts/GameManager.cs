@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
     void CreateCard(int cardID, Transform hand)
     {
         CardController card = Instantiate(cardPrefab, hand, false);
-        card.Init(cardID);
+        card.Init(cardID, hand.name == "PlayerHand");
     }
 
     void TurnCalc()
@@ -239,6 +239,8 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(attacker.movement.MoveToTarget(playerHero.transform));
                 yield return new WaitForSeconds(0.25f);
                 AttackToHero(attacker, false);
+                yield return new WaitForSeconds(0.25f);
+                CheckHeroHp();
             }
 
             // フィールドカードの再取得
@@ -310,15 +312,25 @@ public class GameManager : MonoBehaviour
 
     void CheckHeroHp()
     {
-        if (playerHeroHp <= 0)
+        if (playerHeroHp <= 0 || enemyHeroHp <= 0)
+        {
+            ShowResultPanel(playerHeroHp);
+        }
+    }
+
+    void ShowResultPanel(int heroHp)
+    {
+        StopAllCoroutines();
+        if (heroHp <= 0)
         {
             resultPanel.SetActive(true);
             resultText.text = "LOSE";
         }
-        if (enemyHeroHp <= 0)
+        else
         {
             resultPanel.SetActive(true);
             resultText.text = "WIN";
         }
+
     }
 }

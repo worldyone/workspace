@@ -710,6 +710,7 @@ MonoBehaviour:
   playerFieldTransform: {fileID: 764173107}
   enemyFieldTransform: {fileID: 68550949}
   cardPrefab: {fileID: 5133894028403954589, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
+  playerHero: {fileID: 1269531655}
   playerHeroHpText: {fileID: 644216018}
   enemyHeroHpText: {fileID: 132784752}
   playerManaCost: 0
