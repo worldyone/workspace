@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform playerFieldTransform;
     [SerializeField] Transform enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
-    bool isPlayerTurn;
+    public bool isPlayerTurn;
     List<int> playerDeck = new List<int>() { 1, 2, 3, 2 };
     List<int> enemyDeck = new List<int>() { 2, 1, 2, 3 };
     int playerHeroHp;
@@ -143,6 +143,14 @@ public class GameManager : MonoBehaviour
         }
 
         ChangeTurn();
+    }
+
+    public void OnClickTurnEndButton()
+    {
+        if (isPlayerTurn)
+        {
+            ChangeTurn();
+        }
     }
 
     public void ChangeTurn()
