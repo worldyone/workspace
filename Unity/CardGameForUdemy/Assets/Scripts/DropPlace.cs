@@ -24,9 +24,8 @@ public class DropPlace : MonoBehaviour, IDropHandler
             card.movement.defaultParent = this.transform;
 
             if (card.model.isFieldCard) return;
-
-            GameManager.instance.ReduceManaCost(card.model.cost, true);
-            card.model.isFieldCard = true;
         }
+
+        card.OnField(true);
     }
 }

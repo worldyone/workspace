@@ -10,6 +10,7 @@ public class CardModel : MonoBehaviour
     public int at;
     public int cost;
     public Sprite icon;
+    public ABILITY ability;
     public bool isAlive;
     public bool canAttack;
     public bool isFieldCard;
@@ -23,6 +24,7 @@ public class CardModel : MonoBehaviour
         at = cardEntity.at;
         cost = cardEntity.cost;
         icon = cardEntity.icon;
+        ability = cardEntity.ability;
         isAlive = true;
         isPlayerCard = isPlayer;
     }
