@@ -171,6 +171,11 @@ public class GameManager : MonoBehaviour
         TurnCalc();
     }
 
+    public CardController[] GetEnemyFieldCards()
+    {
+        return enemyFieldTransform.GetComponentsInChildren<CardController>();
+    }
+
     void PlayerTurn()
     {
         Debug.Log("playerのターン");
