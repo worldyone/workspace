@@ -23,7 +23,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         isDraggable =
             (GameManager.instance.isPlayerTurn
             && card.model.isPlayerCard
-            && (!card.model.isFieldCard && card.model.cost <= GameManager.instance.playerManaCost)
+            && (!card.model.isFieldCard && card.model.cost <= GameManager.instance.player.manaCost)
             || (card.model.isFieldCard && card.model.canAttack));
 
         if (!isDraggable)
