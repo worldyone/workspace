@@ -232,6 +232,11 @@ public class GameManager : MonoBehaviour
             if (playerFieldCardList.Length > 0)
             {
                 // 被攻撃カード(defender)を選択(Playerフィールドから選択)
+                // シールドカードがあるならシールドカードのみ攻撃対象にする
+                if (Array.Exists(playerFieldCardList, card => card.model.ability == ABILITY.SHIELD))
+                {
+                    playerFieldCardList = Array.FindAll(playerFieldCardList, card => card.model.ability == ABILITY.SHIELD);
+                }
                 CardController defender = playerFieldCardList[0];
                 // attackerとdefenderを戦わせる
                 StartCoroutine(attacker.movement.MoveToTarget(defender.transform));
