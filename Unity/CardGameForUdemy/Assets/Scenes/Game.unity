@@ -703,6 +703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3902dea114e6841893e3ece7a742c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAI: {fileID: 2041604164}
   resultPanel: {fileID: 1594972266}
   resultText: {fileID: 413003368}
   playerHandTransform: {fileID: 1462241368}
@@ -710,10 +711,12 @@ MonoBehaviour:
   playerFieldTransform: {fileID: 764173107}
   enemyFieldTransform: {fileID: 68550949}
   cardPrefab: {fileID: 5133894028403954589, guid: f9feb4069ab6b844494a35e9231717d8, type: 3}
+  isPlayerTurn: 0
   playerHero: {fileID: 1269531655}
   playerHeroHpText: {fileID: 644216018}
   enemyHeroHpText: {fileID: 132784752}
   playerManaCost: 0
+  enemyManaCost: 0
   playerManaCostText: {fileID: 879184893}
   enemyManaCostText: {fileID: 1584966323}
   timeCountText: {fileID: 1910304270}
@@ -1992,6 +1995,7 @@ GameObject:
   - component: {fileID: 2041604162}
   - component: {fileID: 2041604161}
   - component: {fileID: 2041604163}
+  - component: {fileID: 2041604164}
   m_Layer: 5
   m_Name: EnemyHero
   m_TagString: Untagged
@@ -2068,6 +2072,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58a235a004466f14a8f170220ee4561d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2041604164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041604159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d84adcd7a53d9443b11a3b9c6679ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2075046139
