@@ -21,6 +21,7 @@ public class CardView : MonoBehaviour
         costText.text = cardModel.cost.ToString();
         iconImage.sprite = cardModel.icon;
         shieldPanel.SetActive(cardModel.ability == ABILITY.SHIELD);
+        hpText.gameObject.SetActive(cardModel.spell == SPELL.NONE);
     }
 
     public void Refresh(CardModel cardModel)

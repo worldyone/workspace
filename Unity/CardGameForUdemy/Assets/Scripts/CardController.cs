@@ -52,7 +52,30 @@ public class CardController : MonoBehaviour
         {
             SetCanAttack(true);
         }
+    }
 
+    public void UseSpellTo(CardController target)
+    {
+        switch (model.spell)
+        {
+            case SPELL.DAMAGE_ENEMY_CARD:
+                // 特定の敵を攻撃する
+                Attack(target);
+                target.CheckAlive();
+                break;
+            case SPELL.DAMAGE_ENEMY_CARDS:
+                break;
+            case SPELL.HEAL_FRIEND_CARD:
+                break;
+            case SPELL.HEAL_FRIEND_CARDS:
+                break;
+            case SPELL.HEAL_HERO_CARD:
+                break;
+            case SPELL.NONE:
+                return;
+        }
+
+        Destroy(this.gameObject);
     }
 
 }
