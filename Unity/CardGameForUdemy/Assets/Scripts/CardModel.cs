@@ -47,4 +47,14 @@ public class CardModel : MonoBehaviour
     {
         card.model.Damage(at);
     }
+
+    void RecoveryHp(int point)
+    {
+        hp += point;
+    }
+
+    public void Heal(CardController card)
+    {
+        card.model.RecoveryHp(at);
+    }
 }

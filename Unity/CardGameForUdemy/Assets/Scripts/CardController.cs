@@ -25,19 +25,26 @@ public class CardController : MonoBehaviour
     public void CheckAlive()
     {
         if (model.isAlive)
-        {
-            view.Refresh(model);
-        }
+            RefreshView();
         else
-        {
             Destroy(this.gameObject);
-        }
     }
 
     public void Attack(CardController enemyCard)
     {
         model.Attack(enemyCard);
         SetCanAttack(false);
+    }
+
+    public void Heal(CardController friendCard)
+    {
+        model.Heal(friendCard);
+        friendCard.RefreshView();
+    }
+
+    public void RefreshView()
+    {
+        view.Refresh(model);
     }
 
     public void SetCanAttack(bool canAttack)
@@ -81,6 +88,7 @@ public class CardController : MonoBehaviour
                 gameManager.AttackToHero(this);
                 break;
             case SPELL.HEAL_FRIEND_CARD:
+                Heal(target);
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
                 break;
