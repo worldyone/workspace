@@ -64,6 +64,16 @@ public class CardController : MonoBehaviour
                 target.CheckAlive();
                 break;
             case SPELL.DAMAGE_ENEMY_CARDS:
+                // 相手フィールドの全てのカードに攻撃する
+                CardController[] enemyCards = GameManager.instance.GetEnemyFieldCards(this.model.isPlayerCard);
+                foreach (CardController enemyCard in enemyCards)
+                {
+                    Attack(enemyCard);
+                }
+                foreach (CardController enemyCard in enemyCards)
+                {
+                    enemyCard.CheckAlive();
+                }
                 break;
             case SPELL.HEAL_FRIEND_CARD:
                 break;
