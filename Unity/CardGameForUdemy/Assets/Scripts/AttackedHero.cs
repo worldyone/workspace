@@ -23,7 +23,7 @@ public class AttackedHero : MonoBehaviour, IDropHandler
         if (attacker.model.canAttack)
         {
             // attackerがHeroに攻撃する
-            GameManager.instance.AttackToHero(attacker, true);
+            GameManager.instance.AttackToHero(attacker);
             GameManager.instance.CheckHeroHp();
         }
 

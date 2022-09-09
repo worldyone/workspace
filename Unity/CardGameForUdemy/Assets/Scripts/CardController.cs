@@ -7,11 +7,13 @@ public class CardController : MonoBehaviour
     CardView view; // 見かけに関することを操作(view)
     public CardModel model; // データに関することを操作(model)
     public CardMovement movement; // 移動に関することを操作(movement)
+    GameManager gameManager;
 
     void Awake()
     {
         view = GetComponent<CardView>();
         movement = GetComponent<CardMovement>();
+        gameManager = GameManager.instance;
     }
 
     public void Init(int cardID, bool isPlayer)
@@ -65,7 +67,7 @@ public class CardController : MonoBehaviour
                 break;
             case SPELL.DAMAGE_ENEMY_CARDS:
                 // 相手フィールドの全てのカードに攻撃する
-                CardController[] enemyCards = GameManager.instance.GetEnemyFieldCards(this.model.isPlayerCard);
+                CardController[] enemyCards = gameManager.GetEnemyFieldCards(this.model.isPlayerCard);
                 foreach (CardController enemyCard in enemyCards)
                 {
                     Attack(enemyCard);
@@ -74,6 +76,9 @@ public class CardController : MonoBehaviour
                 {
                     enemyCard.CheckAlive();
                 }
+                break;
+            case SPELL.DAMAGE_ENEMY_HERO:
+                gameManager.AttackToHero(this);
                 break;
             case SPELL.HEAL_FRIEND_CARD:
                 break;

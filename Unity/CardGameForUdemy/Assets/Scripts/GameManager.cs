@@ -209,9 +209,9 @@ public class GameManager : MonoBehaviour
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
     }
 
-    public void AttackToHero(CardController attacker, bool isPlayerCard)
+    public void AttackToHero(CardController attacker)
     {
-        if (isPlayerCard)
+        if (attacker.model.isPlayerCard)
         {
             enemy.heroHp -= attacker.model.at;
         }
