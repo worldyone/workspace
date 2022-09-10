@@ -20,6 +20,7 @@ public class DropPlace : MonoBehaviour, IDropHandler
         if (card != null)
         {
             if (!card.movement.isDraggable) return;
+            if (card.IsSpell) return;
 
             card.movement.defaultParent = this.transform;
 

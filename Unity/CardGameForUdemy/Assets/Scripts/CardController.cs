@@ -74,6 +74,8 @@ public class CardController : MonoBehaviour
         {
             case SPELL.DAMAGE_ENEMY_CARD:
                 // 特定の敵を攻撃する
+                if (target == null) return;
+                if (target.model.isPlayerCard == model.isPlayerCard) return;
                 Attack(target);
                 target.CheckAlive();
                 break;
@@ -93,6 +95,8 @@ public class CardController : MonoBehaviour
                 gameManager.AttackToHero(this);
                 break;
             case SPELL.HEAL_FRIEND_CARD:
+                if (target == null) return;
+                if (target.model.isPlayerCard != model.isPlayerCard) return;
                 Heal(target);
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
