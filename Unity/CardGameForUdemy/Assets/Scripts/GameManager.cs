@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CardController cardPrefab;
     public bool isPlayerTurn;
     [SerializeField] public Transform playerHero;
+    [SerializeField] public Transform enemyHero;
 
     int timeCount;
 
