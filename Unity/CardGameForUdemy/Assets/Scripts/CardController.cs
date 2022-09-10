@@ -97,7 +97,8 @@ public class CardController : MonoBehaviour
                     Heal(friendCard);
                 }
                 break;
-            case SPELL.HEAL_HERO_CARD:
+            case SPELL.HEAL_FRIEND_HERO:
+                gameManager.HealToHero(this);
                 break;
             case SPELL.NONE:
                 return;

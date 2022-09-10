@@ -232,6 +232,19 @@ public class GameManager : MonoBehaviour
         CheckHeroHp();
     }
 
+    public void HealToHero(CardController healer)
+    {
+        if (healer.model.isPlayerCard)
+        {
+            player.heroHp += healer.model.at;
+        }
+        else
+        {
+            enemy.heroHp += healer.model.at;
+        }
+        uiManager.ShowHeroHp(player.heroHp, enemy.heroHp);
+    }
+
     public void CheckHeroHp()
     {
         if (player.heroHp <= 0 || enemy.heroHp <= 0)
