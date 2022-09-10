@@ -34,7 +34,7 @@ public class AI : MonoBehaviour
             // 場に出すカードを選択
             CardController enemyCard = selectableHandCardList[0];
             StartCoroutine(enemyCard.movement.MoveToField(gameManager.enemyFieldTransform));
-            enemyCard.OnField(false);
+            enemyCard.OnField();
 
             // 手札を更新
             handCardList = gameManager.enemyHandTransform.GetComponentsInChildren<CardController>();

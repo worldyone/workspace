@@ -26,6 +26,6 @@ public class DropPlace : MonoBehaviour, IDropHandler
             if (card.model.isFieldCard) return;
         }
 
-        card.OnField(true);
+        card.OnField();
     }
 }

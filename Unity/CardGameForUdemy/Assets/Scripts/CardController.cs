@@ -53,9 +53,9 @@ public class CardController : MonoBehaviour
         view.SetActiveSelectablePanel(canAttack);
     }
 
-    public void OnField(bool isPlayer)
+    public void OnField()
     {
-        GameManager.instance.ReduceManaCost(model.cost, isPlayer);
+        GameManager.instance.ReduceManaCost(model.cost, model.isPlayerCard);
         model.isFieldCard = true;
         if (model.ability == ABILITY.INIT_ATTACKABLE)
         {
@@ -91,6 +91,11 @@ public class CardController : MonoBehaviour
                 Heal(target);
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
+                CardController[] friendCards = gameManager.GetFriendFieldCards(this.model.isPlayerCard);
+                foreach (CardController friendCard in friendCards)
+                {
+                    Heal(friendCard);
+                }
                 break;
             case SPELL.HEAL_HERO_CARD:
                 break;
