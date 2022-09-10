@@ -39,6 +39,8 @@ public class AI : MonoBehaviour
                 && (!card.IsSpell || (card.IsSpell && card.CanUseSpell())));
             // 場に出すカードを選択
             CardController selectCard = selectableHandCardList[0];
+            // カードを表にする
+            selectCard.TakeOffMask();
             // スペルカードなら使用する
             if (selectCard.IsSpell)
             {

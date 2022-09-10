@@ -139,4 +139,9 @@ public class CardController : MonoBehaviour
         }
         return false;
     }
+
+    public void TakeOffMask()
+    {
+        view.TakeOffMask();
+    }
 }

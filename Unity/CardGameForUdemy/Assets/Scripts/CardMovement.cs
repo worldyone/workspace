@@ -81,8 +81,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         // 元の場所に戻る
         transform.DOMove(currentPosition, 0.25f);
         yield return new WaitForSeconds(0.25f);
-        transform.SetParent(defaultParent);
-        transform.SetSiblingIndex(siblingIndex);
+        if (this != null)
+        {
+            transform.SetParent(defaultParent);
+            transform.SetSiblingIndex(siblingIndex);
+        }
     }
 
     void Start()
