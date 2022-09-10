@@ -60,7 +60,6 @@ public class CardController : MonoBehaviour
 
     public void OnField()
     {
-        GameManager.instance.ReduceManaCost(model.cost, model.isPlayerCard);
         model.isFieldCard = true;
         if (model.ability == ABILITY.INIT_ATTACKABLE)
         {
@@ -113,6 +112,7 @@ public class CardController : MonoBehaviour
                 return;
         }
 
+        gameManager.ReduceManaCost(model.cost, model.isPlayerCard);
         Destroy(this.gameObject);
     }
 
