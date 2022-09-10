@@ -9,6 +9,11 @@ public class CardController : MonoBehaviour
     public CardMovement movement; // 移動に関することを操作(movement)
     GameManager gameManager;
 
+    public bool IsSpell
+    {
+        get { return model.spell != SPELL.NONE; }
+    }
+
     void Awake()
     {
         view = GetComponent<CardView>();
@@ -107,4 +112,27 @@ public class CardController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public bool CanUseSpell()
+    {
+        switch (model.spell)
+        {
+            case SPELL.DAMAGE_ENEMY_CARD:
+            case SPELL.DAMAGE_ENEMY_CARDS:
+                // 敵が居るならば使用可能
+                CardController[] enemyCards = gameManager.GetEnemyFieldCards(this.model.isPlayerCard);
+                return enemyCards.Length > 0;
+            case SPELL.DAMAGE_ENEMY_HERO:
+            case SPELL.HEAL_FRIEND_HERO:
+                // ヒーローへの使用はいつでも使用可能
+                return true;
+            case SPELL.HEAL_FRIEND_CARD:
+            case SPELL.HEAL_FRIEND_CARDS:
+                // 仲間が居るならば使用可能
+                CardController[] friendCards = gameManager.GetFriendFieldCards(this.model.isPlayerCard);
+                return friendCards.Length > 0;
+            case SPELL.NONE:
+                return false;
+        }
+        return false;
+    }
 }

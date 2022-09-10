@@ -27,19 +27,32 @@ public class AI : MonoBehaviour
         CardController[] handCardList = gameManager.enemyHandTransform.GetComponentsInChildren<CardController>();
 
         // コスト以下のカードがあれば、カードをフィールドに出し続ける
-        while (Array.Exists(handCardList, card => card.model.cost <= gameManager.enemy.manaCost))
+        // 条件：モンスターカードならコストのみ
+        // 条件：スペルならコストと、使用可能かどうか
+        while (Array.Exists(handCardList, card =>
+            card.model.cost <= gameManager.enemy.manaCost
+            && (!card.IsSpell || (card.IsSpell && card.CanUseSpell()))))
         {
             // コスト以下のカードリストを取得
-            CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.model.cost <= gameManager.enemy.manaCost);
+            CardController[] selectableHandCardList = Array.FindAll(handCardList, card =>
+                card.model.cost <= gameManager.enemy.manaCost
+                && (!card.IsSpell || (card.IsSpell && card.CanUseSpell())));
             // 場に出すカードを選択
-            CardController enemyCard = selectableHandCardList[0];
-            StartCoroutine(enemyCard.movement.MoveToField(gameManager.enemyFieldTransform));
-            enemyCard.OnField();
-
+            CardController selectCard = selectableHandCardList[0];
+            // スペルカードなら使用する
+            if (selectCard.IsSpell)
+            {
+                CastSpellOf(selectCard);
+            }
+            else
+            {
+                // モンスターならば、カードを移動
+                StartCoroutine(selectCard.movement.MoveToField(gameManager.enemyFieldTransform));
+                selectCard.OnField();
+            }
+            yield return new WaitForSeconds(1);
             // 手札を更新
             handCardList = gameManager.enemyHandTransform.GetComponentsInChildren<CardController>();
-
-            yield return new WaitForSeconds(1);
         }
 
         yield return new WaitForSeconds(1);
@@ -87,5 +100,20 @@ public class AI : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         gameManager.ChangeTurn();
+    }
+
+    void CastSpellOf(CardController card)
+    {
+        CardController target = null;
+        if (card.model.spell == SPELL.HEAL_FRIEND_CARD)
+        {
+            target = gameManager.GetFriendFieldCards(card.model.isPlayerCard)[0];
+        }
+        if (card.model.spell == SPELL.DAMAGE_ENEMY_CARD)
+        {
+            target = gameManager.GetEnemyFieldCards(card.model.isPlayerCard)[0];
+        }
+
+        card.UseSpellTo(target);
     }
 }
