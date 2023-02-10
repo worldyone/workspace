@@ -17,7 +17,7 @@ flake8==3.8.3
 get==2019.4.13
 idna==2.9
 ipykernel==5.3.4
-ipython==7.16.1
+ipython==8.10.0
 ipython-genutils==0.2.0
 jedi==0.17.2
 jupyter-client==6.1.6
